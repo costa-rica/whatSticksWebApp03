@@ -1,0 +1,352 @@
+@import "bootswatch/dist/darkly/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/darkly/bootswatch";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,300&display=swap');
+
+
+body {
+    // background: rgb(127, 160, 189);
+    margin: 0;
+    font-family: Roboto;
+    height:2000px;
+}
+
+.custom_container{
+    display: flex;
+    width:90%;
+    margin:0 0 0 2.5%;
+
+        .custom_link{
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+            img, span {
+                display: inline-block;
+                vertical-align: middle;
+                }
+                span {
+                    font-size:30pt;
+                    padding-left: 10px;
+                    // color: $cyan;
+                }
+                .custom_logo_nav{
+                width:100px;
+            }
+        }
+    // }
+
+    .navBarLocation{
+        float: right;
+    }
+    .middle_nav_div{
+        display: table;
+        margin: auto;
+
+        h2{
+            margin:0 0 -10px 0;
+        }
+        small{
+            margin:0;
+        }
+    }
+    nav {display: none;}
+    .mobile-menu{
+        position: absolute;
+        cursor: pointer;
+        right:55px;
+        top: 30px;
+        height: 30%;
+    }
+    nav.menu-btn{display:block;}
+    nav{
+        position: fixed;
+        z-index: 999;
+        width: 25%;
+        right: 0;
+        top: 0;
+        background: #20272E;
+        height: 100vh;
+        padding: 1em;
+        ul{
+            margin-top:5em;
+            list-style-type: none;
+        }
+        li{
+            a{
+                color: white;
+                text-decoration: none;
+                display: block;
+                padding: .5em;
+                font-size: 1.3em;
+                text-align: right;
+                &:hover {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .mobile-menu-exit{
+        float: right;
+        margin: .5em;
+        cursor: pointer;
+    
+    }
+
+}
+
+.wider_input_login{
+    width: 300px;    
+}
+
+
+/*HOME*/
+section.Home {
+    padding: 100px 10px 100px 5px;
+    .home_link_list_div{
+        background-color: $secondary;
+        // background-color: rgb(68,68,68);
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        padding: 10px 0 10px 10px;
+        margin: 0 0 0 30px;
+    }
+    .home_link_list{
+        list-style-type: none;
+        font-size:larger;
+    }
+}
+
+/*Login*/
+section.LoginSection {
+    padding: 100px 10px 100px 5px;
+    .container{
+        .login_as_guest{
+            background-color: rgb(195, 233, 231);
+            border-radius: 3em;
+            width:150px;
+            padding-left:10px;
+        }
+    }
+
+
+}
+
+/*Dashboard*/
+section.dashboard {
+    padding: 100px 10px 100px 5px;
+
+    .current_chart_div{
+        margin: 50px 0 0 0;
+        width: 1000px;
+        height: 500px;
+        // background-color: rgb(119, 179, 120);
+        background-color: $teal;
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+    }
+    .current_chart_div > label{
+        padding: 5px 0 0 30px;
+    }
+    .bokeh_div{
+        padding-left: 20px;
+        
+        margin-right: 10px;
+        margin-left:10px;
+        border-radius: 1.5em;
+    }
+    .enter_activity{
+        margin:  80px 0 0 0;
+        border: 1px solid #dddddd;
+        background-color: tan;
+        border-radius: 3em;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        width: 1000px;
+        height: 300px;
+
+    }
+    .enter_activity > label{
+    padding: 10px 0 0 10px;
+    }
+    .enter_activity_sub{
+        padding: 10px 0 0 60px;
+        margin-right: 50px;
+    }
+    .enter_activity_sub2{
+        display: grid;
+        grid-template-columns: 13% auto;
+    }
+
+    .btn_right{
+        float: right;
+        margin-right:150px;
+    }
+
+    .modal_header_add{
+        background-color: rgb(179, 173, 173);
+        border-bottom: 0 none;
+    }
+    .modal_body_add{
+        background-color: tan;
+    }
+    .modal-footer {
+        border-top: 0 none;
+    }
+    .btn_blue1{
+        background-color: rgb(53, 162, 200);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+    }
+    .btn_green1{
+        background-color: rgb(53, 200, 162);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+    }
+
+
+    .buttons{
+        margin-top: 20px;
+        margin-left: 50px;
+        display: flex;
+        justify-content: space-between;
+        width: 800px;
+    }
+
+    .timeline_records_div{
+        margin: 50px 0 0 0;
+        width: 1000px;
+        height: 600px;
+        // background-color: rgb(119, 179, 120);
+        background-color: $teal;
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+    }
+    .timeline_records_div > label{
+        padding: 5px 0 0 30px;
+    }
+
+    .table_contents {
+
+        font-size: .7em;
+        background: #77b3af;
+        // background:$pink;
+        margin: 0 0 0 20px;
+        padding: 3px;
+        border-color: #525252;
+        border-style: solid;
+        border-width: 1px;
+        width: 95%;
+    }
+
+    .dash_id_button:hover{
+        background: #E54E4E;
+        background-size: contain;
+        padding: 3px 7px 5px;
+        top: -5px;
+        right: -5px;
+    }
+    /*Delete modal*/
+    .hide_textbox{
+        display:none;
+    }
+    .modal_header_delete{
+        background-color: rgb(179, 173, 173);
+        border-bottom: 0 none;
+    }
+    .modal_body_delete{
+        background-color:tan;
+    }
+
+    .delete_button{
+        float:right;
+        background-color: rgb(192, 55, 55);
+        border: none;
+
+    }
+}
+
+.accordion-button.collapsed {
+    background: $gray-600
+  }
+
+@media only screen and (min-width: 1080px) {
+    .navbar .custom_container{
+        display: grid;
+        grid-template-columns: 250px auto 300px;
+        width:90%;
+        margin:0 0 0 5%;
+        // padding: 0 5% 0 0;
+        // .text_center{
+        // .nowrap_container{
+        //     overflow: auto;
+        //     white-space: nowrap;
+            .custom_link{
+                text-decoration: none;
+                display: inline-block;
+                white-space: nowrap;
+                img, span {
+                    display: inline-block;
+                    vertical-align: middle;
+                    }
+                    span {
+                        font-size:30pt;
+                        padding-left: 10px;
+                        text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
+                    }
+                    .custom_logo_nav{
+                    width:100px;
+                }
+            }
+        .middle_nav_div{
+            // display:grid;
+            // justify-items: right;
+            // grid-row-gap: 0px;
+            // background-color: red;
+            display: table;
+            margin: auto;
+            h2{
+                margin:0 0 -10px 0;
+            }
+            small{
+                margin:0;
+            }
+        }
+    }
+
+    .mobile-menu, .mobile-menu-exit {
+        display: none;
+    }
+    .custom_container nav {
+        // background-color: red;
+        display: flex;
+        justify-content: space-between;
+        background: none;
+        position: unset;
+        height: auto;
+        width: 100%;
+        // padding: 0;
+        ul {
+            display: flex;
+            margin:0;
+            padding: 1em 10em 0 0;
+        }
+        a {
+            color: black;
+            font-size: 1em;
+            // padding: .1em 1em;
+            // padding: 0 2em 0 0;
+        }
+        li.current a {
+            font-weight: bold;
+        }
+    }
+
+    
+}
