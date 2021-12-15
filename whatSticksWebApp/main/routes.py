@@ -33,9 +33,9 @@ main = Blueprint('main', __name__)
     # print('here',data2, data)
     # return jsonify(status="success", data=data)
 
-@main.route("/dashboard", methods=["GET","POST"])
+@main.route("/for_scientists", methods=["GET","POST"])
 @login_required
-def dashboard():
+def for_scientists():
 
     user_tz = get_user_tz_util()
     default_date=datetime.datetime.now().astimezone(user_tz).strftime("%Y-%m-%d")
@@ -112,7 +112,7 @@ def dashboard():
             return redirect(url_for('main.delete_record', delete_record_id=delete_record_id))
 
 
-    return render_template('dashboard.html', div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
+    return render_template('for_scientists.html', div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
         default_date=default_date, default_time=default_time, table_data=table_lists, no_hits_flag=no_hits_flag,
         len=len,column_names=column_names)
 

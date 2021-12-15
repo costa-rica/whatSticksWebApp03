@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--Bootstrap theme: https://bootswatch.com/darkly/-->
         <!-- Import the Bootstrap stylesheet -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/scss/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/scss/bootstrap.css') }}">
         <!-- Bootstrap CSS needed for datatable-->
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/scss/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/scss/bootstrap.min.css') }}">
 
         <!-- Not sure if htis is needed?/ -->
-        <script src="{{ url_for('static', filename='node_modules/bootstrap/js/jquery-3.5.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap/js/jquery-3.5.1.min.js') }}"></script>
         <!-- Needed for acordion -->
-        <script src="{{ url_for('static', filename='node_modules/bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
 
 
 <!-- Import our custom stylesheet -->
@@ -49,7 +49,7 @@
                 <a href="#" class="custom_link">
                     <!-- <div class="text_center"> -->
                         <img class="custom_logo_nav " src="../static/images/wshLogo_test300px.png" alt="LB logo">
-                        <span class="company_name">What Sticks_test</span>
+                        <span class="company_name">What Sticks</span>
                     <!-- </div> -->
                 </a>
             </div>
@@ -72,7 +72,8 @@
                     {% if current_user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item dark_bg"><a class="nav-link gray_font" href="{{ url_for('main.for_scientists') }}">For scientists</a></li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('users.login') }}">Login</a></li>
                     {% endif %}
@@ -84,7 +85,7 @@
 
         </div>
     </div>
-    <br/><br/>
+    
     {% block main %}{% endblock %}
 
 

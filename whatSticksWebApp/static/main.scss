@@ -3,7 +3,7 @@
 @import "bootswatch/dist/darkly/bootswatch";
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,300&display=swap');
-
+// @import "bootstrap/scss/_accordion";
 
 body {
     // background: rgb(127, 160, 189);
@@ -28,7 +28,7 @@ body {
                 span {
                     font-size:30pt;
                     padding-left: 10px;
-                    // color: $cyan;
+                    color: rgb(20,149,255);
                 }
                 .custom_logo_nav{
                 width:100px;
@@ -102,7 +102,7 @@ body {
 
 /*HOME*/
 section.Home {
-    padding: 100px 10px 100px 5px;
+    padding: 200px 10px 100px 5px;
     .home_link_list_div{
         background-color: $secondary;
         // background-color: rgb(68,68,68);
@@ -134,16 +134,17 @@ section.LoginSection {
 
 }
 
-/*Dashboard*/
-section.dashboard {
-    padding: 100px 10px 100px 5px;
+/*For_scientists*/
+section.for_scientists {
+    padding: 200px 10px 100px 5px;
 
     .current_chart_div{
         margin: 50px 0 0 0;
         width: 1000px;
         height: 500px;
         // background-color: rgb(119, 179, 120);
-        background-color: $teal;
+        // background-color: $teal;
+        background-color: rgb(33, 133, 53);
         border-radius: 3em;
         border: 1px solid #dddddd;
         border-color: rgb(179, 173, 173);
@@ -271,7 +272,10 @@ section.dashboard {
 
     }
 }
-
+/*Upload Health*/
+section.upload_health_data{
+    padding: 200px 10px 100px 5px;
+}
 .accordion-button.collapsed {
     background: $gray-600
   }
@@ -279,7 +283,7 @@ section.dashboard {
 @media only screen and (min-width: 1080px) {
     .navbar .custom_container{
         display: grid;
-        grid-template-columns: 250px auto 300px;
+        grid-template-columns: 250px auto 350px;
         width:90%;
         margin:0 0 0 5%;
         // padding: 0 5% 0 0;
@@ -343,8 +347,22 @@ section.dashboard {
             // padding: .1em 1em;
             // padding: 0 2em 0 0;
         }
+        ul li {
+            border-left:1px solid ;
+            margin: 0; padding: 0;
+            border-top-left-radius: 10px;
+        }
         li.current a {
             font-weight: bold;
+        }
+        .gray_font {
+            color: $gray-800;
+        }
+        .dark_bg{
+            background-color:$gray-600;
+            // margin: .9em;
+            // border-radius: .05em;
+            border-top-left-radius: 10px;
         }
     }
 
