@@ -30,6 +30,7 @@
 
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
+    <br/><br/><br/><br/><br/><br/>
   {% for category, message in messages %}
     <div class="alert alert-{{ category }}">
       {{ message }}
@@ -46,7 +47,7 @@
 
         <div class="custom_container">
             <div class="nowrap_containter">
-                <a href="#" class="custom_link">
+                <a href="{{ url_for('users.home') }}" class="custom_link">
                     <!-- <div class="text_center"> -->
                         <img class="custom_logo_nav " src="../static/images/wshLogo_test300px.png" alt="LB logo">
                         <span class="company_name">What Sticks</span>
@@ -68,14 +69,29 @@
 
             <nav>
                 <img id="mobile-exit" class="mobile-menu-exit" src="../static/images/exit.svg" alt="Close Navigation">
-                <ul class="primary-nav" id="nav_horizontal_list">
+                <ul class="primary-nav ul_primary" id="nav_horizontal_list">
                     {% if current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item dark_bg"><a class="nav-link gray_font" href="{{ url_for('main.for_scientists') }}">For scientists</a></li>
+                                       
+                    <li class="nav-item dropdown li_primary">
+                        <a href="#" class="nav-link dropdown-toggle" 
+                            id="navbarDropdown"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            
+                            >Your Data</a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                                <a class="dropdown-item" href="{{ url_for('main.upload_health_data') }}">Link/Add Data</a>
+                                <a class="dropdown-item" href="{{ url_for('main.for_scientists') }}">Analysis</a>
+                            </div>
+                    </li>
+                    
+                    <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('main.about') }}">About</a></li>
+                    <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('users.login') }}">Login</a></li>
+                    <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('users.login') }}">Login</a></li>
                     {% endif %}
                 </ul>
             </nav>

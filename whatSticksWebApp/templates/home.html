@@ -11,7 +11,9 @@
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('users.logout') }}">Logout</a></li>                
                 <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('users.account') }}">Account</a></li>
+                    {% if current_user.username!='Guest' %}
+                    <li><a href="{{ url_for('users.account') }}">Account</a></li>
+                    {% endif %}
                 
                 {% else %}
                 <li><a href="{{ url_for('users.login') }}">Login</a></li>

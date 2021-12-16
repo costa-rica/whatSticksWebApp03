@@ -102,7 +102,7 @@ class Health_measure(db.Model):
 class Oura_sleep_description(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    summary_date = db.Column(db.DateTime)
+    summary_date = db.Column(db.Date)
     period_id = db.Column(db.Integer)
     is_longest = db.Column(db.Integer)
     timezone = db.Column(db.Integer)

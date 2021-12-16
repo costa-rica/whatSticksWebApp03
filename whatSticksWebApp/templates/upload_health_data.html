@@ -3,70 +3,133 @@
 {% block main %}
 
 <section class="upload_health_data">
-    <div class="container">
-        <form method="POST" action="" enctype="multipart/form-data">
-            
-            <h1>What-Sticks Upload/Link Health Data</h1>
+  <div class="container">
+    <form method="POST" action="" enctype="multipart/form-data">
 
-            <div class="">
-                
+      <h1>What-Sticks Upload/Link Health Data</h1>
+      <br/>
+      <br/>
+      <div class="">
+
+      </div>
+
+
+
+      
+      Data Upload Type:
+
+        <!-- POLAR Accordian start -->
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header accordionHeaderBackground" id="headingPolar">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePolar" aria-expanded="true" aria-controls="collapsePolar">
+              Polar
+              </button>
+            </h2>
+            <div id="collapsePolar" class="accordion-collapse collapse" aria-labelledby="headingPolar" data-bs-parent="#accordionExample">
+              <div class="accordion-body accordionBackground">
+                <p>Polar data here:</p>
+                <input type="file" class="form-control" name="uploaded_file"/><br/><br/>
+                <button type="submit" class="btn btn-primary" name="upload_file_button" value=True>Upload</button>
+              </div>
             </div>
+          </div><!--POlAR Accordian END-->
 
 
 
-            <div class="">
-                Data Upload Type:
-                <!-- <input type="text" class="form-control input_1" name="upload_type"  list="upload_type_list">
-                <datalist id="upload_type_list">
-                        <option>Polar Flow</option>
-                </datalist> -->
+          <!-- Oura Ring Accordian START -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOura">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#collapseOura" aria-expanded="false" aria-controls="collapseOura">
+              Oura Ring
+              </button>
+            </h2>
+            <div id="collapseOura" class="accordion-collapse collapse" aria-labelledby="headingOura" data-bs-parent="#accordionExample">
+              <div class="accordion-body accordionBackground">
+                Oura Data<br/>
+                Enter Personal API Token here:
+                <input type="text"  class="form-control" name="oura_token"><br/><br/>
+                <button type="submit" class="btn btn-primary" name="connect_oura" value=True>Connect Oura Data</button>
+                <button type="button" class="btn btn-outline-info " data-bs-toggle="modal" data-bs-target="#ouraModal">
+                  Instructions for Oura Ring Personal API Token
+                </button>
 
-
-
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Polar Data
-                        </button>
-                      </h2>
-                      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                          <p>Polar data here:</p>
-                          <input type="file" class="form-control" name="uploaded_file"/><br/><br/>
-                          <button type="submit" class="btn btn-primary" name="upload_file_button" value=True>Upload</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Link Oura API
-                        </button>
-                      </h2>
-                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                          Stuff goes here
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                  
-                  
-
-
-
+              </div>
             </div>
+          </div><!--Oura Ring Accordion END-->
 
 
-            
-            
-            
-        </form>
-    </div>
+          <!-- Apple Health Accordian START -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingApple">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#collapseApple" aria-expanded="false" aria-controls="collapseApple">
+              Apple Health
+              </button>
+            </h2>
+            <div id="collapseApple" class="accordion-collapse collapse" aria-labelledby="headingApple" data-bs-parent="#accordionExample">
+              <div class="accordion-body accordionBackground">
+                Apple Health Stuff...<br/>
+
+
+              </div>
+            </div>
+          </div><!--Apple Health Accordion END-->
+
+
+        </div><!--END accordionExample-->
+      
+
+
+
+
+
+    </form>
+  </div>
 </section>
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="ouraModal" tabindex="-1" aria-labelledby="ouraModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+          <div class="modal-content ">
+              <div class="modal-header modal_header_add">
+              <h5 class="modal-title" id="ouraModalLabel">Instructions for Oura Ring API Token</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body modal_body_oura">
+
+                To link data you need to get your personal API token and connect WSH to it.
+
+                Get your personal API token by going here:
+                <a href="https://cloud.ouraring.com/personal-access-tokens">https://cloud.ouraring.com/personal-access-tokens </a>
+
+                Instructions:
+                <ol>
+                  <li>
+                    Navigate to the Personal Access Tokens page
+                    https://cloud.ouraring.com/personal-access-tokens
+                    <!-- : https://cloud.ouraring.com/docs/authentication#personal-access-tokens  -->
+                  </li>
+                  <li>In the upper-right corner of the page click the "Create A New Personal Access Token" Button</li>
+                  <li>Enter a unique note for the new Personal Access Token you are about to generate</li>
+                  <ol>
+                    <li>This note is just a reminder for yourself about what the token is being used for</li>
+                  </ol>
+                  
+                  <li>Click "Create Personal Access Token" to submit the form and create your new Personal Access Token</li>
+                  <li>You should now have a new access token listed on the Personal Access Tokens page</li>
+                </ol>
+
+
+
+          </div>
+          </div>
+      </div>
+
+
 
 {% endblock %}

@@ -2,7 +2,8 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, flash, request, abort, session,\
     Response, current_app, send_from_directory
 from whatSticksWebApp import db, bcrypt, mail
-from whatSticksWebApp.models import User, Post, Health_description, Health_measure
+from whatSticksWebApp.models import User, Post, Health_description, Health_measure,\
+    Oura_sleep_description, Oura_sleep_measures
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
@@ -23,6 +24,8 @@ import pytz
 import zoneinfo
 from pytz import timezone
 import time
+import requests
+from whatSticksWebApp.main.utils_oura import link_oura
 
 main = Blueprint('main', __name__)
 
@@ -32,6 +35,65 @@ main = Blueprint('main', __name__)
     # data2=request.args
     # print('here',data2, data)
     # return jsonify(status="success", data=data)
+
+@main.route("/about", methods=["GET","POST"])
+def about():
+
+    return render_template('about.html')
+
+
+@main.route("/dashboard", methods=["GET","POST"])
+@login_required
+def dashboard():
+
+    user_tz = get_user_tz_util()
+    default_date=datetime.datetime.now().astimezone(user_tz).strftime("%Y-%m-%d")
+    default_time=datetime.datetime.now().astimezone(user_tz).strftime("%H:%M")
+
+    #filter on user data only
+    base_query_health_description=db.session.query(Health_description).filter(Health_description.user_id==1)#1 is OK it get's replaced
+
+    if current_user.id==2:
+        df_health_description=pd.read_sql(str(base_query_health_description)[:-1]+str(1),db.session.bind)
+    else:
+        df_health_description=pd.read_sql(str(base_query_health_description)[:-1]+str(current_user.id),db.session.bind)
+
+    if len(df_health_description)>0:
+        script1, div1=chart_scripts(df_health_description)
+        cdn_js=CDN.js_files
+        cdn_css=CDN.css_files
+        #Timle line table
+        column_names=['ID','Date and Time','Type of Activity','Cardio Performance','Duration (seconds)','Weight']
+
+        df_sub=df_health_description[['id', 'datetime_of_activity', 'var_activity','metric1_carido',
+                                     'metric2_session_duration','metric3']].copy()
+        df_sub.datetime_of_activity=df_sub['datetime_of_activity'].astype('datetime64[ns]')
+        df_sub.datetime_of_activity=pd.to_datetime(df_sub["datetime_of_activity"].dt.strftime('%m/%d/%Y %H:%M'))
+        df_sub.metric1_carido=df_sub.metric1_carido.round(2)
+        df_sub.metric2_session_duration=df_sub.metric2_session_duration.astype('Int64')
+        df_sub.metric2_session_duration=df_sub.metric2_session_duration.apply('{:,}'.format)
+        df_sub.metric2_session_duration=df_sub.metric2_session_duration.str.replace('<NA>','')
+        df_sub=df_sub.where(pd.notnull(df_sub), '')
+        df_sub=df_sub.sort_values(by=['datetime_of_activity'],ascending=False)
+        table_lists=df_sub.values.tolist()
+
+        if len(table_lists)==0:
+            no_hits_flag=True
+        else:
+            no_hits_flag=False
+
+    else:
+        #vars for chart that doesn't exist
+        div1=None;script1=None;cdn_js=None;cdn_css=None
+        #vars for dataframe that doesn't exist:
+        table_lists=None;no_hits_flag=True;column_names=None
+
+    return render_template('dashboard.html', 
+        div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css
+        # default_date=default_date, default_time=default_time, table_data=table_lists, no_hits_flag=no_hits_flag,
+        # len=len,column_names=column_names
+        )
+
 
 @main.route("/for_scientists", methods=["GET","POST"])
 @login_required
@@ -179,7 +241,12 @@ def upload_health_data():
         filesDict = request.files.to_dict()
         print('formDict:::', formDict)
         print('filesDict:::', filesDict)
-        if formDict.get('upload_file_button'):
+        if current_user.username=='Guest':
+            flash('Cannot add data as guest', 'warning')
+            return redirect(url_for('main.upload_health_data'))
+
+        elif formDict.get('upload_file_button'):
+            print('upload_file_button accessed')
             # print(dir(filesDict.get('uploaded_file')))
             # print('filename:::',filesDict.get('uploaded_file').filename)
             if filesDict.get('uploaded_file').filename=='':
@@ -215,7 +282,11 @@ def upload_health_data():
             flash(f'Files uploaded ' + str(session_count) +' new sessions', 'success')
             return redirect(url_for('main.upload_health_data'))
 
-
+        elif formDict.get('connect_oura'):
+            print('connect_oura accessed')
+            personal_token=formDict.get('oura_token')
+            user_id=current_user.id
+            link_oura(personal_token, user_id)
 
 
     return render_template('upload_health_data.html')

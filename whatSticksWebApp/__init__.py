@@ -40,10 +40,10 @@ def create_app(config_class=Config):
     from whatSticksWebApp.main.routes import main
     from whatSticksWebApp.posts.routes import posts
     from whatSticksWebApp.users.routes import users
-    from whatSticksWebApp.errors.handlers import errors
+    # from whatSticksWebApp.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(posts)
     app.register_blueprint(users)
-    app.register_blueprint(errors)
+    # app.register_blueprint(errors)
 
     return app

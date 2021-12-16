@@ -3,82 +3,48 @@
 {% block main %}
 
 
-<section class="for_scientists">
+<section class="dashboard">
     <div class="container">
         
-            <h1>Data Tools</h1>
-            <div class="current_chart_div">
-                <label><h3>Personal Timeline</h3></label>
-                {% if no_hits_flag %}
-                    <br/>
-                    No Timeline records found
-                {% else %}
-                    <div class="bokeh_div">
-                        {{ div1|safe }}
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="buttons">
-                <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#activityModal">
-                    Add Activity
-                </button>
-                <form method="POST">
-                    <button type="submit" class="btn btn-primary btn_green1" name="submit_upload_health" value=True>
-                        Upload Health Data
-                    </button>
-                </form>
-
-
-                <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#weightModal">
-                    Add Weight
-                </button>
-            </div>
-
-    <form method="POST" action="" enctype="multipart/form-data">
-    <!-- Modal -->
-      <div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="activityModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content ">
-            <div class="modal-header modal_header_add">
-              <h5 class="modal-title" id="activityModalLabel">Enter Activity</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal_body_add">
-                <div class="enter_activity_sub">
-                    <div>
-                        <label>Date:</label>
-                        <input type="date" value="{{ default_date }}" name="activity_date">
-                        <label>Time:</label>
-                        <input type="time" value="{{ default_time }}" name="activity_time">
-                    </div>
-                    <div class="enter_activity_sub2">
-                        <label>Activity:</label>
-                        <input type="text" placeholder="required (30 char max)" name="var_activity">
-                    </div>
-                    <div class="enter_activity_sub2">
-                        <label>Activity Notes:</label>
-                        <textarea  name="activity_notes" rows=2  placeholder="optional"></textarea>
-                    </div>
+        <h1>Dashboard</h1>
+        <div class="dash_chart_div">
+            <label><h3>Average Heart Rate</h3></label>
+            <!-- {% if no_hits_flag %}
+                <br/>
+                No Timeline records found
+            {% else %}
+                <div class="bokeh_div">
+                    {{ div1|safe }}
                 </div>
-            </div>
-            <div class="modal-footer modal_body_add">
-                <button type="submit" class="btn btn-primary" name="submit_activity" value=True>
-                    Submit Activity
-                </button>
-            </div>
-          </div>
+            {% endif %} -->
         </div>
-      </div>
-    </form>
-      
-    <form method="POST" action="" enctype="multipart/form-data">
-    <!-- Modal Weight -->
-        <div class="modal fade" id="weightModal" tabindex="-1" aria-labelledby="weightModalLabel" aria-hidden="true">
+
+
+        <form method="POST">
+            <button type="submit" class="btn btn-primary btn_green1" name="submit_upload_health" value=True>
+                Add Health Data (link/upload)
+            </button>
+        </form>
+
+        <div class="buttons">
+            <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#activityModal">
+                Add Activity
+            </button>
+
+
+
+            <!-- <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#weightModal">
+                Add Weight
+            </button> -->
+        </div>
+
+        <form method="POST" action="" enctype="multipart/form-data">
+        <!-- Modal -->
+        <div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="activityModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
             <div class="modal-content ">
                 <div class="modal-header modal_header_add">
-                <h5 class="modal-title" id="weightModalLabel">Enter Weight</h5>
+                <h5 class="modal-title" id="activityModalLabel">Enter Activity</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body modal_body_add">
@@ -90,8 +56,12 @@
                             <input type="time" value="{{ default_time }}" name="activity_time">
                         </div>
                         <div class="enter_activity_sub2">
-                            <label>Weight (lbs):</label>
-                            <input type="text" name="metric3_weight">
+                            <label>Activity:</label>
+                            <input type="text" placeholder="required (30 char max)" name="var_activity">
+                        </div>
+                        <div class="enter_activity_sub2">
+                            <label>Activity Notes:</label>
+                            <textarea  name="activity_notes" rows=2  placeholder="optional"></textarea>
                         </div>
                     </div>
                 </div>
@@ -103,7 +73,40 @@
             </div>
             </div>
         </div>
-    </form>
+        </form>
+      
+        <form method="POST" action="" enctype="multipart/form-data">
+        <!-- Modal Weight -->
+            <div class="modal fade" id="weightModal" tabindex="-1" aria-labelledby="weightModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content ">
+                    <div class="modal-header modal_header_add">
+                    <h5 class="modal-title" id="weightModalLabel">Enter Weight</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modal_body_add">
+                        <div class="enter_activity_sub">
+                            <div>
+                                <label>Date:</label>
+                                <input type="date" value="{{ default_date }}" name="activity_date">
+                                <label>Time:</label>
+                                <input type="time" value="{{ default_time }}" name="activity_time">
+                            </div>
+                            <div class="enter_activity_sub2">
+                                <label>Weight (lbs):</label>
+                                <input type="text" name="metric3_weight">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal_body_add">
+                        <button type="submit" class="btn btn-primary" name="submit_activity" value=True>
+                            Submit Activity
+                        </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </form>
 
 
         <form method="POST" action="" enctype="multipart/form-data">
@@ -147,23 +150,23 @@
             </div>
 
 
-    <!-- Modal Delete -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header modal_header_delete">
-              <h5 class="modal-title" id="exampleModalLabel">Doesn't show up</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modal_body_delete">
-                <button type="submit" class="btn btn-primary delete_button" id="yes_delete" name="delete_button">Yes, delete</button>
-                <input type="text" class="form-control hide_textbox" id="recipient-name" name="delete_record_id">
-            </div>
+            <!-- Modal Delete -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal_header_delete">
+                <h5 class="modal-title" id="exampleModalLabel">Doesn't show up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal_body_delete">
+                    <button type="submit" class="btn btn-primary delete_button" id="yes_delete" name="delete_button">Yes, delete</button>
+                    <input type="text" class="form-control hide_textbox" id="recipient-name" name="delete_record_id">
+                </div>
 
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
+            </div>
+            </div>
 
         </form>
 

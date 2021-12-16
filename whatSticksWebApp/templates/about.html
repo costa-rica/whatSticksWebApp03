@@ -1,0 +1,61 @@
+
+    {% extends "layout.html" %}
+    {% block title %} WSH About {% endblock %}
+    {% block main %}
+<section class="About">
+    <div class="container">
+
+        <h1>About What Sticks</h1>
+        <div class="mission_div">
+            <div class="sectionWriting">
+                <h1>Mission</h1>
+                Easy to use, transparent, user feedback on their health data.<br/><br/>
+
+                While always maintaining data control with the user.
+            </div>
+        </div>
+<br/><br/>
+        <div class="mission_div">
+            <div class="sectionWriting">
+                <h1>Vision</h1>
+                What Sticks Health (WSH) is a health data storage infrastructure that provides personalized feedback. It is a work in progress. You can visit it at https://what-sticks-health.com to see what is there so far but here is a breakdown of what is going on.
+                If you think you can help feel free to reach out.<br/><br/>
+
+                <h2>Existing Platform</h2>
+                <ul>
+                    <li>
+                        Data Storage: web application that allows users to upload Polar Beat training session, weight and user specified activity ( i.e. drinking coffee, headache, emotion, etc.,)
+                    </li>
+                    <li>
+                        Feedback: Polar Beat training session indexed to model for cardio health
+                    </li>
+                </ul>
+                <h2>Next Steps (Immediate)</h2>
+                <ul>
+                    <li>Data Storage: iOS and Android device application (weight and activity) https://github.com/costa-rica/whatSticksKivy01</li>
+                    <li>Feedback: build correlations to provide simple feedback — similar to the training session heart rate modeling</li>
+                </ul>
+                <h2>Next Steps (Near Future)</h2>
+                <ul>
+                    <li>Encrypted data storage</li>
+                    <li>Anonymized data</li>
+                    <li>Interoperability to upload and share data</li>
+                    <li>Build more in platform feedback</li>
+                    <li>Include well established health benchmarks to assist user feedback</li>
+                </ul>
+                
+            </div>
+        </div>
+
+        <br/><br/>
+        <div class="mission_div">
+            <div class="sectionWriting">
+                <h1>Impetus</h1>
+        <a href="https://nrodrig1.medium.com/healthcare-is-not-up-to-date-2e58c01c1477">Healthcare is Not Up-To-Date</a>
+        </div>
+    </div>
+    </div>
+
+</section>
+
+{% endblock %}
