@@ -118,7 +118,7 @@
                 {% else %}
 
                 <div class="table_contents">
-                    <table id="proxies" class="display table nowrap responsive" style="width:90%">
+                    <table id="proxies" class="display table nowrap responsive table-hover" style="width:90%">
                         <thead>
                             <tr>
                                 {% for i in column_names %}
@@ -194,22 +194,11 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
 });
 </script>
 
-<!-- Datatable -->
-<script src="../static/js/jquery-3.1.1.slim.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../static/css/css/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="../static/css/css/responsive.dataTables.min.css">
-<script src="../static/js/moment.min.js"></script>
-<script type="text/javascript" src="../static/js/dataTables.responsive.min.js"></script>
-<script type="text/javascript" src="../static/js/datetime.js"></script>
-<script type="text/javascript" src="../static/js/jquery.dataTables-1.11.0.min.js"></script>
 
 <script type="text/javascript">
     $('#proxies').DataTable({"aaSorting": []});
 </script>
 
-
-<!--Modal scripts-->
-<script src="../static/js/bootstrap.min.js"></script>
 
 
 <script src="{{ cdn_js[0] }}" crossorigin="anonymous"></script>

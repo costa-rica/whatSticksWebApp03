@@ -39,9 +39,10 @@ def json_dict_to_dfs(polar_data_dict):
 
     df_description=pd.DataFrame()
     df_measure=pd.DataFrame()
-    max_id=db.session.query(func.max(Health_description.id)).first()[0]
+    max_id=db.session.query(func.max(Polar_description.id)).first()[0]
     
     #TODO if lenghth is less than 140 then drop
+    #Making two dataframes: df1 descripton of workout, df2 metrics, end of loop appends each to respective larger dfs
     for i,j in polar_data_dict.items():
         if 'training-session-' in i:
             #get last id from database
@@ -58,41 +59,53 @@ def json_dict_to_dfs(polar_data_dict):
             df1['description_id']=max_id
             df1['datetime_of_activity']=datetime.datetime.strptime(j['startTime'],'%Y-%m-%dT%H:%M:%S.%f')
 
-            var_datetime_utc_list=[]
-            for data_item_series in j['exercises'][0]['samples']:
-                if data_item_series!='recordedRoute' and len(var_datetime_utc_list)==0:
-                    var_datetime_utc_list=[datetime.datetime.strptime(
-                        x['dateTime'],'%Y-%m-%dT%H:%M:%S.%f')+ timedelta(
-                        minutes=j['exercises'][0]['timezoneOffset']) for x in j[
-                        'exercises'][0]['samples'][data_item_series]]
+            #if samples are empty insert row of na's
+            if len(j['exercises'][0]['samples'])==0:
+                df2=pd.DataFrame([j['startTime']],columns=['var_datetime_utc'])
+                df2['description_id']=max_id
+                df2['heart_rate']=np.nan
+                df2['speed']=np.nan
+                df2['distance']=np.nan
+                df2['longitude']=np.nan
+                df2['latitude']=np.nan
+                df2['altitude']=np.nan
+                
+            else:
+                var_datetime_utc_list=[]
+                for data_item_series in j['exercises'][0]['samples']:
+                    if data_item_series!='recordedRoute' and len(var_datetime_utc_list)==0:
+                        var_datetime_utc_list=[datetime.datetime.strptime(
+                            x['dateTime'],'%Y-%m-%dT%H:%M:%S.%f')+ timedelta(
+                            minutes=j['exercises'][0]['timezoneOffset']) for x in j[
+                            'exercises'][0]['samples'][data_item_series]]
 
-                    df2=pd.DataFrame(var_datetime_utc_list,columns=['var_datetime_utc'])
-                    df2['description_id']=max_id
-                    reading_count=len(var_datetime_utc_list)
-                if data_item_series== 'heartRate':
-                    df2['heart_rate']=[x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
-                if data_item_series== 'speed':
-                    df2['speed']= [x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
-                if data_item_series== 'distance':
-                    df2['distance']= [x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
-                if data_item_series== 'recordedRoute':
-                    longitude_list= [x['longitude'] for x in j['exercises'][0]['samples'][data_item_series]]
-                    while reading_count>len(longitude_list):
-                        longitude_list.append(longitude_list[-1])
-                    df2['longitude']=longitude_list
-                    latitude_list= [x['latitude'] for x in j['exercises'][0]['samples'][data_item_series]]
-                    while reading_count>len(latitude_list):
-                        latitude_list.append(latitude_list[-1])
-                    df2['latitude']=latitude_list
-                    altitude_list= [x['altitude'] for x in j['exercises'][0]['samples'][data_item_series]]
-                    while reading_count>len(altitude_list):
-                        altitude_list.append(altitude_list[-1])
-                    df2['altitude']=altitude_list
-            
-            df1['metric2_session_duration']=reading_count
-            
-            df_description=df_description.append(df1, ignore_index = True)
-            df_measure=df_measure.append(df2, ignore_index = True)
+                        df2=pd.DataFrame(var_datetime_utc_list,columns=['var_datetime_utc'])
+                        df2['description_id']=max_id
+                        reading_count=len(var_datetime_utc_list)
+                    if data_item_series== 'heartRate':
+                        df2['heart_rate']=[x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
+                    if data_item_series== 'speed':
+                        df2['speed']= [x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
+                    if data_item_series== 'distance':
+                        df2['distance']= [x['value'] for x in j['exercises'][0]['samples'][data_item_series]]
+                    if data_item_series== 'recordedRoute':
+                        longitude_list= [x['longitude'] for x in j['exercises'][0]['samples'][data_item_series]]
+                        while reading_count>len(longitude_list):
+                            longitude_list.append(longitude_list[-1])
+                        df2['longitude']=longitude_list
+                        latitude_list= [x['latitude'] for x in j['exercises'][0]['samples'][data_item_series]]
+                        while reading_count>len(latitude_list):
+                            latitude_list.append(latitude_list[-1])
+                        df2['latitude']=latitude_list
+                        altitude_list= [x['altitude'] for x in j['exercises'][0]['samples'][data_item_series]]
+                        while reading_count>len(altitude_list):
+                            altitude_list.append(altitude_list[-1])
+                        df2['altitude']=altitude_list
+                
+                df1['metric2_session_duration']=reading_count
+                
+                df_description=df_description.append(df1, ignore_index = True)
+                df_measure=df_measure.append(df2, ignore_index = True)
     df_description.set_index('description_id', inplace=True)
     
     #calculate metric1_cardio
@@ -113,7 +126,7 @@ def json_dict_to_dfs(polar_data_dict):
     
     ####Check that same polar time stamps are not uploaded.
     #get existing database health_measure.description id and var_datetime_utc ***TODO Make this filter on user*****
-    base_query_health_measure=db.session.query(Health_measure.description_id,Health_measure.var_datetime_utc)
+    base_query_health_measure=db.session.query(Polar_measure.description_id,Polar_measure.var_datetime_utc)
     health_measure_var_datetime=pd.read_sql(str(base_query_health_measure),db.session.bind) 
     health_measure_var_datetime.rename(columns={'health_measure_description_id':'description_id',
                                                'health_measure_var_datetime_utc':'var_datetime_utc'}, inplace=True)

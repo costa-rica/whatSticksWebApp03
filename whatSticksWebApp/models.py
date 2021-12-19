@@ -55,33 +55,63 @@ class Post(db.Model):
         return f"Post('{self.title}','{self.date_posted}')"
 
 
+
+
 class Health_description(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     datetime_of_activity=db.Column(db.DateTime)
     var_activity = db.Column(db.Text) #walking, running, empty is ok for something like mood
-    var_type = db.Column(db.Text) #heart rate, mood, weight, etc.
-    var_periodicity = db.Column(db.Text)
+    # var_type = db.Column(db.Text) #heart rate, mood, weight, etc.
+    # var_periodicity = db.Column(db.Text)
     var_timezone_utc_delta_in_mins = db.Column(db.Float) #difference bewteen utc and timezone of exercise
-    time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    source_filename =db.Column(db.Text)
+    # source_filename =db.Column(db.Text)
     source_name=db.Column(db.Text)
     source_notes=db.Column(db.Text)
-    metric1_carido=db.Column(db.Float)
-    metric2_session_duration=db.Column(db.Float)
-    metric3=db.Column(db.Float)
-    metric4=db.Column(db.Float)
-    metric5=db.Column(db.Float)
+    weight=db.Column(db.Float)
+    # metric2_session_duration=db.Column(db.Float)
+    # metric3=db.Column(db.Float)
+    # metric4=db.Column(db.Float)
+    # metric5=db.Column(db.Float)
     note=db.Column(db.Text)
     # posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
         return f"Health_description('{self.id}',var_activity:'{self.var_activity}'," \
+        f"'datetime_of_activity: '{self.datetime_of_activity}', note: {self.note}'," \
+        f"' time_stamp_utc: '{self.time_stamp_utc}', source_name: '{self.source_name}')"
+
+
+
+
+class Polar_description(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    datetime_of_activity=db.Column(db.DateTime)
+    var_activity = db.Column(db.Text) #walking, running, empty is ok for something like mood
+    var_type = db.Column(db.Text) #heart rate
+    var_periodicity = db.Column(db.Text)#seconds
+    var_timezone_utc_delta_in_mins = db.Column(db.Float) #difference bewteen utc and timezone of exercise
+    time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    source_filename =db.Column(db.Text)
+    # source_name=db.Column(db.Text)
+    # source_notes=db.Column(db.Text)
+    metric1_carido=db.Column(db.Float)
+    metric2_session_duration=db.Column(db.Float)
+    metric3=db.Column(db.Float)
+    # metric4=db.Column(db.Float)
+    # metric5=db.Column(db.Float)
+    note=db.Column(db.Text)
+    # posts = db.relationship('Post', backref='author', lazy=True)
+
+    def __repr__(self):
+        return f"Polar_description('{self.id}',var_activity:'{self.var_activity}'," \
         f"'var_type: {self.var_type}', datetime_of_activity: '{self.datetime_of_activity}', time_stamp_utc: '{self.time_stamp_utc}')"
 
 
 
-class Health_measure(db.Model):
+class Polar_measure(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description_id=db.Column(db.Integer, db.ForeignKey('health_description.id'), nullable=False)
     var_datetime_utc = db.Column(db.DateTime, nullable=True)
@@ -96,7 +126,7 @@ class Health_measure(db.Model):
     altitude=db.Column(db.Float)
 
     def __repr__(self):
-        return f"Variables('{self.id}',description_id:'{self.description_id}'," \
+        return f"Polar_measure('{self.id}',description_id:'{self.description_id}'," \
         f"'var_datetime_utc: {self.var_datetime_utc}', var_value: '{self.var_value}')"
 
 class Oura_sleep_description(db.Model):

@@ -125,7 +125,7 @@ section.Home {
 
 /*Login*/
 section.LoginSection {
-    padding: 100px 10px 100px 5px;
+    padding: 200px 10px 100px 5px;
     .container{
         .login_as_guest{
             background-color: rgb(195, 233, 231);
@@ -217,6 +217,45 @@ section.dashboard {
         border-color: rgb(170, 170, 170);
         border-width: .3em;
     }
+
+
+
+    .timeline_records_div{
+        margin: 50px 0 0 0;
+        width: 1000px;
+        height: 600px;
+        // background-color: rgb(119, 179, 120);
+        background-color: $teal;
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+    }
+    .timeline_records_div > label{
+        padding: 5px 0 0 30px;
+    }
+
+    .table_contents {
+        font-size: .7em;
+        background: #77b3af;
+        // background:$pink;
+        margin: 0 0 0 20px;
+        padding: 3px;
+        border-color: #525252;
+        border-style: solid;
+        border-width: 1px;
+        width: 95%;
+        // height: 400px;
+    }
+
+    .dash_id_button:hover{
+        background: #E54E4E;
+        background-size: contain;
+        padding: 3px 7px 5px;
+        top: -5px;
+        right: -5px;
+    }
+
 }
 /*For_scientists*/
 section.for_scientists {
@@ -318,7 +357,6 @@ section.for_scientists {
     }
 
     .table_contents {
-
         font-size: .7em;
         background: #77b3af;
         // background:$pink;
@@ -328,6 +366,7 @@ section.for_scientists {
         border-style: solid;
         border-width: 1px;
         width: 95%;
+        // height: 400px;
     }
 
     .dash_id_button:hover{

@@ -12181,7 +12181,7 @@ section.Home .home_link_list {
 
 /*Login*/
 section.LoginSection {
-  padding: 100px 10px 100px 5px;
+  padding: 200px 10px 100px 5px;
 }
 
 section.LoginSection .container .login_as_guest {
@@ -12279,6 +12279,40 @@ section.dashboard .btn_blue1 {
   background-color: #35a2c8;
   border-color: #aaaaaa;
   border-width: .3em;
+}
+
+section.dashboard .timeline_records_div {
+  margin: 50px 0 0 0;
+  width: 1000px;
+  height: 600px;
+  background-color: #20c997;
+  border-radius: 3em;
+  border: 1px solid #dddddd;
+  border-color: #b3adad;
+  border-width: .5em;
+}
+
+section.dashboard .timeline_records_div > label {
+  padding: 5px 0 0 30px;
+}
+
+section.dashboard .table_contents {
+  font-size: .7em;
+  background: #77b3af;
+  margin: 0 0 0 20px;
+  padding: 3px;
+  border-color: #525252;
+  border-style: solid;
+  border-width: 1px;
+  width: 95%;
+}
+
+section.dashboard .dash_id_button:hover {
+  background: #E54E4E;
+  background-size: contain;
+  padding: 3px 7px 5px;
+  top: -5px;
+  right: -5px;
 }
 
 /*For_scientists*/

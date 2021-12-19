@@ -4,24 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--Bootstrap theme: https://bootswatch.com/darkly/-->
-        <!-- Import the Bootstrap stylesheet -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/scss/bootstrap.css') }}">
-        <!-- Bootstrap CSS needed for datatable-->
+    <!-- Import our custom stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <!-- Bootstrap5 css -->
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap/css/dataTables.bootstrap5.min.css">
+    <!--Modal scripts (nav drpdown)-->
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Tables seem to need these -->
+    <script src="../static/bootstrap/table_version/jquery-3.5.1.js"></script>
+    <script src="../static/bootstrap/table_version/jquery.dataTables.min.js"></script>
+    <script src="../static/bootstrap/table_version/dataTables.bootstrap.min.js"></script>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/scss/bootstrap.min.css') }}">
-
-        <!-- Not sure if htis is needed?/ -->
-        <script src="{{ url_for('static', filename='bootstrap/js/jquery-3.5.1.min.js') }}"></script>
-        <!-- Needed for acordion -->
-        <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
-
-
-<!-- Import our custom stylesheet -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
-        <!--Add icon for website here-->
-        <link rel="shortcut icon" href="#">
 
 
     <title>{% block title %}{% endblock %}</title>

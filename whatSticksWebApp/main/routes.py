@@ -51,31 +51,49 @@ def dashboard():
     default_time=datetime.datetime.now().astimezone(user_tz).strftime("%H:%M")
 
     #filter on user data only
-    base_query_health_description=db.session.query(Health_description).filter(Health_description.user_id==1)#1 is OK it get's replaced
-
+    base_query_health_description=db.session.query(Health_description).filter(Health_description.user_id==1)#KEEP as 1, it gets replaced
+    base_query_oura_sleep_description=db.session.query(Oura_sleep_description).filter(Oura_sleep_description.user_id==1)#KEEP as 1, it gets replaced
+    
     if current_user.id==2:
         df_health_description=pd.read_sql(str(base_query_health_description)[:-1]+str(1),db.session.bind)
+        df_oura_sleep_description=pd.read_sql(str(base_query_oura_sleep_description)[:-1]+str(1),db.session.bind)
     else:
         df_health_description=pd.read_sql(str(base_query_health_description)[:-1]+str(current_user.id),db.session.bind)
+        df_oura_sleep_description=pd.read_sql(str(base_query_oura_sleep_description)[:-1]+str(current_user.id),db.session.bind)
 
     if len(df_health_description)>0:
         script1, div1=chart_scripts(df_health_description)
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
         #Timle line table
-        column_names=['ID','Date and Time','Type of Activity','Cardio Performance','Duration (seconds)','Weight']
+        # column_names=['ID','Date and Time','Type of Activity','Cardio Performance','Duration (seconds)','Weight']
+        # column_names=['ID','Date and Time','Activity','Type','Duration(sec)/Weight(lbs)', 'Cardio Rating']
+        column_names=['ID','Date and Time','Activity','Type']
 
-        df_sub=df_health_description[['id', 'datetime_of_activity', 'var_activity','metric1_carido',
-                                     'metric2_session_duration','metric3']].copy()
+        df_sub=df_health_description[['id', 'datetime_of_activity', 'var_activity','metric1_carido'
+                                    #  'metric2_session_duration','metric3'
+                                     ]].copy()
         df_sub.datetime_of_activity=df_sub['datetime_of_activity'].astype('datetime64[ns]')
         df_sub.datetime_of_activity=pd.to_datetime(df_sub["datetime_of_activity"].dt.strftime('%m/%d/%Y %H:%M'))
         df_sub.metric1_carido=df_sub.metric1_carido.round(2)
-        df_sub.metric2_session_duration=df_sub.metric2_session_duration.astype('Int64')
-        df_sub.metric2_session_duration=df_sub.metric2_session_duration.apply('{:,}'.format)
-        df_sub.metric2_session_duration=df_sub.metric2_session_duration.str.replace('<NA>','')
+        # df_sub.metric2_session_duration=df_sub.metric2_session_duration.astype('Int64')
+        # df_sub.metric2_session_duration=df_sub.metric2_session_duration.apply('{:,}'.format)
+        # df_sub.metric2_session_duration=df_sub.metric2_session_duration.str.replace('<NA>','')
         df_sub=df_sub.where(pd.notnull(df_sub), '')
-        df_sub=df_sub.sort_values(by=['datetime_of_activity'],ascending=False)
+        # df_sub=df_sub.sort_values(by=['datetime_of_activity'],ascending=False)
+        df_sub.id='Polar '+df_sub.id.astype(str)
         table_lists=df_sub.values.tolist()
+
+        #Create oura sleep list for log
+        df_oura_sleep_description.rename(columns={i:i[len('oura_sleep_description_'):] for i in list(df_oura_sleep_description.columns)}, inplace=True)
+        df_sub_oura_sleep=df_oura_sleep_description[['id', 'bedtime_start','duration','score_total']].copy()
+        df_sub_oura_sleep.bedtime_start=pd.to_datetime(df_sub_oura_sleep['bedtime_start'])
+        df_sub_oura_sleep=df_sub_oura_sleep.where(pd.notnull(df_sub_oura_sleep), '')
+        df_sub_oura_sleep=df_sub_oura_sleep.sort_values(by=['bedtime_start'],ascending=False)
+        df_sub_oura_sleep.id='Oura Sleep '+df_sub_oura_sleep.id.astype(str)
+        
+        #add df_sub_oura_sleep list to table_list
+        table_lists=table_lists+df_sub_oura_sleep.values.tolist()
 
         if len(table_lists)==0:
             no_hits_flag=True
@@ -88,10 +106,36 @@ def dashboard():
         #vars for dataframe that doesn't exist:
         table_lists=None;no_hits_flag=True;column_names=None
 
+
+    if request.method == 'POST':
+        formDict = request.form.to_dict()
+        print('formDict::::',formDict)
+        if formDict.get('submit_activity'):
+
+            activity_date=formDict.get('activity_date')
+            activity_time=formDict.get('activity_time')
+
+            # activity_date_weight=formDict.get('activity_date_weight')
+            # activity_time_weight=formDict.get('activity_time_weight')
+
+            var_activity=formDict.get('var_activity')
+            activity_notes=formDict.get('activity_notes')
+            metric3=formDict.get('metric3_weight')
+
+            return redirect(url_for('main.add_activity', activity_date=activity_date,activity_time=activity_time,
+                # activity_date_weight=activity_date_weight,activity_time_weight=activity_time_weight,
+                metric3=metric3,var_activity=var_activity, activity_notes=activity_notes))
+
+
+        elif formDict.get('submit_upload_health')=='True':
+            return redirect(url_for('main.upload_health_data'))
+
+
     return render_template('dashboard.html', 
-        div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css
-        # default_date=default_date, default_time=default_time, table_data=table_lists, no_hits_flag=no_hits_flag,
-        # len=len,column_names=column_names
+        div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
+        default_date=default_date, default_time=default_time, 
+        table_data=table_lists, no_hits_flag=no_hits_flag,
+        len=len,column_names=column_names
         )
 
 
@@ -254,9 +298,18 @@ def upload_health_data():
                 return redirect(url_for('main.upload_health_data'))
 
             print('upload button pressed')
+
+
             #save file
             uploaded_file = request.files['uploaded_file']
             current_files_dir=os.path.join(current_app.config['UPLOADED_FILES_FOLDER'])
+
+            if not os.path.isdir(current_files_dir):
+                os.makedirs(current_files_dir)
+                print("created folder : ", current_files_dir)
+            else:
+                print(current_files_dir, "folder already exists.")
+
             uploaded_file.save(os.path.join(current_files_dir,uploaded_file.filename))
 
             #TODO: polar upload should be a utility of its own. Code should
