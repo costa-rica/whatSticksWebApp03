@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, flash, request, abort, session,\
     Response, current_app
 from whatSticksWebApp import db, bcrypt, mail
-from whatSticksWebApp.models import User, Post, Health_description, Health_measure
+from whatSticksWebApp.models import Users, Posts
 from whatSticksWebApp.posts.forms import PostForm
 from whatSticksWebApp.posts.utils import saveScreenshot
 from flask_login import login_user, current_user, logout_user, login_required
@@ -37,13 +37,13 @@ def new_post():
 
             # current_user.image_file = picture_file
         # user = User.query.filter_by(username=current_user.username)
-        post = Post(title=form.title.data, content=form.content.data,author=current_user)
+        post = Posts(title=form.title.data, content=form.content.data,author=current_user)
         if form.picture.data:
             picture_file = saveScreenshot(form.picture.data)
             post.screenshot = picture_file
         db.session.add(post)
         db.session.commit()
-        post=db.session.query(Post,func.max(Post.id)).first()[0]
+        post=db.session.query(Posts,func.max(Post.id)).first()[0]
         
         flash(f'Posted successfully!', 'success')
         return render_template('create_post.html', title='ticket', post=post,
@@ -54,14 +54,14 @@ def new_post():
 @posts.route('/post/<post_id>', methods = ["GET", "POST"])
 @login_required
 def post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = Posts.query.get_or_404(post_id)
     print(post.screenshot)
     return render_template('post.html', title=post.title, post=post)
 
 @posts.route('/post/<post_id>/update', methods = ["GET", "POST"])
 @login_required
 def update_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = Posts.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)
     form = PostForm()
@@ -81,7 +81,7 @@ def update_post(post_id):
 @posts.route('/post/<post_id>/delete', methods = ["POST"])
 @login_required
 def delete_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = Posts.query.get_or_404(post_id)
     filesForDelete=os.path.join(current_app.root_path, 'static/screenshots/',post.screenshot)
     os.remove(filesForDelete)
     if post.author != current_user:

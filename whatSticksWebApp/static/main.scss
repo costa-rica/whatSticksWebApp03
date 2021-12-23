@@ -88,6 +88,26 @@ body {
                     font-weight: bold;
                 }
             }
+
+        }
+        .button_link{
+            background: $black;
+            border: none;
+            // padding: 0!important;
+            padding: 10px 0 10px 50px;
+            width:100%;
+            /*optional*/
+            // font-family: arial, sans-serif;
+            /*input has OS specific font-family*/
+            color: $white;
+            text-decoration: none;
+            cursor: pointer;
+            float:inline-end;
+            // margin-right:10px;
+            font-size:20px;
+        }
+        .button_link:hover{
+            background: $blue;
         }
     }
     .mobile-menu-exit{
@@ -102,7 +122,24 @@ body {
 .wider_input_login{
     width: 300px;    
 }
-
+.short_input_login{
+    width: 50px;
+}
+/*Register*/
+section.RegisterSection{
+    padding: 200px 10px 100px 5px;
+    .optional_info{
+        background-color: $gray-700;
+        // background-color: rgb(68,68,68);
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        padding: 10px 20px 20px 20px;
+        margin: 30px 0 0 -30px;
+        width:max-content;
+    }
+}
 
 /*HOME*/
 section.Home {
@@ -127,12 +164,38 @@ section.Home {
 section.LoginSection {
     padding: 200px 10px 100px 5px;
     .container{
-        .login_as_guest{
-            background-color: rgb(195, 233, 231);
+        display:grid;
+        grid-template-columns: 100%;
+        grid-template-areas: 
+        "first_part"
+        "second_part";
+        .register_box, .login_as_guest_box{
+            background-color: $gray-700;
+            border: 1px solid $gray-300;
+            border-width: .5em;
             border-radius: 3em;
-            width:150px;
-            padding-left:10px;
+            border-color:$gray-600;
+            width:350px;
+            height:150px;
+            padding-left:90px;
+            padding-top:45px;
+            a {font-size: 2.5em;}
+            margin-bottom:.25em;
         }
+        .login_as_guest_box{
+            a {font-size: 2em;}
+            padding-left:55px;
+            // background-color: $gray-500;
+            .login_as_guest{
+                margin:0;
+                padding:0;
+            //     background-color: $teal;
+            //     // border-radius: 3em;
+                width:150px;
+            //     padding-left:10px;
+            }
+        }
+
     }
 
 
@@ -255,7 +318,9 @@ section.dashboard {
         top: -5px;
         right: -5px;
     }
-
+    .hide_textbox{
+        display:none;
+    }
 }
 /*For_scientists*/
 section.for_scientists {
@@ -524,6 +589,26 @@ section.About {
             border-top-left-radius: 10px;
         }
     }
+
+
+    /*Login*/
+    section.LoginSection {
+        padding: 200px 10px 100px 5px;
+        .container{
+            display:grid;
+            grid-template-columns: 50% 50%;
+            grid-template-areas: 
+            "first_part second_part";
+            .login_as_guest{
+                background-color: rgb(195, 233, 231);
+                border-radius: 3em;
+                width:150px;
+                padding-left:10px;
+            }
+        }
+
+
+}
 
     
 }

@@ -3,15 +3,14 @@ from datetime import datetime, date
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin
-
 from flask_script import Manager
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Users.query.get(int(user_id))
 
-
-class User(db.Model, UserMixin):
+class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, unique=True)
     email = db.Column(db.Text, unique=True, nullable=False)
@@ -20,12 +19,16 @@ class User(db.Model, UserMixin):
     user_timezone = db.Column(db.Text, default='US/Eastern')
     permission = db.Column(db.Text)
     theme = db.Column(db.Text)
+    gender=db.Column(db.Text)
+    height_feet=db.Column(db.Integer)
+    height_inches=db.Column(db.Integer)
+    ethnicity=db.Column(db.Text)
     time_stamp = db.Column(db.DateTime, default=datetime.now)
-    posts = db.relationship('Post', backref='author', lazy=True)
-    health_data_polar = db.relationship('Health_description', backref='health_data_polar', lazy=True)
-    health_data_oura_sleep = db.relationship('Oura_sleep_description', backref='health_data_oura_sleep', lazy=True)
+    posts = db.relationship('Posts', backref='author', lazy=True)
+    user_input = db.relationship('Health_descriptions', backref='user_input', lazy=True)
+    polar = db.relationship('Polar_descriptions', backref='polar_descriptions', lazy=True)
+    oura_sleep = db.relationship('Oura_sleep_descriptions', backref='Oura_sleep', lazy=True)
     # track_inv = db.relationship('Tracking_inv', backref='updator_inv', lazy=True)
-
 
     def get_reset_token(self, expires_sec=1800):
         s=Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -38,54 +41,40 @@ class User(db.Model, UserMixin):
             user_id = s.loads(token)['user_id']
         except:
             return None
-        return User.query.get(user_id)
+        return Users.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.id}', email:'{self.email}', permission:'{self.permission}', user_timezone: '{self.user_timezone}')"
+        return f"Users('{self.id}', email:'{self.email}', permission:'{self.permission}', user_timezone: '{self.user_timezone}')"
 
-class Post(db.Model):
+class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title= db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     content = db.Column(db.Text)
     screenshot = db.Column(db.String(100))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post('{self.title}','{self.date_posted}')"
+        return f"Posts('{self.title}','{self.date_posted}')"
 
-
-
-
-class Health_description(db.Model):
+class Health_descriptions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     datetime_of_activity=db.Column(db.DateTime)
     var_activity = db.Column(db.Text) #walking, running, empty is ok for something like mood
-    # var_type = db.Column(db.Text) #heart rate, mood, weight, etc.
-    # var_periodicity = db.Column(db.Text)
     var_timezone_utc_delta_in_mins = db.Column(db.Float) #difference bewteen utc and timezone of exercise
-    # time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # source_filename =db.Column(db.Text)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     source_name=db.Column(db.Text)
     source_notes=db.Column(db.Text)
     weight=db.Column(db.Float)
-    # metric2_session_duration=db.Column(db.Float)
-    # metric3=db.Column(db.Float)
-    # metric4=db.Column(db.Float)
-    # metric5=db.Column(db.Float)
     note=db.Column(db.Text)
-    # posts = db.relationship('Post', backref='author', lazy=True)
+
 
     def __repr__(self):
-        return f"Health_description('{self.id}',var_activity:'{self.var_activity}'," \
+        return f"Health_descriptions('{self.id}',var_activity:'{self.var_activity}'," \
         f"'datetime_of_activity: '{self.datetime_of_activity}', note: {self.note}'," \
         f"' time_stamp_utc: '{self.time_stamp_utc}', source_name: '{self.source_name}')"
 
-
-
-
-class Polar_description(db.Model):
+class Polar_descriptions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     datetime_of_activity=db.Column(db.DateTime)
     var_activity = db.Column(db.Text) #walking, running, empty is ok for something like mood
@@ -93,27 +82,21 @@ class Polar_description(db.Model):
     var_periodicity = db.Column(db.Text)#seconds
     var_timezone_utc_delta_in_mins = db.Column(db.Float) #difference bewteen utc and timezone of exercise
     time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     source_filename =db.Column(db.Text)
-    # source_name=db.Column(db.Text)
-    # source_notes=db.Column(db.Text)
     metric1_carido=db.Column(db.Float)
     metric2_session_duration=db.Column(db.Float)
     metric3=db.Column(db.Float)
-    # metric4=db.Column(db.Float)
-    # metric5=db.Column(db.Float)
     note=db.Column(db.Text)
-    # posts = db.relationship('Post', backref='author', lazy=True)
+    polar_measures = db.relationship('Polar_measures', backref='polar_measures', lazy=True)
 
     def __repr__(self):
-        return f"Polar_description('{self.id}',var_activity:'{self.var_activity}'," \
+        return f"Polar_descriptions('{self.id}',var_activity:'{self.var_activity}'," \
         f"'var_type: {self.var_type}', datetime_of_activity: '{self.datetime_of_activity}', time_stamp_utc: '{self.time_stamp_utc}')"
 
-
-
-class Polar_measure(db.Model):
+class Polar_measures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    description_id=db.Column(db.Integer, db.ForeignKey('health_description.id'), nullable=False)
+    description_id=db.Column(db.Integer, db.ForeignKey('polar_descriptions.id'), nullable=False)
     var_datetime_utc = db.Column(db.DateTime, nullable=True)
     var_value = db.Column(db.Text)
     var_unit = db.Column(db.Text)
@@ -126,12 +109,12 @@ class Polar_measure(db.Model):
     altitude=db.Column(db.Float)
 
     def __repr__(self):
-        return f"Polar_measure('{self.id}',description_id:'{self.description_id}'," \
+        return f"Polar_measures('{self.id}',description_id:'{self.description_id}'," \
         f"'var_datetime_utc: {self.var_datetime_utc}', var_value: '{self.var_value}')"
 
-class Oura_sleep_description(db.Model):
+class Oura_sleep_descriptions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     summary_date = db.Column(db.Date)
     period_id = db.Column(db.Integer)
     is_longest = db.Column(db.Integer)
@@ -169,7 +152,7 @@ class Oura_sleep_description(db.Model):
     measures = db.relationship('Oura_sleep_measures', backref='detailed_measures', lazy=True)
 
     def __repr__(self):
-        return f"Oura_sleep_description('{self.id}',summary_date:'{self.summary_date}'," \
+        return f"Oura_sleep_descriptions('{self.id}',summary_date:'{self.summary_date}'," \
         f"'score: {self.score}', score_total: '{self.score_total}')," \
         f"'hr_lowest: {self.hr_lowest}', hr_average: '{self.hr_average}')," \
         f"'bedtime_start: {self.bedtime_start}', bedtime_end: '{self.bedtime_end}')," \
@@ -177,7 +160,7 @@ class Oura_sleep_description(db.Model):
 
 class Oura_sleep_measures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    oura_sleep_description_id = db.Column(db.Integer, db.ForeignKey('oura_sleep_description.id'), nullable=False)
+    oura_sleep_description_id = db.Column(db.Integer, db.ForeignKey('oura_sleep_descriptions.id'), nullable=False)
     hr_5min = db.Column(db.Integer)
     hypnogram_5min = db.Column(db.Integer)
     rmssd_5min = db.Column(db.Integer)

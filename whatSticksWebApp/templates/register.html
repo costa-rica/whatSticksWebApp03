@@ -72,10 +72,24 @@
                         {% endif %}
                     </div>
 
+                    <div class="optional_info">
+                        <h4>Optional Personal Data</h4>
+                        <div class="">
+                            <label>Gender</label><br/>
+                            <input type="text" name="gender_input" class="wider_input_login">
+                        </div>
+                        <div class="">
+                            <label>Height</label><br/>
+                            Feet: <input type="text" name="feet_input" class="short_input_login">
+                            Inches: <input type="text" name="inches_input" class="short_input_login">
+                        </div>
+                    </div>
+
+
+<br/><br/>
                     <div class="form-submit">
                         {{ form.submit(class="submit-button2") }}
                     </div>
-
 
                 </div>
                

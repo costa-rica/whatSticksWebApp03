@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField\
     , TextAreaField, DateTimeField, FloatField, DateField, TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from wtforms_sqlalchemy.fields import QuerySelectField
-from whatSticksWebApp.models import User, Post, Health_description, Health_measure
+from whatSticksWebApp.models import Users, Posts
 from flask_login import current_user
 from datetime import datetime
 from whatSticksWebApp import db
@@ -22,6 +22,8 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign up')
+    # gender = StringField('gender')
+    # height = StringField('height')
 
     # def validate_username(self, username):
         # user=User.query.filter_by(username=username.data).first()
@@ -29,7 +31,7 @@ class RegistrationForm(FlaskForm):
             # raise ValidationError('That username already taken.')
 
     def validate_email(self, email):
-        user=User.query.filter_by(email=email.data).first()
+        user=Users.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email already taken.')
 
@@ -71,7 +73,7 @@ class UpdateAccountForm(FlaskForm):
 
     def validate_email(self, email):
         if email.data != current_user.email:
-            user=User.query.filter_by(email=email.data).first()
+            user=Users.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email already taken.')
 
@@ -82,7 +84,7 @@ class RequestResetForm(FlaskForm):
 
 
     def validate_email(self, email):
-        user=User.query.filter_by(email=email.data).first()
+        user=Users.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError('There is no account with that email. You must register first.')
 

@@ -12149,6 +12149,24 @@ body {
   font-weight: bold;
 }
 
+.custom_container nav .button_link {
+  background: #000;
+  border: none;
+  padding: 10px 0 10px 50px;
+  width: 100%;
+  /*optional*/
+  /*input has OS specific font-family*/
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  float: inline-end;
+  font-size: 20px;
+}
+
+.custom_container nav .button_link:hover {
+  background: #375a7f;
+}
+
 .custom_container .mobile-menu-exit {
   float: right;
   margin: .5em;
@@ -12157,6 +12175,28 @@ body {
 
 .wider_input_login {
   width: 300px;
+}
+
+.short_input_login {
+  width: 50px;
+}
+
+/*Register*/
+section.RegisterSection {
+  padding: 200px 10px 100px 5px;
+}
+
+section.RegisterSection .optional_info {
+  background-color: #444;
+  border-radius: 3em;
+  border: 1px solid #dddddd;
+  border-color: #b3adad;
+  border-width: .5em;
+  padding: 10px 20px 20px 20px;
+  margin: 30px 0 0 -30px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 /*HOME*/
@@ -12184,11 +12224,43 @@ section.LoginSection {
   padding: 200px 10px 100px 5px;
 }
 
-section.LoginSection .container .login_as_guest {
-  background-color: #c3e9e7;
+section.LoginSection .container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 100%;
+      grid-template-columns: 100%;
+      grid-template-areas: "first_part" "second_part";
+}
+
+section.LoginSection .container .register_box, section.LoginSection .container .login_as_guest_box {
+  background-color: #444;
+  border: 1px solid #dee2e6;
+  border-width: .5em;
   border-radius: 3em;
+  border-color: #888;
+  width: 350px;
+  height: 150px;
+  padding-left: 90px;
+  padding-top: 45px;
+  margin-bottom: .25em;
+}
+
+section.LoginSection .container .register_box a, section.LoginSection .container .login_as_guest_box a {
+  font-size: 2.5em;
+}
+
+section.LoginSection .container .login_as_guest_box {
+  padding-left: 55px;
+}
+
+section.LoginSection .container .login_as_guest_box a {
+  font-size: 2em;
+}
+
+section.LoginSection .container .login_as_guest_box .login_as_guest {
+  margin: 0;
+  padding: 0;
   width: 150px;
-  padding-left: 10px;
 }
 
 /*Dashboard*/
@@ -12313,6 +12385,10 @@ section.dashboard .dash_id_button:hover {
   padding: 3px 7px 5px;
   top: -5px;
   right: -5px;
+}
+
+section.dashboard .hide_textbox {
+  display: none;
 }
 
 /*For_scientists*/
@@ -12598,6 +12674,23 @@ section.About .home_link_list {
   .custom_container nav .dark_bg {
     background-color: #888;
     border-top-left-radius: 10px;
+  }
+  /*Login*/
+  section.LoginSection {
+    padding: 200px 10px 100px 5px;
+  }
+  section.LoginSection .container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 50% 50%;
+        grid-template-columns: 50% 50%;
+        grid-template-areas: "first_part second_part";
+  }
+  section.LoginSection .container .login_as_guest {
+    background-color: #c3e9e7;
+    border-radius: 3em;
+    width: 150px;
+    padding-left: 10px;
   }
 }
 /*# sourceMappingURL=main.css.map */

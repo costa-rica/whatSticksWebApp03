@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <!-- Bootstrap5 css -->
     <link rel="stylesheet" type="text/css" href="../static/bootstrap/css/dataTables.bootstrap5.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/bootstrap/table_version20211220/dataTables.bootstrap4.min.css"> -->
     <!--Modal scripts (nav drpdown)-->
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <!-- Tables seem to need these -->
     <script src="../static/bootstrap/table_version/jquery-3.5.1.js"></script>
     <script src="../static/bootstrap/table_version/jquery.dataTables.min.js"></script>
     <script src="../static/bootstrap/table_version/dataTables.bootstrap.min.js"></script>
-
-
+    <script src="../static/bootstrap/js/dataTables.bootstrap5.min.js"></script>
 
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -76,7 +76,14 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a>
-                                <a class="dropdown-item" href="{{ url_for('main.upload_health_data') }}">Link/Add Data</a>
+                                <a class="dropdown-item" href="{{ url_for('main.upload_health_data') }}">Link/Add Device</a>
+
+                                <button type="button" class="button_link" data-bs-toggle="modal" 
+                                    data-bs-target="#activityModal">Add Activity
+                                </button>
+                                <button type="button" class="button_link" data-bs-toggle="modal" 
+                                data-bs-target="#weightModal">Add Weight
+                                </button>
                                 <a class="dropdown-item" href="{{ url_for('main.for_scientists') }}">Analysis</a>
                             </div>
                     </li>
@@ -95,6 +102,78 @@
         </div>
     </div>
     
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        <!-- Modal -->
+          <div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="activityModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content ">
+                <div class="modal-header modal_header_add">
+                  <h5 class="modal-title" id="activityModalLabel">Enter Activity</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal_body_add">
+                    <div class="enter_activity_sub">
+                        <div>
+                            <label>Date:</label>
+                            <input type="date" value="{{ default_date }}" name="activity_date">
+                            <label>Time:</label>
+                            <input type="time" value="{{ default_time }}" name="activity_time">
+                        </div>
+                        <div class="enter_activity_sub2">
+                            <label>Activity:</label>
+                            <input type="text" placeholder="required (30 char max)" name="var_activity">
+                        </div>
+                        <div class="enter_activity_sub2">
+                            <label>Activity Notes:</label>
+                            <textarea  name="activity_notes" rows=2  placeholder="optional"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal_body_add">
+                    <button type="submit" class="btn btn-primary" name="submit_activity" value=True>
+                        Submit Activity
+                    </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        
+        <form method="POST" action="" enctype="multipart/form-data">
+            <!-- Modal Weight -->
+                <div class="modal fade" id="weightModal" tabindex="-1" aria-labelledby="weightModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                    <div class="modal-content ">
+                        <div class="modal-header modal_header_add">
+                        <h5 class="modal-title" id="weightModalLabel">Enter Weight</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modal_body_add">
+                            <div class="enter_activity_sub">
+                                <div>
+                                    <label>Date:</label>
+                                    <input type="date" value="{{ default_date }}" name="activity_date">
+                                    <label>Time:</label>
+                                    <input type="time" value="{{ default_time }}" name="activity_time">
+                                </div>
+                                <div class="enter_activity_sub2">
+                                    <label>Weight (lbs):</label>
+                                    <input type="text" name="weight_input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer modal_body_add">
+                            <button type="submit" class="btn btn-primary" name="submit_weight" value=True>
+                                Submit Activity
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </form>
+
     {% block main %}{% endblock %}
 
 

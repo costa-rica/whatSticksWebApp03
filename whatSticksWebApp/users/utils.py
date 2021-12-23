@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, flash, request, abort, session,\
     Response, current_app
 from whatSticksWebApp import db, bcrypt, mail
-from whatSticksWebApp.models import Post, User
+from whatSticksWebApp.models import Posts, Users
 
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets

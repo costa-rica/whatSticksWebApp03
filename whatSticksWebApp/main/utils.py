@@ -5,7 +5,7 @@ import os, zipfile
 import pandas as pd
 from flask_login import current_user
 from whatSticksWebApp import db, bcrypt, mail
-from whatSticksWebApp.models import User, Post, Health_description, Health_measure
+from whatSticksWebApp.models import Users, Posts, Health_descriptions, Polar_descriptions, Polar_measures
 from sqlalchemy import func
 from scipy.optimize import curve_fit
 import numpy as np
@@ -30,16 +30,24 @@ def michaelis_m_eq_fix170(time_var, shape_var):
     return (170 *time_var)/(shape_var + time_var)
 
 def get_user_tz_util():
-    user_record=db.session.query(User).filter(User.id==current_user.id).first()
+    user_record=db.session.query(Users).filter(Users.id==current_user.id).first()
     user_tz=user_record.user_timezone
     user_tz = timezone(user_tz)
     return user_tz
 
+def format_duration(duration):
+    if duration>=3600:
+        h,m=divmod(duration/60,60)
+        return str(round(h))+" hrs "+str(round(m))+" mins"
+    else:
+        m,s=divmod(duration,60)
+        return str(round(m))+" mins "+str(round(s))+" seconds"
+
 def json_dict_to_dfs(polar_data_dict):
 
-    df_description=pd.DataFrame()
-    df_measure=pd.DataFrame()
-    max_id=db.session.query(func.max(Polar_description.id)).first()[0]
+    df_descriptions=pd.DataFrame()
+    df_measures=pd.DataFrame()
+    max_id=db.session.query(func.max(Polar_descriptions.id)).first()[0]
     
     #TODO if lenghth is less than 140 then drop
     #Making two dataframes: df1 descripton of workout, df2 metrics, end of loop appends each to respective larger dfs
@@ -104,14 +112,14 @@ def json_dict_to_dfs(polar_data_dict):
                 
                 df1['metric2_session_duration']=reading_count
                 
-                df_description=df_description.append(df1, ignore_index = True)
-                df_measure=df_measure.append(df2, ignore_index = True)
-    df_description.set_index('description_id', inplace=True)
+                df_descriptions=df_descriptions.append(df1, ignore_index = True)
+                df_measures=df_measures.append(df2, ignore_index = True)
+    df_descriptions.set_index('description_id', inplace=True)
     
     #calculate metric1_cardio
     metric1_list=[]
-    for description_id in df_measure['description_id'].unique():
-        df_byId=df_measure[df_measure.description_id==description_id]
+    for description_id in df_measures['description_id'].unique():
+        df_byId=df_measures[df_measures.description_id==description_id]
         x_obs=df_byId.var_datetime_utc.to_list()
         if len(x_obs)>139:
             x_obs=[(i-x_obs[0]).total_seconds() for i in x_obs][:140]
@@ -122,55 +130,59 @@ def json_dict_to_dfs(polar_data_dict):
         metric1_list.append(popt_fix170)
 
     #add metric1_cardio to df_description
-    df_description['metric1_carido']=metric1_list
+    df_descriptions['metric1_carido']=metric1_list
     
     ####Check that same polar time stamps are not uploaded.
     #get existing database health_measure.description id and var_datetime_utc ***TODO Make this filter on user*****
-    base_query_health_measure=db.session.query(Polar_measure.description_id,Polar_measure.var_datetime_utc)
-    health_measure_var_datetime=pd.read_sql(str(base_query_health_measure),db.session.bind) 
-    health_measure_var_datetime.rename(columns={'health_measure_description_id':'description_id',
-                                               'health_measure_var_datetime_utc':'var_datetime_utc'}, inplace=True)
+    base_query_health_measures=db.session.query(Polar_measures.description_id,Polar_measures.var_datetime_utc)
+    health_measures_var_datetime=pd.read_sql(str(base_query_health_measures),db.session.bind) 
+    # health_measure_var_datetime.rename(columns={'health_measure_description_id':'description_id',
+    #                                            'health_measure_var_datetime_utc':'var_datetime_utc'}, inplace=True)
+    health_measures_var_datetime.rename(columns={i:i[len('polar_measures_'):] for i in health_measures_var_datetime.columns},
+        inplace=True)
 
-    if len(health_measure_var_datetime)>0:
+    if len(health_measures_var_datetime)>0:
         ##convert both var_datetime_utc columns to string
-        df_measure_2=df_measure
-        df_measure_2.var_datetime_utc=df_measure_2.var_datetime_utc.astype(str)    
-
+        df_measures_2=df_measures
+        df_measures_2.var_datetime_utc=df_measures_2.var_datetime_utc.astype(str)    
+        print('health_measure_var_datetime.columsn:::', health_measures_var_datetime.columns)
+        # print('df_measure_2.coumns::',df_measure_2.columns)
         #check that var_datetime_utc variable/column is same length as in df_measure
-        if len(health_measure_var_datetime.var_datetime_utc[0])>len(df_measure_2.var_datetime_utc[0]):
-            cut_length=(len(health_measure_var_datetime.var_datetime_utc[0])-len(df_measure_2.var_datetime_utc[0]))*-1
-            health_measure_var_datetime.var_datetime_utc=health_measure_var_datetime.var_datetime_utc.str[:cut_length]
-        if len(df_measure_2.var_datetime_utc[0])>len(health_measure_var_datetime.var_datetime_utc[0]):
-            cut_length=(len(df_measure_2.var_datetime_utc[0])-len(health_measure_var_datetime.var_datetime_utc[0]))*-1
-            df_measure_2.var_datetime_utc=df_measure_2.var_datetime_utc.str[:cut_length]
+        if len(health_measures_var_datetime.var_datetime_utc[0])>len(df_measures_2.var_datetime_utc[0]):
+            cut_length=(len(health_measures_var_datetime.var_datetime_utc[0])-len(df_measures_2.var_datetime_utc[0]))*-1
+            health_measures_var_datetime.var_datetime_utc=health_measures_var_datetime.var_datetime_utc.str[:cut_length]
+        
+        if len(df_measures_2.var_datetime_utc[0])>len(health_measures_var_datetime.var_datetime_utc[0]):
+            cut_length=(len(df_measures_2.var_datetime_utc[0])-len(health_measures_var_datetime.var_datetime_utc[0]))*-1
+            df_measures_2.var_datetime_utc=df_measures_2.var_datetime_utc.str[:cut_length]
 
-        df_matching_times=pd.merge(df_measure_2, health_measure_var_datetime,on="var_datetime_utc")
+        df_matching_times=pd.merge(df_measures_2, health_measures_var_datetime,on="var_datetime_utc")
         dup_descript_id_list=list(df_matching_times.description_id_x.unique())
         
         #overwrite upload dataframes with duplicate training sessions removed.
-        df_measure=df_measure[~df_measure.description_id.isin(dup_descript_id_list)]
-        df_description=df_description[~df_description.index.isin(dup_descript_id_list)]
+        df_measures=df_measures[~df_measures.description_id.isin(dup_descript_id_list)]
+        df_descriptions=df_descriptions[~df_descriptions.index.isin(dup_descript_id_list)]
     
-    return (df_description,df_measure)
+    return (df_descriptions,df_measures)
     
 
-def chart_scripts(df_health_description):
+def chart_scripts(df_health_descriptions):
     #clean df
-    colNames=[i[len('health_description_'):] for i in list(df_health_description.columns)]
-    col_names_dict={i:j for i,j in zip(list(df_health_description.columns),colNames)}
-    df_health_description.rename(columns=col_names_dict, inplace=True)
-    df1=df_health_description.sort_values(by=['datetime_of_activity'])
+    colNames=[i[len('health_description_'):] for i in list(df_health_descriptions.columns)]
+    col_names_dict={i:j for i,j in zip(list(df_health_descriptions.columns),colNames)}
+    df_health_descriptions.rename(columns=col_names_dict, inplace=True)
+    df1=df_health_descriptions.sort_values(by=['datetime_of_activity'])
 
     
     #assign default chart dates
     # date_end=datetime.datetime.strptime(df1.datetime_of_activity.to_list()[-1],'%Y-%m-%d %H:%M:%S.%f')
-    date_end=datetime.datetime.strptime(df_health_description.datetime_of_activity.max(),
+    date_end=datetime.datetime.strptime(df_health_descriptions.datetime_of_activity.max(),
         '%Y-%m-%d %H:%M:%S.%f')+ timedelta(days=1)
     date_start=date_end- timedelta(days=7)
     
     
     #get cardio performance metric into lists
-    df1=df_health_description.loc[df_health_description.metric1_carido<100]#filter dataset
+    df1=df_health_descriptions.loc[df_health_descriptions.metric1_carido<100]#filter dataset
     obs_x1=[ datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df1.datetime_of_activity]
     if len(df1)>0:
         obs_y1=df1.metric1_carido
@@ -178,14 +190,14 @@ def chart_scripts(df_health_description):
 
 
     #get activities into lists
-    df2=df_health_description.loc[(df_health_description.var_type=='Activity')]#filter dataset
+    df2=df_health_descriptions.loc[(df_health_descriptions.var_type=='Activity')]#filter dataset
     obs_x2=[ datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df2.datetime_of_activity]
     if len(df2)>0:
         obs_y2=df2.var_activity.to_list()
 
         
     #get weights into lists
-    df3=df_health_description.loc[(df_health_description.var_type=='Weight')]#filter dataset
+    df3=df_health_descriptions.loc[(df_health_descriptions.var_type=='Weight')]#filter dataset
 
     obs_x3=[ datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df3.datetime_of_activity]
     if len(df3)>0:

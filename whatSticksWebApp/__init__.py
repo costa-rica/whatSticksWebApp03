@@ -8,8 +8,11 @@ from whatSticksWebApp.config import Config
 
 import logging
 import sys
+# import sqlalchemy as sa
 
 db = SQLAlchemy()
+
+
 
 bcrypt = Bcrypt()
 login_manager= LoginManager()
@@ -35,8 +38,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
-
-
+    
     from whatSticksWebApp.main.routes import main
     from whatSticksWebApp.posts.routes import posts
     from whatSticksWebApp.users.routes import users
@@ -45,5 +47,6 @@ def create_app(config_class=Config):
     app.register_blueprint(posts)
     app.register_blueprint(users)
     # app.register_blueprint(errors)
+
 
     return app

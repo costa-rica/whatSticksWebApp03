@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import render_template, url_for, redirect, flash, request, abort, session,\
     Response, current_app, send_from_directory
 from whatSticksWebApp import db, bcrypt, mail
-from whatSticksWebApp.models import User, Post, Health_description, Health_measure
+from whatSticksWebApp.models import Users, Posts
 from whatSticksWebApp.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, \
     RequestResetForm, ResetPasswordForm, LoginForm2
 from flask_login import login_user, current_user, logout_user, login_required
@@ -21,15 +21,27 @@ from whatSticksWebApp.users.utils import save_picture, send_reset_email, userPer
     formatExcelHeader
 import pytz
 import zoneinfo
+import sqlalchemy as sa
+from whatSticksWebApp.util_decorators import nav_add_data
+
 
 users = Blueprint('users', __name__)
 
 
 @users.route("/", methods=["GET","POST"])
 @users.route("/home", methods=["GET","POST"])
-def home():
-    
-    return render_template('home.html')
+@nav_add_data
+def home(**kwargs):
+    default_date=kwargs['default_date']
+    default_time=kwargs['default_time']
+
+    if 'users' in sa.inspect(db.engine).get_table_names():
+        print('db already exists')
+    else:
+        db.create_all()
+        print('db created')
+
+    return render_template('home.html',**kwargs)
 
 
 
@@ -39,15 +51,29 @@ def register():
         return redirect(url_for('users.home'))
     form= RegistrationForm()
     if request.method == 'POST':
+        formDict = request.form.to_dict()
+        print('formDict:::',formDict)
         if form.validate_on_submit():
             hashed_password=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             # userPermission1=userPermission(form.email.data)
             # if userPermission1[0]:
                 # user=User(email=form.email.data, password=hashed_password, permission=userPermission1[1])
             # else:
-            user=User(email=form.email.data, password=hashed_password, username=form.username.data)
+            user=Users(email=form.email.data, password=hashed_password, username=form.username.data)
             db.session.add(user)
             db.session.commit()
+            new_user=db.session.query(Users).filter(Users.email=='nickapeed@yahoo.com').first()
+            
+            if formDict.get('gender_input'):
+                print('is there gender_input?????')
+                
+                # dmrData = User.query.get_or_404(new_user.id)
+                new_user.gender=formDict.get('gender_input')
+                db.session.commit()
+            if formDict.get('feet_input'):
+                new_user.height_feet=formDict.get('feet_input')
+                new_user.height_inches=formDict.get('inches_input')
+                db.session.commit()
             flash(f'You are now registered! You can login.', 'success')
             return redirect(url_for('users.login'))
         else:
@@ -69,17 +95,19 @@ def login():
         form.email.data=request.args.get('email_entry')
         form.password.data=request.args.get('pass_entry')
         print('pass_entry:::', request.args.get('pass_entry'))
-    
-    if form.validate_on_submit():
-        print('login - form.validate_on_submit worked')
-        user=User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password,form.password.data):
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('users.home'))
-            #^^^ another good thing turnary condition ^^^
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print('login - form.validate_on_submit worked')
+            user=Users.query.filter_by(email=form.email.data).first()
+            if user and bcrypt.check_password_hash(user.password,form.password.data):
+                login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('users.home'))
+                #^^^ another good thing turnary condition ^^^
         else:
-            flash('Login unsuccessful', 'danger')
+            flash('Login unsuccessful', 'warning')
+
     return render_template('login.html', title='Login', form=form)
 
     
@@ -95,7 +123,7 @@ def logout():
 @login_required
 def account():
     
-    user_record=db.session.query(User).filter(User.id==current_user.id).first()
+    user_record=db.session.query(Users).filter(Users.id==current_user.id).first()
     timezone_list=zoneinfo.available_timezones()
     default_timezone=user_record.user_timezone
     
@@ -110,7 +138,7 @@ def account():
         
         current_user.username = form.username.data
         current_user.email = form.email.data
-        currentUser=User.query.get(current_user.id)
+        currentUser=Users.query.get(current_user.id)
 
         db.session.commit()
         flash(f'Your account has been updated {current_user.email}!', 'success')
@@ -138,7 +166,7 @@ def reset_password():
         return redirect(url_for('users.home'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = Users.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash('email has been sent with instructions to reset your password','info')
         return redirect(url_for('users.login'))
@@ -148,7 +176,7 @@ def reset_password():
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('users.home'))
-    user = User.verify_reset_token(token)
+    user = Users.verify_reset_token(token)
     if user is None:
         flash('That is an invalid or expired token', 'warning')
         return redirect(url_for('users.reset_password'))
