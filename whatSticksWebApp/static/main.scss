@@ -88,10 +88,14 @@ body {
                     font-weight: bold;
                 }
             }
+            .grey_background{
+                color: $gray-600;
+            }
 
         }
         .button_link{
-            background: $black;
+            background: $gray-900;
+            // opacity: 0;
             border: none;
             // padding: 0!important;
             padding: 10px 0 10px 50px;
@@ -109,6 +113,7 @@ body {
         .button_link:hover{
             background: $blue;
         }
+
     }
     .mobile-menu-exit{
         float: right;

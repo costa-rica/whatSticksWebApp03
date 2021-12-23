@@ -101,11 +101,13 @@ def for_scientists(**kwargs):
         table_lists=user_activity_list(df_health_descriptions) + polar_list(df_polar_descriptions)+ \
             oura_sleep_list(df_oura_sleep_descriptions)
         no_hits_flag=True if len(table_lists)==0 else False
+        print('no_hits_flag::', no_hits_flag)
     else:
         #vars for chart that doesn't exist
         div1=None;script1=None;cdn_js=None;cdn_css=None
         #vars for dataframe that doesn't exist:
         table_lists=None;no_hits_flag=True;column_names=None
+        print('no_hits_flag::', no_hits_flag)
     if request.method == 'POST':
         formDict = request.form.to_dict()
         print('formDict::::',formDict)

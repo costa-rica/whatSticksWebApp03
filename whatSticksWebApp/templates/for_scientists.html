@@ -19,24 +19,6 @@
                 {% endif %}
             </div>
 
-            <div class="buttons">
-                <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#activityModal">
-                    Add Activity
-                </button>
-                <form method="POST">
-                    <button type="submit" class="btn btn-primary btn_green1" name="submit_upload_health" value=True>
-                        Upload Health Data
-                    </button>
-                </form>
-
-
-                <button type="button" class="btn btn-primary btn_blue1" data-bs-toggle="modal" data-bs-target="#weightModal">
-                    Add Weight
-                </button>
-            </div>
-
-      
-
 
 
         <form method="POST" action="" enctype="multipart/form-data">
@@ -144,10 +126,11 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
     Bokeh.set_log_level("info");
 </script>
 
+<!-- I'm not sure what this was but it impacts the chart -->
     <!-- {{ no_hits_flag }} -->
-    {% if no_hits_flag  is sameas 'False' %}
+    <!-- {% if no_hits_flag  is sameas 'False' %}
         {{ script1|safe }}
-    {% endif %}
-    
+    {% endif %} -->
+    {{ script1|safe }}
 
 {% endblock %}

@@ -66,13 +66,8 @@
                     {% if current_user.is_authenticated %}
                                        
                     <li class="nav-item dropdown li_primary">
-                        <a href="#" class="nav-link dropdown-toggle" 
-                            id="navbarDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            
-                            >Your Data</a>
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown"role="button"
+                            data-bs-toggle="dropdown"aria-expanded="false">Your Data</a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a>
@@ -84,7 +79,7 @@
                                 <button type="button" class="button_link" data-bs-toggle="modal" 
                                 data-bs-target="#weightModal">Add Weight
                                 </button>
-                                <a class="dropdown-item" href="{{ url_for('main.for_scientists') }}">Analysis</a>
+                                <a class="dropdown-item grey_background" href="{{ url_for('main.for_scientists') }}">Analysis</a>
                             </div>
                     </li>
                     
