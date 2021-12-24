@@ -1,5 +1,5 @@
 from functools import wraps
-from whatSticksWebApp.main.utils import json_dict_to_dfs, plot_text_format, chart_scripts,\
+from whatSticksWebApp.main.utils import plot_text_format, chart_scripts,\
     get_user_tz_util,format_duration
 from datetime import datetime, date, time, timedelta
 import datetime
@@ -7,6 +7,7 @@ import requests
 from flask import render_template, url_for, redirect, flash, request, abort, session,\
     Response, current_app, send_from_directory
 from flask_login import login_user, current_user, logout_user, login_required
+from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
 
 def nav_add_data(function):
     @wraps(function)

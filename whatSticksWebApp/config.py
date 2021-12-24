@@ -2,7 +2,7 @@ import os
 import json
 
 if os.environ.get('COMPUTERNAME')=='CAPTAIN2020':
-    with open(r'D:\OneDrive\Documents\professional\config_files\config_whatSticks.json') as config_file:
+    with open(r'C:\Users\captian2020\Documents\config_files\config_whatSticks.json') as config_file:
         config = json.load(config_file)
 elif os.environ.get('TERM_PROGRAM')=='Apple_Terminal':
     with open('/Users/nick/Documents/config_files/whatSticks.json') as config_file:

@@ -22,7 +22,7 @@ from whatSticksWebApp.users.utils import save_picture, send_reset_email, userPer
 import pytz
 import zoneinfo
 import sqlalchemy as sa
-from whatSticksWebApp.util_decorators import nav_add_data
+from whatSticksWebApp.utilsDecorators import nav_add_data
 
 
 users = Blueprint('users', __name__)

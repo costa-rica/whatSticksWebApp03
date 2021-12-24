@@ -22,8 +22,9 @@ import zoneinfo
 from pytz import timezone
 import time
 from flask import current_app
-from whatSticksWebApp.main.utils import json_dict_to_dfs, plot_text_format, chart_scripts,\
+from whatSticksWebApp.main.utils import plot_text_format, chart_scripts,\
     get_user_tz_util,format_duration
+from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
 
 leading_zeros_count=5
 
@@ -41,12 +42,22 @@ def data_dfs():
         df_health_descriptions=pd.read_sql(str(base_query_health_descriptions)[:-1]+str(current_user.id),db.session.bind)
         df_polar_descriptions=pd.read_sql(str(base_query_polar_descriptions)[:-1]+str(current_user.id),db.session.bind)
         df_oura_sleep_descriptions=pd.read_sql(str(base_query_oura_sleep_descriptions)[:-1]+str(current_user.id),db.session.bind)
-    return (df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions)
+    
+    df_dict={"df_health_descriptions":df_health_descriptions,"df_polar_descriptions":df_polar_descriptions,
+            "df_oura_sleep_descriptions":df_oura_sleep_descriptions}
+    
+    
+    # return (df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions)
+    return df_dict
 
 
 def user_activity_list(df_health_descriptions):
-    df_health_descriptions.rename(columns={i:i[len('health_descriptions_'):] for i in list(df_health_descriptions.columns)}, inplace=True)
+    # print('df_health_descriptions columns names::::', df_health_descriptions.columns)
+    if 'health_descriptions_id' in df_health_descriptions.columns:
+        df_health_descriptions.rename(columns={i:i[len('health_descriptions_'):] for i in list(df_health_descriptions.columns)}, inplace=True)
     df_health_descriptions_sub=df_health_descriptions[['id', 'datetime_of_activity','var_activity','weight']].copy()
+    # print('df_health_descriptions_sub:::', df_health_descriptions_sub.columns)
+    # df_health_descriptions_sub.to_excel('df_health_descriptions_sub.xlsx')
     df_health_descriptions_sub.var_activity=df_health_descriptions_sub.apply(
         lambda row: 'weight '+ str(row['weight']) if not pd.isnull(row['weight']) else row['var_activity'], axis=1)
     df_health_descriptions_sub.datetime_of_activity=pd.to_datetime(df_health_descriptions_sub['datetime_of_activity'])
@@ -69,7 +80,8 @@ def polar_list(df_polar_descriptions):
     return df_sub.values.tolist()
 
 def oura_sleep_list(df_oura_sleep_descriptions):
-    df_oura_sleep_descriptions.rename(columns={i:i[len('oura_sleep_descriptions_'):] for i in list(df_oura_sleep_descriptions.columns)}, inplace=True)
+    if 'oura_sleep_descriptions_id' in df_oura_sleep_descriptions.columns:
+        df_oura_sleep_descriptions.rename(columns={i:i[len('oura_sleep_descriptions_'):] for i in list(df_oura_sleep_descriptions.columns)}, inplace=True)
     df_sub_oura_sleep=df_oura_sleep_descriptions[['id', 'bedtime_start','duration','score_total']].copy()
     df_sub_oura_sleep.bedtime_start=pd.to_datetime(df_sub_oura_sleep['bedtime_start'])
     df_sub_oura_sleep=df_sub_oura_sleep.where(pd.notnull(df_sub_oura_sleep), '')

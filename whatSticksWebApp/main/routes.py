@@ -13,7 +13,7 @@ from sqlalchemy import func, desc
 import pandas as pd
 import json
 import zipfile
-from whatSticksWebApp.main.utils import json_dict_to_dfs, plot_text_format, chart_scripts,\
+from whatSticksWebApp.main.utils import plot_text_format, \
     get_user_tz_util,format_duration
 from bokeh.plotting import figure, output_file
 from bokeh.embed import components
@@ -26,19 +26,18 @@ import zoneinfo
 from pytz import timezone
 import time
 import requests
-from whatSticksWebApp.main.utils_oura import link_oura
-from whatSticksWebApp.main.utils_dashData import data_dfs, user_activity_list, polar_list,\
+from whatSticksWebApp.main.utilsOura import link_oura
+from whatSticksWebApp.main.utilsDashTableData import data_dfs, user_activity_list, polar_list,\
     oura_sleep_list, leading_zeros_count
+from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
+from whatSticksWebApp.utilsDecorators import nav_add_data
+from whatSticksWebApp.main.utilsCharts import polar_chart_params, user_act_chart_params,\
+    user_wgt_chart_params, oura_sleep_chart_params,chart_bokeh_obj
 
 main = Blueprint('main', __name__)
-# from functools import wraps
-
-from whatSticksWebApp.util_decorators import my_decorator3, nav_add_data
 
 
 
-
-# @hello_decorator
 @main.route("/about", methods=["GET","POST"])
 @nav_add_data
 def about(**kwargs):#<-- must have **kwargs with @nav_add_data
@@ -53,17 +52,27 @@ def about(**kwargs):#<-- must have **kwargs with @nav_add_data
 def dashboard(**kwargs):
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
-    df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
+    # df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
+    df_dict=data_dfs()
+    for i,j in df_dict.items():
+        if len(j)>0:
+            at_least_one_record=True
     current_endpoint=request.url_rule.endpoint
-    if len(df_polar_descriptions)>0:
-        script1, div1=chart_scripts(df_polar_descriptions)
+    if at_least_one_record:
+        script1, div1=chart_scripts(df_dict['df_polar_descriptions'])
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
         #Timleline table columns
         column_names=['ID','Date and Time','Activity','Duration', 'Rating']
         #Timeline table list
-        table_lists=user_activity_list(df_health_descriptions) + polar_list(df_polar_descriptions)+ \
-            oura_sleep_list(df_oura_sleep_descriptions)
+        table_lists=[]
+        if len(df_dict['df_health_descriptions'])>0:
+            table_lists=user_activity_list(df_dict['df_health_descriptions'])
+        if len(df_dict['df_polar_descriptions'])>0:
+            table_lists=table_lists+polar_list(df_dict['df_polar_descriptions'])
+        if len(df_dict['df_oura_sleep_descriptions'])>0:
+            table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
+        
         no_hits_flag=True if len(table_lists)==0 else False
     else:
         #vars for chart that doesn't exist
@@ -89,19 +98,42 @@ def dashboard(**kwargs):
 def for_scientists(**kwargs):
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
-    df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
+    df_dict=data_dfs()
+    for i,j in df_dict.items():
+        if len(j)>0:
+            at_least_one_record=True
     current_endpoint=request.url_rule.endpoint
-    if len(df_polar_descriptions)>0:
-        script1, div1=chart_scripts(df_polar_descriptions)
+    if at_least_one_record:
+        chart_params_dict={}
+        #get polar_chart params
+        chart_params_dict['polar']=polar_chart_params(df_dict['df_polar_descriptions'])
+        #get user_act params
+        chart_params_dict['user_act']=user_act_chart_params(df_dict['df_health_descriptions'])
+        #get weight params
+        chart_params_dict['user_wgt']=user_wgt_chart_params(df_dict['df_health_descriptions'])
+        #get oura_sleep params
+        chart_params_dict['oura_sleep']=oura_sleep_chart_params(df_dict['df_oura_sleep_descriptions'])
+        #get chart start and end date based on gathered params
+        chart_params_dict['chart']=[max(chart_params_dict['polar'][0]) -timedelta(days=7),
+            max(chart_params_dict['polar'][0])+ timedelta(days=7)]
+        #get script1 and div1 objs using params
+    
+        script1, div1=chart_bokeh_obj(chart_params_dict)
+        # script1, div1=chart_scripts(df_dict['df_polar_descriptions'])
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
         #Timleline table columns
         column_names=['ID','Date and Time','Activity','Duration', 'Rating']
         #Timeline table list
-        table_lists=user_activity_list(df_health_descriptions) + polar_list(df_polar_descriptions)+ \
-            oura_sleep_list(df_oura_sleep_descriptions)
+        table_lists=[]
+        if len(df_dict['df_health_descriptions'])>0:
+            table_lists=user_activity_list(df_dict['df_health_descriptions'])
+        if len(df_dict['df_polar_descriptions'])>0:
+            table_lists=table_lists+polar_list(df_dict['df_polar_descriptions'])
+        if len(df_dict['df_oura_sleep_descriptions'])>0:
+            table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
         no_hits_flag=True if len(table_lists)==0 else False
-        print('no_hits_flag::', no_hits_flag)
+
     else:
         #vars for chart that doesn't exist
         div1=None;script1=None;cdn_js=None;cdn_css=None
