@@ -30,11 +30,7 @@ users = Blueprint('users', __name__)
 
 @users.route("/", methods=["GET","POST"])
 @users.route("/home", methods=["GET","POST"])
-@nav_add_data
 def home(**kwargs):
-    default_date=kwargs['default_date']
-    default_time=kwargs['default_time']
-
     if 'users' in sa.inspect(db.engine).get_table_names():
         print('db already exists')
     else:
