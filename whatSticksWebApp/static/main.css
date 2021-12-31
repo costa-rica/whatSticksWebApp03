@@ -12203,6 +12203,13 @@ section.RegisterSection .optional_info {
   width: max-content;
 }
 
+section.RegisterSection .height_area {
+  border-radius: 1em;
+  background-color: #888;
+  padding: .5em 0 .5em 1em;
+  margin-top: 1em;
+}
+
 /*HOME*/
 section.Home {
   padding: 200px 10px 100px 5px;
@@ -12233,7 +12240,7 @@ section.LoginSection .container {
   display: grid;
   -ms-grid-columns: 100%;
       grid-template-columns: 100%;
-      grid-template-areas: "first_part" "second_part";
+      grid-template-areas: "first_part" "second_part";
 }
 
 section.LoginSection .container .register_box, section.LoginSection .container .login_as_guest_box {
@@ -12276,7 +12283,7 @@ section.dashboard .dash_chart_div {
   margin: 50px 0 0 0;
   width: 1000px;
   height: 500px;
-  background-color: #218535;
+  background-color: #20c997;
   border-radius: 3em;
   border: 1px solid #dddddd;
   border-color: #b3adad;
@@ -12405,7 +12412,7 @@ section.for_scientists .current_chart_div {
   margin: 50px 0 0 0;
   width: 1000px;
   height: 500px;
-  background-color: #218535;
+  background-color: #20c997;
   border-radius: 3em;
   border: 1px solid #dddddd;
   border-color: #b3adad;

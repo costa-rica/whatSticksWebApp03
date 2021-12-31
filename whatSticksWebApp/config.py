@@ -23,6 +23,7 @@ class Config:
     MAIL_PASSWORD = config.get('MAIL_PASSWORD_KM')
     MAIL_USERNAME = config.get('MAIL_USERNAME_KM')
     DEBUG = True
+    WSH_HOME_DIR=os.path.join(os.path.dirname(__file__))
     UPLOADED_FILES_FOLDER = os.path.join(os.path.dirname(__file__), 'static/files_uploaded')
     BOKEH_THEME = config.get('BOKEH_THEME')
     # UTILITY_FILES_FOLDER = os.path.join(os.path.dirname(__file__), 'static/files_utility')

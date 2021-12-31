@@ -13,14 +13,14 @@
                     </div>
                     <div class="email-input">
                         {% if form.username.errors %}
-                        {{ form.username(class="wider_input_login") }}
+                        {{ form.username(class="wider_input_login form-control") }}
                         <div class="invalid-feedback">
                             {% for error in form.username.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %}
-                        {{ form.username(class="wider_input_login") }}
+                        {{ form.username(class="wider_input_login form-control") }}
                         {% endif %}
                     </div>
                     
@@ -29,14 +29,14 @@
                     </div>
                     <div class="email-input">
                         {% if form.email.errors %}
-                        {{ form.email(class="wider_input_login") }}
+                        {{ form.email(class="wider_input_login form-control") }}
                         <div class="invalid-feedback">
                             {% for error in form.email.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %}
-                        {{ form.email(class="wider_input_login") }}
+                        {{ form.email(class="wider_input_login form-control") }}
                         {% endif %}
                     </div>
 
@@ -45,14 +45,14 @@
                     </div>
                     <div class="password-input">
                         {% if form.password.errors %}
-                        {{ form.password(class="wider_input_login") }}
+                        {{ form.password(class="wider_input_login form-control") }}
                         <div class="invalid-feedback">
                             {% for error in form.password.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %}
-                        {{ form.password(class="wider_input_login") }}
+                        {{ form.password(class="wider_input_login form-control") }}
                         {% endif %}
                     </div>
 
@@ -61,14 +61,14 @@
                     </div>
                     <div class="confirm_password-input">
                         {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="wider_input_login") }}
+                        {{ form.confirm_password(class="wider_input_login form-control") }}
                         <div class="invalid-feedback">
                             {% for error in form.confirm_password.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                         {% else %}
-                        {{ form.confirm_password(class="wider_input_login") }}
+                        {{ form.confirm_password(class="wider_input_login form-control") }}
                         {% endif %}
                     </div>
 
@@ -76,13 +76,34 @@
                         <h4>Optional Personal Data</h4>
                         <div class="">
                             <label>Gender</label><br/>
-                            <input type="text" name="gender_input" class="wider_input_login">
+                            <input type="text" name="gender_input" class="wider_input_login form-control">
                         </div>
-                        <div class="">
+                        <div>
+                            <!-- <label>Birthdate</label><br/> -->
+                            <div class="confirm_password-label">
+                                {{ form.birthdate.label(class="") }}
+                            </div>
+                            <div class="confirm_password-input">
+                                {% if form.birthdate.errors %}
+                                {{ form.birthdate(class="wider_input_login form-control") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.confirm_password.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form.birthdate(class="wider_input_login form-control") }}
+                                {% endif %}
+                            </div>
+
+                            <!-- <input type="date" name="birthdate" class="wider_input_login form-control"> -->
+                        </div>
+                        <div class="height_area">
                             <label>Height</label><br/>
                             Feet: <input type="text" name="feet_input" class="short_input_login">
                             Inches: <input type="text" name="inches_input" class="short_input_login">
                         </div>
+
                     </div>
 
 

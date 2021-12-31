@@ -24,6 +24,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign up')
     # gender = StringField('gender')
     # height = StringField('height')
+    birthdate=DateField('Birthdate')
 
     # def validate_username(self, username):
         # user=User.query.filter_by(username=username.data).first()

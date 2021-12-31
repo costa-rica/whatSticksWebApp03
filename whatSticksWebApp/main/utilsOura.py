@@ -1,3 +1,4 @@
+from sqlalchemy.sql.functions import current_user
 from whatSticksWebApp import db
 from whatSticksWebApp.models import Users, Posts, Health_descriptions,Polar_descriptions,\
     Polar_measures, Oura_sleep_descriptions, Oura_sleep_measures
@@ -72,6 +73,8 @@ def link_oura(personal_token, user_id):
         rmssd_5min_df=pd.DataFrame(i['rmssd_5min'],columns=['rmssd_5min'])
         Oura_sleep_measures_df_temp = pd.concat([oura_sleep_descriptions_id,hr_5min_df, hypnogram_5min_df, rmssd_5min_df], axis=1, join="outer")
         Oura_sleep_measures_df=Oura_sleep_measures_df.append(Oura_sleep_measures_df_temp,ignore_index=True)
+        Oura_sleep_measures_df['user_id']=user_id
+
     #Filter only the description_id's that have been kept by Oura_sleep_description_df_upload
     Oura_sleep_measures_df_upload=Oura_sleep_measures_df[Oura_sleep_measures_df.oura_sleep_description_id.isin(list(Oura_sleep_descriptions_df_upload.id))]
     print(len(Oura_sleep_measures_df_upload))

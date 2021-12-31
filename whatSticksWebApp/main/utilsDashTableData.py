@@ -69,6 +69,10 @@ def user_activity_list(df_health_descriptions):
     return df_health_descriptions_sub.values.tolist()
 
 def polar_list(df_polar_descriptions):
+    
+    if 'polar_descriptions_var_activity' in df_polar_descriptions.columns:
+        df_polar_descriptions.rename(columns={i:i[len('polar_descriptions_'):] for i in list(df_polar_descriptions.columns)}, inplace=True)
+    print('df_polar_descriptions::',df_polar_descriptions.columns)
     df_sub=df_polar_descriptions[['id', 'datetime_of_activity', 'var_activity',
                                     'metric2_session_duration','metric1_carido']].copy()
     df_sub.datetime_of_activity=df_sub['datetime_of_activity'].astype('datetime64[ns]')

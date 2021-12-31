@@ -7,16 +7,16 @@
     <div class="container">
         
         <h1>Dashboard</h1>
-        <div class="dash_chart_div">
-            <label><h3>Average Heart Rate</h3></label>
-            <!-- {% if no_hits_flag %}
+        <div class="dash_chart_div " data-bs-toggle="tooltip" data-bs-placement="right" title="Dashed lines from Heart.org">
+            <label><h3>Polar Workouts All Sessions Heart Rate Average (in bpm)</h3></label>
+            {% if no_hits_flag %}
                 <br/>
                 No Timeline records found
             {% else %}
                 <div class="bokeh_div">
                     {{ div1|safe }}
                 </div>
-            {% endif %} -->
+            {% endif %}
         </div>
 
 
@@ -119,9 +119,10 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
 </script>
 
     <!-- {{ no_hits_flag }} -->
-    {% if no_hits_flag  is sameas 'False' %}
+    <!-- {% if no_hits_flag  is sameas 'False' %}
         {{ script1|safe }}
-    {% endif %}
+    {% endif %} -->
+    {{ script1|safe }}
     
 
 {% endblock %}

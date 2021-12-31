@@ -17,6 +17,7 @@ def nav_add_data(function):
         kwargs['default_date']=datetime.datetime.now().astimezone(kwargs['user_tz']).strftime("%Y-%m-%d")
         kwargs['default_time']=datetime.datetime.now().astimezone(kwargs['user_tz']).strftime("%H:%M")
         kwargs['where_r_we']=request.url_rule.endpoint
+        kwargs['current_user_id']=current_user.id
 
         if request.method == 'POST':
             if current_user.username=='Guest':

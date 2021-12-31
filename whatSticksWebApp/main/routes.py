@@ -33,6 +33,7 @@ from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
 from whatSticksWebApp.utilsDecorators import nav_add_data
 from whatSticksWebApp.main.utilsCharts import polar_chart_params, user_act_chart_params,\
     user_wgt_chart_params, oura_sleep_chart_params,chart_bokeh_obj
+from whatSticksWebApp.main.utilsChartsDash import bar_chart_dash
 
 main = Blueprint('main', __name__)
 
@@ -52,14 +53,16 @@ def about(**kwargs):#<-- must have **kwargs with @nav_add_data
 def dashboard(**kwargs):
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
-    # df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
+    df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
     df_dict=data_dfs()
+    at_least_one_record=False
     for i,j in df_dict.items():
         if len(j)>0:
             at_least_one_record=True
     current_endpoint=request.url_rule.endpoint
     if at_least_one_record:
-        script1, div1=chart_scripts(df_dict['df_polar_descriptions'])
+        # script1, div1=chart_bokeh_obj(df_dict['df_polar_descriptions'])
+        script1, div1=bar_chart_dash()
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
         #Timleline table columns
@@ -99,6 +102,7 @@ def for_scientists(**kwargs):
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
     df_dict=data_dfs()
+    at_least_one_record=False
     for i,j in df_dict.items():
         if len(j)>0:
             at_least_one_record=True
@@ -228,18 +232,21 @@ def add_activity(**kwargs):
 @nav_add_data
 @login_required
 def upload_health_data(**kwargs):
-
+    current_user_id=kwargs.get('current_user_id')
+    print('current_user_id::',current_user_id)
+    print('kwargs',kwargs)
     if request.method == 'POST':
         print('POST method')
         formDict = request.form.to_dict()
         filesDict = request.files.to_dict()
         print('formDict:::', formDict)
         print('filesDict:::', filesDict)
-        if current_user.username=='Guest':
-            flash('Cannot add data as guest', 'warning')
-            return redirect(url_for('main.upload_health_data'))
+        # if current_user.username=='Guest':
+        #     flash('Cannot add data as guest', 'warning')
+        #     return redirect(url_for('main.upload_health_data'))
+        # KUSS4SVDAKKVZQVIQSRCIFK2ORNAB6C2
 
-        elif formDict.get('upload_file_button'):
+        if formDict.get('upload_file_button'):
             print('upload_file_button accessed')
             # print(dir(filesDict.get('uploaded_file')))
             # print('filename:::',filesDict.get('uploaded_file').filename)
@@ -288,8 +295,13 @@ def upload_health_data(**kwargs):
         elif formDict.get('connect_oura'):
             print('connect_oura accessed')
             personal_token=formDict.get('oura_token')
-            user_id=current_user.id
-            sleep_entries_count=link_oura(personal_token, user_id)
+            # user_id=current_user.id
+            print('currentPuers_Id:::', current_user_id)
+            current_user=db.session.query(Users).filter(Users.id==current_user_id).first()
+            print('curretn_user:::', current_user)
+            current_user.oura_token=personal_token
+            db.session.commit()
+            sleep_entries_count=link_oura(personal_token, current_user_id)
             flash(f'Successfully uploaded ' + str(sleep_entries_count) +' Oura sleep entries', 'success')
             return redirect(url_for('main.upload_health_data'))
 

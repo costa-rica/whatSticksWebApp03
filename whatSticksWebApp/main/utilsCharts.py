@@ -63,29 +63,31 @@ def oura_sleep_chart_params(df_oura_sleep_descriptions):
 def chart_bokeh_obj(chart_params_dict):
     fig1=figure(toolbar_location=None,tools='xwheel_zoom,xpan',active_scroll='xwheel_zoom',
             x_range=(chart_params_dict['chart'][0],chart_params_dict['chart'][1]),
-            y_range=(-10,200),width=800, height=300)
+            y_range=(-10,200),width=900, height=400)
 
     #add cardio_metric1
     circle=fig1.circle(chart_params_dict['polar'][0],chart_params_dict['polar'][1], legend_label="Cardio Performance", fill_color='#c77711', line_color=None,size=20)
     source1 = ColumnDataSource(dict(x=chart_params_dict['polar'][0], y=chart_params_dict['polar'][1], text=chart_params_dict['polar'][2]))
     glyph1 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
     fig1.add_glyph(source1, glyph1)
+    print('chart_params_dict[user_act]')
+    print(chart_params_dict['user_act'][0])
+    if len(chart_params_dict['user_act'][0])>0:
+        #add user activity vertical lines
+        for a,b in zip(chart_params_dict['user_act'][0],chart_params_dict['user_act'][1]):
+            #add activity data
+            source2 = ColumnDataSource(dict(x=[a], y=[80], text=[b]))
+            glyph2 = Text(text="text", text_color="#414444", text_font_size={'value': '10px'},
+                        x_offset=-10,angle=-1.58)
 
-    #add user activity vertical lines
-    for a,b in zip(chart_params_dict['user_act'][0],chart_params_dict['user_act'][1]):
-        #add activity data
-        source2 = ColumnDataSource(dict(x=[a], y=[80], text=[b]))
-        glyph2 = Text(text="text", text_color="#414444", text_font_size={'value': '10px'},
-                    x_offset=-10,angle=-1.58)
+            #add line for activity data
+            line_start_time=time.mktime(a.timetuple())*1000
+            important_time = Span(location=line_start_time, dimension='height', line_color="#414444", line_dash='dashed', line_width=1)
+            fig1.add_glyph(source2, glyph2)
+            fig1.add_layout(important_time)
 
-        #add line for activity data
-        line_start_time=time.mktime(a.timetuple())*1000
-        important_time = Span(location=line_start_time, dimension='height', line_color="#414444", line_dash='dashed', line_width=1)
         fig1.add_glyph(source2, glyph2)
-        fig1.add_layout(important_time)
-
-    fig1.add_glyph(source2, glyph2)
-    #--End formatting lines---
+        #--End formatting lines---
 
 
     #Add weight circles

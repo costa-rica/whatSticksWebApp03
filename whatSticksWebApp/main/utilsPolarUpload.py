@@ -61,6 +61,7 @@ def json_dict_to_dfs(polar_data_dict):
 
                         df2=pd.DataFrame(var_datetime_utc_list,columns=['var_datetime_utc'])
                         df2['description_id']=max_id
+                        df2['user_id']=current_user.id#comes from app current_user.id
                         reading_count=len(var_datetime_utc_list)
                     if data_item_series== 'heartRate':
                         df2['heart_rate']=[x['value'] for x in j['exercises'][0]['samples'][data_item_series]]

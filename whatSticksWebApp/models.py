@@ -23,11 +23,15 @@ class Users(db.Model, UserMixin):
     height_feet=db.Column(db.Integer)
     height_inches=db.Column(db.Integer)
     ethnicity=db.Column(db.Text)
+    birthdate=db.Column(db.Date)
+    oura_token=db.Column(db.Text)#Must add this****
     time_stamp = db.Column(db.DateTime, default=datetime.now)
     posts = db.relationship('Posts', backref='author', lazy=True)
     user_input = db.relationship('Health_descriptions', backref='user_input', lazy=True)
     polar = db.relationship('Polar_descriptions', backref='polar_descriptions', lazy=True)
+    polar_m = db.relationship('Polar_measures', backref='polar_m', lazy=True)
     oura_sleep = db.relationship('Oura_sleep_descriptions', backref='Oura_sleep', lazy=True)
+    oura_sleep_m = db.relationship('Oura_sleep_measures', backref='Oura_sleep_measures', lazy=True)
     # track_inv = db.relationship('Tracking_inv', backref='updator_inv', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
@@ -96,6 +100,7 @@ class Polar_descriptions(db.Model):
 
 class Polar_measures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     description_id=db.Column(db.Integer, db.ForeignKey('polar_descriptions.id'), nullable=False)
     var_datetime_utc = db.Column(db.DateTime, nullable=True)
     var_value = db.Column(db.Text)
@@ -160,6 +165,7 @@ class Oura_sleep_descriptions(db.Model):
 
 class Oura_sleep_measures(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     oura_sleep_description_id = db.Column(db.Integer, db.ForeignKey('oura_sleep_descriptions.id'), nullable=False)
     hr_5min = db.Column(db.Integer)
     hypnogram_5min = db.Column(db.Integer)

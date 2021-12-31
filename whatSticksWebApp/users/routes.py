@@ -55,11 +55,12 @@ def register():
             # if userPermission1[0]:
                 # user=User(email=form.email.data, password=hashed_password, permission=userPermission1[1])
             # else:
-            user=Users(email=form.email.data, password=hashed_password, username=form.username.data)
+            user=Users(email=form.email.data, password=hashed_password, username=form.username.data,
+                birthdate=form.birthdate.data)
             db.session.add(user)
             db.session.commit()
-            new_user=db.session.query(Users).filter(Users.email=='nickapeed@yahoo.com').first()
-            
+            # new_user=db.session.query(Users).filter(Users.email=='nickapeed@yahoo.com').first()
+            new_user=db.session.query(Users).filter(Users.email==form.email.data).first()
             if formDict.get('gender_input'):
                 print('is there gender_input?????')
                 

@@ -144,6 +144,12 @@ section.RegisterSection{
         margin: 30px 0 0 -30px;
         width:max-content;
     }
+    .height_area{
+        border-radius: 1em;
+        background-color: $gray-600;
+        padding: .5em 0 .5em 1em;
+        margin-top: 1em;
+    }
 }
 
 /*HOME*/
@@ -215,8 +221,8 @@ section.dashboard {
         width: 1000px;
         height: 500px;
         // background-color: rgb(119, 179, 120);
-        // background-color: $teal;
-        background-color: rgb(33, 133, 53);
+        background-color: $teal;
+        // background-color: rgb(33, 133, 53);
         border-radius: 3em;
         border: 1px solid #dddddd;
         border-color: rgb(179, 173, 173);
@@ -336,8 +342,8 @@ section.for_scientists {
         width: 1000px;
         height: 500px;
         // background-color: rgb(119, 179, 120);
-        // background-color: $teal;
-        background-color: rgb(33, 133, 53);
+        background-color: $teal;
+        // background-color: rgb(33, 133, 53);
         border-radius: 3em;
         border: 1px solid #dddddd;
         border-color: rgb(179, 173, 173);
