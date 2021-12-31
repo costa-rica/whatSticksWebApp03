@@ -12240,7 +12240,7 @@ section.LoginSection .container {
   display: grid;
   -ms-grid-columns: 100%;
       grid-template-columns: 100%;
-      grid-template-areas: "first_part" "second_part";
+      grid-template-areas: "left_part" "right_part";
 }
 
 section.LoginSection .container .register_box, section.LoginSection .container .login_as_guest_box {
@@ -12277,11 +12277,81 @@ section.LoginSection .container .login_as_guest_box .login_as_guest {
 /*Dashboard*/
 section.dashboard {
   padding: 200px 10px 100px 5px;
+  /*
+    .enter_activity{
+        margin:  80px 0 0 0;
+        border: 1px solid #dddddd;
+        background-color: tan;
+        border-radius: 3em;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        width: 1000px;
+        height: 300px;
+
+    }
+    .enter_activity > label{
+    padding: 10px 0 0 10px;
+    }
+    .enter_activity_sub{
+        padding: 10px 0 0 60px;
+        margin-right: 50px;
+    }
+    .enter_activity_sub2{
+        display: grid;
+        grid-template-columns: 13% auto;
+    }
+
+    .btn_right{
+        float: right;
+        margin-right:150px;
+    }
+
+    .modal_header_add{
+        background-color: rgb(179, 173, 173);
+        border-bottom: 0 none;
+    }
+    .modal_body_add{
+        background-color: tan;
+    }
+    .modal-footer {
+        border-top: 0 none;
+    }
+    .btn_green1{
+        background-color: rgb(53, 200, 162);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+        width: 70%;
+        margin-top: 4em;
+    }
+    .btn_blue1{
+        background-color: rgb(53, 162, 200);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+    }
+*/
+}
+
+section.dashboard .summary_div {
+  background-color: #444;
+  border-radius: 3em;
+  border: 1px solid #dddddd;
+  border-color: #b3adad;
+  border-width: .5em;
+  padding: 10px 0 10px 10px;
+  margin: 0 0 0 0;
+}
+
+section.dashboard .summary_div h2, section.dashboard .summary_div .h2 {
+  margin-left: 1em;
+}
+
+section.dashboard .summary_div p {
+  margin-left: 3em;
 }
 
 section.dashboard .dash_chart_div {
   margin: 50px 0 0 0;
-  width: 1000px;
+  width: 900px;
   height: 500px;
   background-color: #20c997;
   border-radius: 3em;
@@ -12303,65 +12373,6 @@ section.dashboard .bokeh_div {
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 1.5em;
-}
-
-section.dashboard .enter_activity {
-  margin: 80px 0 0 0;
-  border: 1px solid #dddddd;
-  background-color: tan;
-  border-radius: 3em;
-  border-color: #b3adad;
-  border-width: .5em;
-  width: 1000px;
-  height: 300px;
-}
-
-section.dashboard .enter_activity > label {
-  padding: 10px 0 0 10px;
-}
-
-section.dashboard .enter_activity_sub {
-  padding: 10px 0 0 60px;
-  margin-right: 50px;
-}
-
-section.dashboard .enter_activity_sub2 {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 13% auto;
-      grid-template-columns: 13% auto;
-}
-
-section.dashboard .btn_right {
-  float: right;
-  margin-right: 150px;
-}
-
-section.dashboard .modal_header_add {
-  background-color: #b3adad;
-  border-bottom: 0 none;
-}
-
-section.dashboard .modal_body_add {
-  background-color: tan;
-}
-
-section.dashboard .modal-footer {
-  border-top: 0 none;
-}
-
-section.dashboard .btn_green1 {
-  background-color: #35c8a2;
-  border-color: #aaaaaa;
-  border-width: .3em;
-  width: 70%;
-  margin-top: 4em;
-}
-
-section.dashboard .btn_blue1 {
-  background-color: #35a2c8;
-  border-color: #aaaaaa;
-  border-width: .3em;
 }
 
 section.dashboard .timeline_records_div {
@@ -12402,9 +12413,98 @@ section.dashboard .hide_textbox {
   display: none;
 }
 
+section.dashboard .accordion {
+  padding: 0;
+  margin: 0;
+}
+
+section.dashboard .accordionBackgroundDash {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 5px solid;
+  border-color: var(--wshblue);
+}
+
+section.dashboard .dash_info_section {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-left: 3em;
+  padding-top: 4em;
+}
+
+section.dashboard .dash_info_section .accordionHeaderBackgroundDashSub {
+  width: 300px;
+}
+
+section.dashboard .dash_info_section .accordionBackgroundDashSub {
+  width: 300px;
+  background-color: #3498db;
+}
+
 /*For_scientists*/
 section.for_scientists {
   padding: 200px 10px 100px 5px;
+  /*
+    .enter_activity{
+        margin:  80px 0 0 0;
+        border: 1px solid #dddddd;
+        background-color: tan;
+        border-radius: 3em;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        width: 1000px;
+        height: 300px;
+
+    }
+    .enter_activity > label{
+    padding: 10px 0 0 10px;
+    }
+    .enter_activity_sub{
+        padding: 10px 0 0 60px;
+        margin-right: 50px;
+    }
+    .enter_activity_sub2{
+        display: grid;
+        grid-template-columns: 13% auto;
+    }
+
+    .btn_right{
+        float: right;
+        margin-right:150px;
+    }
+
+    .modal_header_add{
+        background-color: rgb(179, 173, 173);
+        border-bottom: 0 none;
+    }
+    .modal_body_add{
+        background-color: tan;
+    }
+    .modal-footer {
+        border-top: 0 none;
+    }
+    .btn_blue1{
+        background-color: rgb(53, 162, 200);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+    }
+    .btn_green1{
+        background-color: rgb(53, 200, 162);
+        border-color: rgb(170, 170, 170);
+        border-width: .3em;
+    }
+
+
+    .buttons{
+        margin-top: 20px;
+        margin-left: 50px;
+        display: flex;
+        justify-content: space-between;
+        width: 800px;
+    }
+*/
   /*Delete modal*/
 }
 
@@ -12428,75 +12528,6 @@ section.for_scientists .bokeh_div {
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 1.5em;
-}
-
-section.for_scientists .enter_activity {
-  margin: 80px 0 0 0;
-  border: 1px solid #dddddd;
-  background-color: tan;
-  border-radius: 3em;
-  border-color: #b3adad;
-  border-width: .5em;
-  width: 1000px;
-  height: 300px;
-}
-
-section.for_scientists .enter_activity > label {
-  padding: 10px 0 0 10px;
-}
-
-section.for_scientists .enter_activity_sub {
-  padding: 10px 0 0 60px;
-  margin-right: 50px;
-}
-
-section.for_scientists .enter_activity_sub2 {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 13% auto;
-      grid-template-columns: 13% auto;
-}
-
-section.for_scientists .btn_right {
-  float: right;
-  margin-right: 150px;
-}
-
-section.for_scientists .modal_header_add {
-  background-color: #b3adad;
-  border-bottom: 0 none;
-}
-
-section.for_scientists .modal_body_add {
-  background-color: tan;
-}
-
-section.for_scientists .modal-footer {
-  border-top: 0 none;
-}
-
-section.for_scientists .btn_blue1 {
-  background-color: #35a2c8;
-  border-color: #aaaaaa;
-  border-width: .3em;
-}
-
-section.for_scientists .btn_green1 {
-  background-color: #35c8a2;
-  border-color: #aaaaaa;
-  border-width: .3em;
-}
-
-section.for_scientists .buttons {
-  margin-top: 20px;
-  margin-left: 50px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  width: 800px;
 }
 
 section.for_scientists .timeline_records_div {
@@ -12695,13 +12726,23 @@ section.About .home_link_list {
     display: grid;
     -ms-grid-columns: 50% 50%;
         grid-template-columns: 50% 50%;
-        grid-template-areas: "first_part second_part";
+        grid-template-areas: "left_part right_part";
   }
   section.LoginSection .container .login_as_guest {
     background-color: #c3e9e7;
     border-radius: 3em;
     width: 150px;
     padding-left: 10px;
+  }
+  section.LoginSection .container .left_part {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    grid-area: left_part;
+  }
+  section.LoginSection .container .right_part {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    grid-area: right_part;
   }
 }
 /*# sourceMappingURL=main.css.map */

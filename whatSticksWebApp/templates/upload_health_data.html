@@ -27,6 +27,7 @@
               </button>
             </h2>
             <div id="collapsePolar" class="accordion-collapse collapse" aria-labelledby="headingPolar" data-bs-parent="#accordionExample">
+              <!-- <div id="collapsePolar" class="accordion-collapse collapse" aria-labelledby="headingPolar" > Keep accordion open when another is selected -->
               <div class="accordion-body accordionBackground">
                 <p>Polar (zip file here) data here:</p>
                 <input type="file" class="form-control" name="uploaded_file"/><br/><br/>
@@ -46,6 +47,7 @@
               </button>
             </h2>
             <div id="collapseOura" class="accordion-collapse collapse" aria-labelledby="headingOura" data-bs-parent="#accordionExample">
+              <!-- <div id="collapseOura" class="accordion-collapse collapse" aria-labelledby="headingOura" > -->
               <div class="accordion-body accordionBackground">
                 Oura Data<br/>
                 Enter Personal API Token here:
@@ -64,11 +66,11 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingApple">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-              data-bs-target="#collapseApple" aria-expanded="false" aria-controls="collapseApple">
+              data-bs-target="#collapseApple" aria-expanded="false" aria-controls="collapseApple" data-bs-parent="#accordionExample">
               Apple Health
               </button>
             </h2>
-            <div id="collapseApple" class="accordion-collapse collapse" aria-labelledby="headingApple" data-bs-parent="#accordionExample">
+            <div id="collapseApple" class="accordion-collapse collapse" aria-labelledby="headingApple" >
               <div class="accordion-body accordionBackground">
                 Apple Health Stuff...<br/>
 

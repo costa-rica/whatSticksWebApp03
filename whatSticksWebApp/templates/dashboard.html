@@ -3,21 +3,120 @@
 {% block main %}
 
 
+
 <section class="dashboard">
     <div class="container">
-        
+
         <h1>Dashboard</h1>
-        <div class="dash_chart_div " data-bs-toggle="tooltip" data-bs-placement="right" title="Dashed lines from Heart.org">
-            <label><h3>Polar Workouts All Sessions Heart Rate Average (in bpm)</h3></label>
-            {% if no_hits_flag %}
-                <br/>
-                No Timeline records found
-            {% else %}
-                <div class="bokeh_div">
-                    {{ div1|safe }}
-                </div>
-            {% endif %}
+        <div class="summary_div">
+            <h2>Insights</h2>
+            <p>Stuff about my health....</p>
+
         </div>
+        <!-- POLAR Accordian start -->
+        <div class="accordion" id="accordionExample">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header accordionHeaderBackground" id="headingPolar">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#collapsePolar" aria-expanded="true" aria-controls="collapsePolar">
+            Polar
+            </button>
+            </h2>
+            <div id="collapsePolar" class="accordion-collapse collapse" aria-labelledby="headingPolar" >
+                <div class="accordion-body accordionBackgroundDash">
+                    
+                    <div class="dash_chart_div " data-bs-toggle="tooltip" data-bs-placement="right" title="Dashed lines from Heart.org">
+                        <label><h3>Heart Rate</h3></label>
+                        {% if no_hits_flag %}
+                            <br/>
+                            No Timeline records found
+                        {% else %}
+                            <div class="bokeh_div">
+                                {{ div1|safe }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="dash_info_section">
+                        <!-- POLAR SUB Accordian start -->
+                        <div class="accordion" id="accordionDashPolarSub">
+                            <div class="accordion-item">
+                            <h2 class="accordion-header accordionHeaderBackgroundDashSub" id="headingPolarSub">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapsePolarSub" aria-expanded="true" aria-controls="collapsePolarSub">
+                                Polar Details
+                                </button>
+                            </h2>
+                            <div id="collapsePolarSub" class="accordion-collapse collapse" aria-labelledby="headingPolarSub" 
+                                data-bs-parent="#accordionDashPolarSub">
+                                <div class="accordion-body accordionBackgroundDashSub">
+                                    <p>Your peer group is the average heart rate (in bpm) of other WSH users</p>
+                                    <p>{{ text_detail_dashed_lines }}</p>
+                                    <p>Information about dashed lines and
+                                        <a href="https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates">Heart.org</a>. </p>
+                                </div>
+                            </div>
+                            </div> 
+                        </div><!--POLAR SUB Accordian END-->
+                    </div>
+                </div>
+            </div>
+        </div><!--POLAR SUB Accordian END-->
+
+        
+        <div class="accordion-item">
+            <h2 class="accordion-header accordionHeaderBackground" id="headingOuraSleep">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#collapseOuraSleep" aria-expanded="true" aria-controls="collapseOuraSleep">
+            Oura Sleep
+            </button>
+            </h2>
+            <div id="collapseOuraSleep" class="accordion-collapse collapse" aria-labelledby="headingOuraSleep" >
+                <div class="accordion-body accordionBackgroundDash">
+                    
+                    <div class="dash_chart_div " data-bs-toggle="tooltip" data-bs-placement="right" title="Dashed lines from Heart.org">
+                        <label><h3>Hours of Sleep</h3></label>
+                        {% if no_hits_flag %}
+                            <br/>
+                            No Timeline records found
+                        {% else %}
+                            <div class="bokeh_div">
+                                {{ div_oura_sleep|safe }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="dash_info_section">
+                        <!-- OuraSleep SUB Accordian start -->
+                        <div class="accordion" id="accordionDashOuraSleepSub">
+                            <div class="accordion-item">
+                            <h2 class="accordion-header accordionHeaderBackgroundDashSub" id="headingOuraSleepSub">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#collapseOuraSleepSub" aria-expanded="true" aria-controls="collapseOuraSleepSub">
+                                Oura Sleep Details
+                                </button>
+                            </h2>
+                            <div id="collapseOuraSleepSub" class="accordion-collapse collapse" aria-labelledby="headingOuraSleepSub" 
+                                data-bs-parent="#accordionDashOuraSleepSub">
+                                <div class="accordion-body accordionBackgroundDashSub">
+                                    <p>Your peer group is the average heart rate (in bpm) of other WSH users</p>
+                                    <p>{{ text_detail_dashed_lines }}</p>
+                                    <p>Information about dashed lines and
+                                        <a href="https://www.heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates">Heart.org</a>. </p>
+                                </div>
+                            </div>
+                            </div> 
+                        </div><!--OuraSleep SUB Accordian END-->
+                    </div>
+                </div>
+            </div>
+        </div><!--OuraSleep SUB Accordian END-->
+
+        </div><!--All Accordian END-->
+        
+
+
 
 
 
@@ -64,26 +163,29 @@
 
             <!-- Modal Delete -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal_header_delete">
-                <h5 class="modal-title" id="exampleModalLabel">Doesn't show up</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body modal_body_delete">
-                    <button type="submit" class="btn btn-primary delete_button" id="yes_delete" name="delete_button">Yes, delete</button>
-                    <input type="text" class="hide_textbox" id="recipient-name" name="delete_record_id" readonly>
-                </div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header modal_header_delete">
+                        <h5 class="modal-title" id="exampleModalLabel">Doesn't show up</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modal_body_delete">
+                            <button type="submit" class="btn btn-primary delete_button" id="yes_delete" name="delete_button">Yes, delete</button>
+                            <input type="text" class="hide_textbox" id="recipient-name" name="delete_record_id" readonly>
+                        </div>
 
+                    </div>
                 </div>
             </div>
-            </div>
-            </div>
+            
 
         </form>
 
     </div>
 </section>
+
+
+
 
 <!--Delete modal read record id-->
 <script>
@@ -123,6 +225,7 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
         {{ script1|safe }}
     {% endif %} -->
     {{ script1|safe }}
+    {{ script_oura_sleep|safe }}
     
 
 {% endblock %}

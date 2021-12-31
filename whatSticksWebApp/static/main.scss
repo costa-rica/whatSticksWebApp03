@@ -178,8 +178,8 @@ section.LoginSection {
         display:grid;
         grid-template-columns: 100%;
         grid-template-areas: 
-        "first_part"
-        "second_part";
+        "left_part"
+        "right_part";
         .register_box, .login_as_guest_box{
             background-color: $gray-700;
             border: 1px solid $gray-300;
@@ -206,19 +206,27 @@ section.LoginSection {
             //     padding-left:10px;
             }
         }
-
     }
-
-
 }
 
 /*Dashboard*/
 section.dashboard {
     padding: 200px 10px 100px 5px;
-
+    .summary_div{
+        background-color: $secondary;
+        // background-color: rgb(68,68,68);
+        border-radius: 3em;
+        border: 1px solid #dddddd;
+        border-color: rgb(179, 173, 173);
+        border-width: .5em;
+        padding: 10px 0 10px 10px;
+        margin: 0 0 0 0;
+        h2{ margin-left:1em}
+        p {margin-left: 3em;}
+    }
     .dash_chart_div{
         margin: 50px 0 0 0;
-        width: 1000px;
+        width: 900px;
         height: 500px;
         // background-color: rgb(119, 179, 120);
         background-color: $teal;
@@ -241,6 +249,7 @@ section.dashboard {
         margin-left:10px;
         border-radius: 1.5em;
     }
+    /*
     .enter_activity{
         margin:  80px 0 0 0;
         border: 1px solid #dddddd;
@@ -291,9 +300,7 @@ section.dashboard {
         border-color: rgb(170, 170, 170);
         border-width: .3em;
     }
-
-
-
+*/
     .timeline_records_div{
         margin: 50px 0 0 0;
         width: 1000px;
@@ -332,6 +339,30 @@ section.dashboard {
     .hide_textbox{
         display:none;
     }
+    .accordion{padding:0;margin:0;}
+    .accordionBackgroundDash{
+        display: flex;
+        border:5px solid;
+        border-color:var(--wshblue);
+        // background-color: red;
+    }
+    .dash_info_section{
+        width:fit-content;
+        // margin-right:0;
+        margin-left:3em;
+        padding-top:4em;
+        .accordionHeaderBackgroundDashSub{
+            width:300px;
+            // margin-right:0;
+        }
+        .accordionBackgroundDashSub{
+            width: 300px;
+            background-color:$cyan ;
+            // margin-right:0;
+        }
+    }
+
+    
 }
 /*For_scientists*/
 section.for_scientists {
@@ -359,6 +390,7 @@ section.for_scientists {
         margin-left:10px;
         border-radius: 1.5em;
     }
+    /*
     .enter_activity{
         margin:  80px 0 0 0;
         border: 1px solid #dddddd;
@@ -416,7 +448,7 @@ section.for_scientists {
         justify-content: space-between;
         width: 800px;
     }
-
+*/
     .timeline_records_div{
         margin: 50px 0 0 0;
         width: 1000px;
@@ -452,6 +484,7 @@ section.for_scientists {
         top: -5px;
         right: -5px;
     }
+
     /*Delete modal*/
     .hide_textbox{
         display:none;
@@ -609,14 +642,21 @@ section.About {
             display:grid;
             grid-template-columns: 50% 50%;
             grid-template-areas: 
-            "first_part second_part";
+            "left_part right_part";
             .login_as_guest{
                 background-color: rgb(195, 233, 231);
                 border-radius: 3em;
                 width:150px;
                 padding-left:10px;
             }
+            .left_part{
+                grid-area:left_part
+            }
+            .right_part{
+                grid-area:right_part
+            }
         }
+
 
 
 }

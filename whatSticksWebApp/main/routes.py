@@ -33,7 +33,7 @@ from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
 from whatSticksWebApp.utilsDecorators import nav_add_data
 from whatSticksWebApp.main.utilsCharts import polar_chart_params, user_act_chart_params,\
     user_wgt_chart_params, oura_sleep_chart_params,chart_bokeh_obj
-from whatSticksWebApp.main.utilsChartsDash import bar_chart_dash
+from whatSticksWebApp.main.utilsChartsDash import polar_bar_chart_dash, oura_sleep_bar_chart_dash
 
 main = Blueprint('main', __name__)
 
@@ -62,9 +62,14 @@ def dashboard(**kwargs):
     current_endpoint=request.url_rule.endpoint
     if at_least_one_record:
         # script1, div1=chart_bokeh_obj(df_dict['df_polar_descriptions'])
-        script1, div1=bar_chart_dash()
+        script1, div1, text_detail_dashed_lines=polar_bar_chart_dash()
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
+
+
+        script_oura_sleep, div_oura_sleep, oura_sleep_text_detail_dashed_lines=oura_sleep_bar_chart_dash()
+
+
         #Timleline table columns
         column_names=['ID','Date and Time','Activity','Duration', 'Rating']
         #Timeline table list
@@ -82,6 +87,9 @@ def dashboard(**kwargs):
         div1=None;script1=None;cdn_js=None;cdn_css=None
         #vars for dataframe that doesn't exist:
         table_lists=None;no_hits_flag=True;column_names=None
+
+
+
     if request.method == 'POST':
         formDict = request.form.to_dict()
         print('formDict::::',formDict)
@@ -92,7 +100,8 @@ def dashboard(**kwargs):
                 delete_record_id=formDict.get('delete_record_id')))
     return render_template('dashboard.html', div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
         default_date=default_date, default_time=default_time,table_data=table_lists,
-        no_hits_flag=no_hits_flag,len=len,column_names=column_names)
+        no_hits_flag=no_hits_flag,len=len,column_names=column_names, text_detail_dashed_lines=text_detail_dashed_lines,
+        script_oura_sleep= script_oura_sleep, div_oura_sleep= div_oura_sleep)
 
 
 @main.route("/for_scientists", methods=["GET","POST"])
