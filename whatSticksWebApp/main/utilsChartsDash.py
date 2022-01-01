@@ -41,7 +41,8 @@ def user_current_age():
 
 #user_hr_list, include dashed lines bool, units for chart
 def polar_bar_chart_dash():
-    user_hr_list=[i[0] for i in Polar_measures.query.filter_by(user_id=current_user.id).with_entities(Polar_measures.heart_rate).all()]
+    current_user_id= current_user.id if current_user.username!="Guest" else 1
+    user_hr_list=[i[0] for i in Polar_measures.query.filter_by(user_id=current_user_id).with_entities(Polar_measures.heart_rate).all()]
     user_polar_hr_avg=int(sum(user_hr_list)/len(user_hr_list))
     wsh_community_avg=user_polar_hr_avg-5
 
@@ -92,8 +93,14 @@ def polar_bar_chart_dash():
 
 
 
-    fig1 = figure(x_range=x_axis_list, height=400, width=800,toolbar_location=None, tools="",
-        y_range=(0,chart_max_height))
+    fig1 = figure(x_range=x_axis_list,
+         height=400,
+        #  width=800,
+         sizing_mode='stretch_width',
+         toolbar_location=None,
+        y_range=(0,chart_max_height), 
+        # sizing_mode = 'stretch_both', tools = 'pan', id = "blue_fig"
+        )
 
     fig1.vbar(x=x_axis_list, top=hr_list, width=.7)
 
@@ -118,6 +125,8 @@ def polar_bar_chart_dash():
     fig1.xaxis.major_tick_line_color = None
     fig1.xaxis.major_label_text_font_size  = text_font_size_wsh
 
+    # fig1.responsive = True
+
     theme_1=curdoc().theme = Theme(filename=current_app.config['BOKEH_THEME'])
     script1, div1 = components(fig1, theme=theme_1)
     return (script1, div1, text_detail_dashed_lines)
@@ -125,7 +134,8 @@ def polar_bar_chart_dash():
 
 
 def oura_sleep_bar_chart_dash():
-    user_sleep_durations_list=[i[0] for i in Oura_sleep_descriptions.query.filter_by(user_id=current_user.id).with_entities(Oura_sleep_descriptions.duration).all()]
+    current_user_id= current_user.id if current_user.username!="Guest" else 1
+    user_sleep_durations_list=[i[0] for i in Oura_sleep_descriptions.query.filter_by(user_id=current_user_id).with_entities(Oura_sleep_descriptions.duration).all()]
     user_sleep_duration_avg_seconds=int(sum(user_sleep_durations_list)/len(user_sleep_durations_list))
     user_sleep_duration_avg_hours=round(user_sleep_duration_avg_seconds/60/60,2)
     wsh_community_avg=round(user_sleep_duration_avg_hours-1,2)
@@ -181,7 +191,7 @@ def oura_sleep_bar_chart_dash():
 
 
 
-    fig1 = figure(x_range=x_axis_list, height=400, width=800,toolbar_location=None, tools="",
+    fig1 = figure(x_range=x_axis_list, height=400, sizing_mode='stretch_width',toolbar_location=None, tools="",
         y_range=(0,chart_max_height))
 
     fig1.vbar(x=x_axis_list, top=sleep_durations_xaxis_list, width=.7)

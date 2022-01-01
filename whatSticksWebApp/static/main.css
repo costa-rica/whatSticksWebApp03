@@ -12276,59 +12276,11 @@ section.LoginSection .container .login_as_guest_box .login_as_guest {
 
 /*Dashboard*/
 section.dashboard {
-  padding: 200px 10px 100px 5px;
-  /*
-    .enter_activity{
-        margin:  80px 0 0 0;
-        border: 1px solid #dddddd;
-        background-color: tan;
-        border-radius: 3em;
-        border-color: rgb(179, 173, 173);
-        border-width: .5em;
-        width: 1000px;
-        height: 300px;
+  padding: 200px 10px 100px 0px;
+}
 
-    }
-    .enter_activity > label{
-    padding: 10px 0 0 10px;
-    }
-    .enter_activity_sub{
-        padding: 10px 0 0 60px;
-        margin-right: 50px;
-    }
-    .enter_activity_sub2{
-        display: grid;
-        grid-template-columns: 13% auto;
-    }
-
-    .btn_right{
-        float: right;
-        margin-right:150px;
-    }
-
-    .modal_header_add{
-        background-color: rgb(179, 173, 173);
-        border-bottom: 0 none;
-    }
-    .modal_body_add{
-        background-color: tan;
-    }
-    .modal-footer {
-        border-top: 0 none;
-    }
-    .btn_green1{
-        background-color: rgb(53, 200, 162);
-        border-color: rgb(170, 170, 170);
-        border-width: .3em;
-        width: 70%;
-        margin-top: 4em;
-    }
-    .btn_blue1{
-        background-color: rgb(53, 162, 200);
-        border-color: rgb(170, 170, 170);
-        border-width: .3em;
-    }
-*/
+section.dashboard .container {
+  padding: 0;
 }
 
 section.dashboard .summary_div {
@@ -12351,7 +12303,8 @@ section.dashboard .summary_div p {
 
 section.dashboard .dash_chart_div {
   margin: 50px 0 0 0;
-  width: 900px;
+  width: 100%;
+  min-width: 400px;
   height: 500px;
   background-color: #20c997;
   border-radius: 3em;
@@ -12419,92 +12372,26 @@ section.dashboard .accordion {
 }
 
 section.dashboard .accordionBackgroundDash {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   border: 5px solid;
   border-color: var(--wshblue);
 }
 
 section.dashboard .dash_info_section {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  margin-left: 3em;
   padding-top: 4em;
 }
 
 section.dashboard .dash_info_section .accordionHeaderBackgroundDashSub {
-  width: 300px;
+  width: 100%;
 }
 
 section.dashboard .dash_info_section .accordionBackgroundDashSub {
-  width: 300px;
+  width: 100%;
   background-color: #3498db;
 }
 
 /*For_scientists*/
 section.for_scientists {
   padding: 200px 10px 100px 5px;
-  /*
-    .enter_activity{
-        margin:  80px 0 0 0;
-        border: 1px solid #dddddd;
-        background-color: tan;
-        border-radius: 3em;
-        border-color: rgb(179, 173, 173);
-        border-width: .5em;
-        width: 1000px;
-        height: 300px;
-
-    }
-    .enter_activity > label{
-    padding: 10px 0 0 10px;
-    }
-    .enter_activity_sub{
-        padding: 10px 0 0 60px;
-        margin-right: 50px;
-    }
-    .enter_activity_sub2{
-        display: grid;
-        grid-template-columns: 13% auto;
-    }
-
-    .btn_right{
-        float: right;
-        margin-right:150px;
-    }
-
-    .modal_header_add{
-        background-color: rgb(179, 173, 173);
-        border-bottom: 0 none;
-    }
-    .modal_body_add{
-        background-color: tan;
-    }
-    .modal-footer {
-        border-top: 0 none;
-    }
-    .btn_blue1{
-        background-color: rgb(53, 162, 200);
-        border-color: rgb(170, 170, 170);
-        border-width: .3em;
-    }
-    .btn_green1{
-        background-color: rgb(53, 200, 162);
-        border-color: rgb(170, 170, 170);
-        border-width: .3em;
-    }
-
-
-    .buttons{
-        margin-top: 20px;
-        margin-left: 50px;
-        display: flex;
-        justify-content: space-between;
-        width: 800px;
-    }
-*/
   /*Delete modal*/
 }
 
@@ -12743,6 +12630,38 @@ section.About .home_link_list {
     -ms-grid-row: 1;
     -ms-grid-column: 2;
     grid-area: right_part;
+  }
+}
+
+@media (min-width: 768px) {
+  section.dashboard .container_dash {
+    padding: 200px 10px 100px 100px;
+  }
+}
+
+@media (min-width: 1400px) {
+  /*Dashboard*/
+  section.dashboard .accordion {
+    padding: 0;
+    margin: 0;
+  }
+  section.dashboard .accordionBackgroundDash {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  section.dashboard .dash_info_section {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-left: 3em;
+    padding-top: 4em;
+  }
+  section.dashboard .dash_info_section .accordionHeaderBackgroundDashSub {
+    width: 300px;
+  }
+  section.dashboard .dash_info_section .accordionBackgroundDashSub {
+    width: 300px;
   }
 }
 /*# sourceMappingURL=main.css.map */
