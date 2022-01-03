@@ -18,6 +18,17 @@
     <script src="../static/bootstrap/table_version/dataTables.bootstrap.min.js"></script>
     <script src="../static/bootstrap/js/dataTables.bootstrap5.min.js"></script>
 
+    <!-- <script src="extensions/resizable/bootstrap-table-resizable.js"></script> -->
+    <!-- Datatable -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
+<script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<!-- <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script> -->
+
+
+
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -40,7 +51,7 @@
     <div class="navbar fixed-top  navbar-light bg-light"> 
 
         <div class="custom_container">
-            <div class="nowrap_containter">
+            <div class="">
                 <a href="{{ url_for('users.home') }}" class="custom_link">
                     <!-- <div class="text_center"> -->
                         <img class="custom_logo_nav " src="../static/images/wshLogo_test300px.png" alt="LB logo">
@@ -54,7 +65,7 @@
             <div class="middle_nav_div">
                 {% if current_user.is_authenticated %}
                 <h2>{{ current_user.username }}</h2>
-                <small>(is currently signed in)</small>
+                <!-- <small>(is currently signed in)</small> -->
                 {% endif %}
             </div>
 

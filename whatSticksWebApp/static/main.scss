@@ -25,30 +25,32 @@ body {
             text-decoration: none;
             display: inline-block;
             white-space: nowrap;
-            img, span {
-                display: inline-block;
-                vertical-align: middle;
-                }
-                span {
-                    font-size:30pt;
-                    padding-left: 10px;
-                    color: rgb(20,149,255);
-                }
-                .custom_logo_nav{
-                width:100px;
-            }
+            // img, span {
+            //     display: inline-block;
+            //     vertical-align: middle;
+            //     }
+                // span {
+                //     display:none;
+                //     // font-size:30pt;
+                //     // padding-left: 10px;
+                //     // color: rgb(20,149,255);
+                // }
+            
+            .custom_logo_nav{width:100px;}
         }
+        .company_name{display:none;}
 
 
-    .navBarLocation{
-        float: right;
-    }
+    // .navBarLocation{
+    //     float: right;
+    // }
     .middle_nav_div{
+        // display:none;
         display: table;
         margin: auto;
 
         h2{
-            margin:0 0 -10px 0;
+            margin:0 60px 0 0;
         }
         small{
             margin:0;
@@ -254,7 +256,7 @@ section.dashboard {
 
     .timeline_records_div{
         margin: 50px 0 0 0;
-        width: 1000px;
+        // width: 100%;
         height: 600px;
         // background-color: rgb(119, 179, 120);
         background-color: $teal;
@@ -276,7 +278,7 @@ section.dashboard {
         border-color: #525252;
         border-style: solid;
         border-width: 1px;
-        width: 95%;
+        // width: 95%;
         // height: 400px;
     }
 
@@ -317,11 +319,11 @@ section.dashboard {
 }
 /*For_scientists*/
 section.for_scientists {
-    padding: 200px 10px 100px 5px;
+    // padding: 200px 10px 100px 5px;
 
     .current_chart_div{
         margin: 50px 0 0 0;
-        width: 1000px;
+        // width: 100%;
         height: 500px;
         // background-color: rgb(119, 179, 120);
         background-color: $teal;
@@ -344,8 +346,8 @@ section.for_scientists {
 
     .timeline_records_div{
         margin: 50px 0 0 0;
-        width: 1000px;
-        height: 600px;
+        // width: 100%;
+        // height: 600px;
         // background-color: rgb(119, 179, 120);
         background-color: $teal;
         border-radius: 3em;
@@ -366,7 +368,7 @@ section.for_scientists {
         border-color: #525252;
         border-style: solid;
         border-width: 1px;
-        width: 95%;
+        // width: 95%;
         // height: 400px;
     }
 
@@ -439,9 +441,160 @@ section.About {
 }
 .sectionWriting {padding:1em; /*background-color:rgb(180, 180, 0)*/}
 
+//Fro screen wider than 450
+@media only screen and (min-width: 570){
+    /*NavBar*/
+    .custom_container{
+        // display: flex;
+        // width:90%;
+        // margin:0 0 0 2.5%;
+
+        .custom_link{
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+            img, span {
+                display: inline-block;
+                vertical-align: middle;
+                }
+            span {
+                font-size:30pt;
+                padding-left: 10px;
+                text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
+            }
+            .custom_logo_nav{
+            width:100px;
+            }
+        }
+
+
+        // .navBarLocation{
+        //     float: right;
+        // }
+        .middle_nav_div{
+            display: table;
+            margin: auto;
+
+            h2{
+                margin:0 0 -10px 0;
+            }
+            small{
+                margin:0;
+            }
+        }
+        // nav {display: none;}
+        .mobile-menu{
+            position: absolute;
+            cursor: pointer;
+            right:55px;
+            top: 30px;
+            height: 30%;
+        }
+        nav.menu-btn{display:block;}
+        nav{
+            position: fixed;
+            z-index: 999;
+            width: 25%;
+            right: 0;
+            top: 0;
+            background: #20272E;
+            height: 100vh;
+            padding: 1em;
+            .ul_primary{
+                margin-top:5em;
+                list-style-type: none;
+            }
+            .li_primary{
+                a{
+                    color: white;
+                    text-decoration: none;
+                    display: block;
+                    padding: .5em;
+                    font-size: 1.3em;
+                    text-align: right;
+                    &:hover {
+                        font-weight: bold;
+                    }
+                }
+                .grey_background{
+                    color: $gray-600;
+                }
+
+            }
+            .button_link{
+                background: $gray-900;
+                // opacity: 0;
+                border: none;
+                // padding: 0!important;
+                padding: 10px 0 10px 50px;
+                width:100%;
+                /*optional*/
+                // font-family: arial, sans-serif;
+                /*input has OS specific font-family*/
+                color: $white;
+                text-decoration: none;
+                cursor: pointer;
+                float:inline-end;
+                // margin-right:10px;
+                font-size:20px;
+            }
+            .button_link:hover{
+                background: $blue;
+            }
+
+        }
+        .mobile-menu-exit{
+            float: right;
+            margin: .5em;
+            cursor: pointer;
+        
+        }
+
+    }
+}
+//For Screen wider than 768
+@include media-breakpoint-up(md) { 
+
+
+    .navbar .custom_container{
+        display: grid;
+        grid-template-columns: 250px auto 350px;
+        width:90%;
+        margin:0 0 0 5%;
+        // padding: 0 5% 0 0;
+        // .text_center{
+        // .nowrap_container{
+        //     overflow: auto;
+        //     white-space: nowrap;
+        .custom_link{
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+            img, span {
+                display: inline-block;
+                vertical-align: middle;
+                }
+            span {
+                font-size:30pt;
+                padding-left: 10px;
+                text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
+            }
+            .custom_logo_nav{width:100px;}
+            // .company_name{padding-left:150px;}
+        }
+        .middle_nav_div{padding-left:150px}
+    }
+}
 
 //For Screen wider than 1080
 @media only screen and (min-width: 1080px) {
+    section.dashboard {
+        .container_dash{
+            padding: 200px 10px 100px 100px;
+        }
+        
+    }
+
     .navbar .custom_container{
         display: grid;
         grid-template-columns: 250px auto 350px;
@@ -549,17 +702,12 @@ section.About {
             }
         }
     }
-
-
-}
-@include media-breakpoint-up(md) { 
-    section.dashboard {
-        .container_dash{
-            padding: 200px 10px 100px 100px;
-        }
-        
+    section.for_scientists {
+        padding: 200px 10px 100px 5px;
     }
+
 }
+//Wider than xxl: 1400px
 @include media-breakpoint-up(xxl) { 
     /*Dashboard*/
     section.dashboard {
@@ -573,18 +721,16 @@ section.About {
         }
         .dash_info_section{
             width:fit-content;
-            // margin-right:0;
             margin-left:3em;
             padding-top:4em;
             .accordionHeaderBackgroundDashSub{
                 width:300px;
-                // margin-right:0;
             }
-            .accordionBackgroundDashSub{
-                width: 300px;
-                // background-color:$cyan ;
-                // margin-right:0;
-            }
+            .accordionBackgroundDashSub{width: 300px;}
         }
     } 
+    .timeline_records_div{margin-left:10%}
 }
+// section.for_scientists {
+//     padding: 200px 10px 100px 5px;
+// }

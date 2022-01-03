@@ -63,7 +63,7 @@ def oura_sleep_chart_params(df_oura_sleep_descriptions):
 def chart_bokeh_obj(chart_params_dict):
     fig1=figure(toolbar_location=None,tools='xwheel_zoom,xpan',active_scroll='xwheel_zoom',
             x_range=(chart_params_dict['chart'][0],chart_params_dict['chart'][1]),
-            y_range=(-10,200),width=900, height=400)
+            y_range=(-10,200),sizing_mode='stretch_width', height=400)
 
     #add cardio_metric1
     circle=fig1.circle(chart_params_dict['polar'][0],chart_params_dict['polar'][1], legend_label="Cardio Performance", fill_color='#c77711', line_color=None,size=20)

@@ -128,8 +128,9 @@
                     No Timeline records found
                 {% else %}
 
-                <div class="table_contents">
-                    <table id="proxies" class="display table nowrap responsive table-hover" style="width:90%">
+                <div class="table_contents table-responsive">
+                    <!-- <table id="proxies" class="display table nowrap table-hover responsive " > -->
+                        <table id="proxies" class="table display nowrap responsive" style="width: 100%">
                         <thead>
                             <tr>
                                 {% for i in column_names %}
@@ -141,7 +142,7 @@
                         <tbody>
                         {% for row in table_data %}
                             <tr>
-                                <td>
+                                <td >
                                     <button type="button" class="dash_id_button"
                                      data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{ row[0] }}">{{ row[0] }}</button>
                                 </td>
@@ -209,11 +210,13 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
 </script>
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $('#proxies').DataTable({"aaSorting": []});
+</script> -->
+
+<script type="text/javascript">
+    $('#proxies').DataTable();
 </script>
-
-
 
 <script src="{{ cdn_js[0] }}" crossorigin="anonymous"></script>
 <script type="text/javascript">

@@ -12072,23 +12072,12 @@ body {
   white-space: nowrap;
 }
 
-.custom_container .custom_link img, .custom_container .custom_link span {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.custom_container .custom_link span {
-  font-size: 30pt;
-  padding-left: 10px;
-  color: #1495ff;
-}
-
 .custom_container .custom_link .custom_logo_nav {
   width: 100px;
 }
 
-.custom_container .navBarLocation {
-  float: right;
+.custom_container .company_name {
+  display: none;
 }
 
 .custom_container .middle_nav_div {
@@ -12097,7 +12086,7 @@ body {
 }
 
 .custom_container .middle_nav_div h2, .custom_container .middle_nav_div .h2 {
-  margin: 0 0 -10px 0;
+  margin: 0 60px 0 0;
 }
 
 .custom_container .middle_nav_div small, .custom_container .middle_nav_div .small {
@@ -12330,7 +12319,6 @@ section.dashboard .bokeh_div {
 
 section.dashboard .timeline_records_div {
   margin: 50px 0 0 0;
-  width: 1000px;
   height: 600px;
   background-color: #20c997;
   border-radius: 3em;
@@ -12351,7 +12339,6 @@ section.dashboard .table_contents {
   border-color: #525252;
   border-style: solid;
   border-width: 1px;
-  width: 95%;
 }
 
 section.dashboard .dash_id_button:hover {
@@ -12391,13 +12378,11 @@ section.dashboard .dash_info_section .accordionBackgroundDashSub {
 
 /*For_scientists*/
 section.for_scientists {
-  padding: 200px 10px 100px 5px;
   /*Delete modal*/
 }
 
 section.for_scientists .current_chart_div {
   margin: 50px 0 0 0;
-  width: 1000px;
   height: 500px;
   background-color: #20c997;
   border-radius: 3em;
@@ -12419,8 +12404,6 @@ section.for_scientists .bokeh_div {
 
 section.for_scientists .timeline_records_div {
   margin: 50px 0 0 0;
-  width: 1000px;
-  height: 600px;
   background-color: #20c997;
   border-radius: 3em;
   border: 1px solid #dddddd;
@@ -12440,7 +12423,6 @@ section.for_scientists .table_contents {
   border-color: #525252;
   border-style: solid;
   border-width: 1px;
-  width: 95%;
 }
 
 section.for_scientists .dash_id_button:hover {
@@ -12526,7 +12508,131 @@ section.About .home_link_list {
   /*background-color:rgb(180, 180, 0)*/
 }
 
+@media only screen and (min-width: 570) {
+  /*NavBar*/
+  .custom_container .custom_link {
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .custom_container .custom_link img, .custom_container .custom_link span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .custom_container .custom_link span {
+    font-size: 30pt;
+    padding-left: 10px;
+    text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
+  }
+  .custom_container .custom_link .custom_logo_nav {
+    width: 100px;
+  }
+  .custom_container .middle_nav_div {
+    display: table;
+    margin: auto;
+  }
+  .custom_container .middle_nav_div h2, .custom_container .middle_nav_div .h2 {
+    margin: 0 0 -10px 0;
+  }
+  .custom_container .middle_nav_div small, .custom_container .middle_nav_div .small {
+    margin: 0;
+  }
+  .custom_container .mobile-menu {
+    position: absolute;
+    cursor: pointer;
+    right: 55px;
+    top: 30px;
+    height: 30%;
+  }
+  .custom_container nav.menu-btn {
+    display: block;
+  }
+  .custom_container nav {
+    position: fixed;
+    z-index: 999;
+    width: 25%;
+    right: 0;
+    top: 0;
+    background: #20272E;
+    height: 100vh;
+    padding: 1em;
+  }
+  .custom_container nav .ul_primary {
+    margin-top: 5em;
+    list-style-type: none;
+  }
+  .custom_container nav .li_primary a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: .5em;
+    font-size: 1.3em;
+    text-align: right;
+  }
+  .custom_container nav .li_primary a:hover {
+    font-weight: bold;
+  }
+  .custom_container nav .li_primary .grey_background {
+    color: #888;
+  }
+  .custom_container nav .button_link {
+    background: #222;
+    border: none;
+    padding: 10px 0 10px 50px;
+    width: 100%;
+    /*optional*/
+    /*input has OS specific font-family*/
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    float: inline-end;
+    font-size: 20px;
+  }
+  .custom_container nav .button_link:hover {
+    background: #375a7f;
+  }
+  .custom_container .mobile-menu-exit {
+    float: right;
+    margin: .5em;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar .custom_container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 250px auto 350px;
+        grid-template-columns: 250px auto 350px;
+    width: 90%;
+    margin: 0 0 0 5%;
+  }
+  .navbar .custom_container .custom_link {
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .navbar .custom_container .custom_link img, .navbar .custom_container .custom_link span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .navbar .custom_container .custom_link span {
+    font-size: 30pt;
+    padding-left: 10px;
+    text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
+  }
+  .navbar .custom_container .custom_link .custom_logo_nav {
+    width: 100px;
+  }
+  .navbar .custom_container .middle_nav_div {
+    padding-left: 150px;
+  }
+}
+
 @media only screen and (min-width: 1080px) {
+  section.dashboard .container_dash {
+    padding: 200px 10px 100px 100px;
+  }
   .navbar .custom_container {
     display: -ms-grid;
     display: grid;
@@ -12631,11 +12737,8 @@ section.About .home_link_list {
     -ms-grid-column: 2;
     grid-area: right_part;
   }
-}
-
-@media (min-width: 768px) {
-  section.dashboard .container_dash {
-    padding: 200px 10px 100px 100px;
+  section.for_scientists {
+    padding: 200px 10px 100px 5px;
   }
 }
 
@@ -12662,6 +12765,9 @@ section.About .home_link_list {
   }
   section.dashboard .dash_info_section .accordionBackgroundDashSub {
     width: 300px;
+  }
+  .timeline_records_div {
+    margin-left: 10%;
   }
 }
 /*# sourceMappingURL=main.css.map */
