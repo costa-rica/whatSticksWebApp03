@@ -130,7 +130,7 @@
 
                 <div class="table_contents table-responsive">
                     <!-- <table id="proxies" class="display table nowrap table-hover responsive " > -->
-                        <table id="proxies" class="table display nowrap responsive" style="width: 100%">
+                        <table id="proxies" class="table display nowrap responsive " style="width: 100%">
                         <thead>
                             <tr>
                                 {% for i in column_names %}
@@ -141,8 +141,8 @@
                         </thead>
                         <tbody>
                         {% for row in table_data %}
-                            <tr>
-                                <td >
+                            <tr class="">
+                                <td class="">
                                     <button type="button" class="dash_id_button"
                                      data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{ row[0] }}">{{ row[0] }}</button>
                                 </td>

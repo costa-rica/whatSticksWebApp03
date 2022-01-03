@@ -12049,6 +12049,7 @@ fieldset:disabled .btn {
 
 :root {
   --wshblue: rgb(20,149,255);
+  --tableColor: #77b3af;
 }
 
 body {
@@ -12347,6 +12348,18 @@ section.dashboard .dash_id_button:hover {
   padding: 3px 7px 5px;
   top: -5px;
   right: -5px;
+}
+
+section.dashboard table td {
+  background-color: var(--tableColor);
+}
+
+section.dashboard table.dataTable.display tbody tr.odd > .sorting_1, section.dashboard table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+  background-color: var(--tableColor);
+}
+
+section.dashboard table.dataTable.order-column tbody tr > .sorting_1, section.dashboard table.dataTable.order-column tbody tr > .sorting_2, section.dashboard table.dataTable.order-column tbody tr > .sorting_3, section.dashboard table.dataTable.display tbody tr > .sorting_1, section.dashboard table.dataTable.display tbody tr > .sorting_2, section.dashboard table.dataTable.display tbody tr > .sorting_3 {
+  background-color: var(--tableColor);
 }
 
 section.dashboard .hide_textbox {

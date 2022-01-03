@@ -6,7 +6,7 @@
 // @import "bootstrap/scss/_accordion";
 :root {
     --wshblue: rgb(20,149,255);
-    
+    --tableColor: #77b3af;
   }
 body {
     // background: rgb(127, 160, 189);
@@ -281,7 +281,10 @@ section.dashboard {
         // width: 95%;
         // height: 400px;
     }
-
+    // .left_table_column{
+    //     padding-left:50px;
+    // }
+    // .dash_id_button{width:100px;}
     .dash_id_button:hover{
         background: #E54E4E;
         background-size: contain;
@@ -289,6 +292,19 @@ section.dashboard {
         top: -5px;
         right: -5px;
     }
+
+
+    //Below are bootstrap table row attritbutes for non id columns
+    table td{
+        background-color: var(--tableColor);
+    }
+
+    //Below are bootstrap table row attritbutes for id column ODDs
+    // table.dataTable.display tbody tr.odd>.sorting_1,table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{background-color:#f1f1f1}
+    table.dataTable.display tbody tr.odd>.sorting_1,table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{background-color:var(--tableColor)}
+    //Below are bootstrap table row attritbutes for id column EVENS
+    // table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:#fafafa}
+    table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:var(--tableColor)}
     .hide_textbox{
         display:none;
     }
@@ -313,9 +329,7 @@ section.dashboard {
             background-color:$cyan ;
             // margin-right:0;
         }
-    }
-
-    
+    }    
 }
 /*For_scientists*/
 section.for_scientists {
