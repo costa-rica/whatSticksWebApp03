@@ -97,7 +97,7 @@ def polar_bar_chart_dash():
          height=400,
         #  width=800,
          sizing_mode='stretch_width',
-         toolbar_location=None,
+         toolbar_location=None, tools="",
         y_range=(0,chart_max_height), 
         # sizing_mode = 'stretch_both', tools = 'pan', id = "blue_fig"
         )

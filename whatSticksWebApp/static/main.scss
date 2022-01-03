@@ -20,41 +20,18 @@ body {
     display: flex;
     width:90%;
     margin:0 0 0 2.5%;
-
         .custom_link{
             text-decoration: none;
             display: inline-block;
             white-space: nowrap;
-            // img, span {
-            //     display: inline-block;
-            //     vertical-align: middle;
-            //     }
-                // span {
-                //     display:none;
-                //     // font-size:30pt;
-                //     // padding-left: 10px;
-                //     // color: rgb(20,149,255);
-                // }
-            
             .custom_logo_nav{width:100px;}
         }
-        .company_name{display:none;}
-
-
-    // .navBarLocation{
-    //     float: right;
-    // }
+    .company_name{display:none;}
     .middle_nav_div{
-        // display:none;
         display: table;
         margin: auto;
-
-        h2{
-            margin:0 60px 0 0;
-        }
-        small{
-            margin:0;
-        }
+        h2{margin:0 60px 0 0;}
+        small{margin:0;}
     }
     nav {display: none;}
     .mobile-menu{
@@ -68,12 +45,12 @@ body {
     nav{
         position: fixed;
         z-index: 999;
-        width: 25%;
+        width: 40%;
         right: 0;
         top: 0;
         background: #20272E;
         height: 100vh;
-        padding: 1em;
+        margin-left: 0;
         .ul_primary{
             margin-top:5em;
             list-style-type: none;
@@ -83,24 +60,21 @@ body {
                 color: white;
                 text-decoration: none;
                 display: block;
-                padding: .5em;
+                padding: .5em 10px .5em 0;
+                // margin-right:10px;
                 font-size: 1.3em;
                 text-align: right;
-                &:hover {
-                    font-weight: bold;
-                }
+                &:hover {font-weight: bold;}
             }
-            .grey_background{
-                color: $gray-600;
+            .grey_background{color: $gray-600;}
+            .dropdown-menu{
+                margin:0 0 0 -20%;
             }
-
         }
         .button_link{
             background: $gray-900;
-            // opacity: 0;
             border: none;
-            // padding: 0!important;
-            padding: 10px 0 10px 50px;
+            padding: 10px 10px 10px 50px;
             width:100%;
             /*optional*/
             // font-family: arial, sans-serif;
@@ -109,21 +83,19 @@ body {
             text-decoration: none;
             cursor: pointer;
             float:inline-end;
-            // margin-right:10px;
             font-size:20px;
+            text-align: right;
         }
         .button_link:hover{
             background: $blue;
         }
-
+        // .wsh_items_alignment{float:right}
     }
     .mobile-menu-exit{
         float: right;
         margin: .5em;
         cursor: pointer;
-    
     }
-
 }
 
 .wider_input_login{
@@ -217,7 +189,6 @@ section.dashboard {
     .container{padding:0}
     .summary_div{
         background-color: $secondary;
-        // background-color: rgb(68,68,68);
         border-radius: 3em;
         border: 1px solid #dddddd;
         border-color: rgb(179, 173, 173);
@@ -228,13 +199,10 @@ section.dashboard {
         p {margin-left: 3em;}
     }
     .dash_chart_div{
-        margin: 50px 0 0 0;
         width: 100%;
-        min-width:400px;
+        min-width:200px;
         height: 500px;
-        // background-color: rgb(119, 179, 120);
         background-color: $teal;
-        // background-color: rgb(33, 133, 53);
         border-radius: 3em;
         border: 1px solid #dddddd;
         border-color: rgb(179, 173, 173);
@@ -243,22 +211,20 @@ section.dashboard {
             margin-left: 2em;
         }
     }
-    .current_chart_div > label{
-        padding: 5px 0 0 30px;
-    }
+    // .current_chart_div > label{
+    //     padding: 5px 0 0 30px;
+    // }
     .bokeh_div{
-        padding-left: 20px;
-        
+        padding-left: 10px;
         margin-right: 10px;
-        margin-left:10px;
+        // margin-left:10px;
         border-radius: 1.5em;
     }
 
     .timeline_records_div{
         margin: 50px 0 0 0;
-        // width: 100%;
-        height: 600px;
-        // background-color: rgb(119, 179, 120);
+        padding: 10px;
+        height: 680px;
         background-color: $teal;
         border-radius: 3em;
         border: 1px solid #dddddd;
@@ -272,19 +238,13 @@ section.dashboard {
     .table_contents {
         font-size: .7em;
         background: #77b3af;
-        // background:$pink;
-        margin: 0 0 0 20px;
-        padding: 3px;
+        margin: 0 0 0 0;
+        padding-top: 5px;
         border-color: #525252;
         border-style: solid;
         border-width: 1px;
-        // width: 95%;
-        // height: 400px;
     }
-    // .left_table_column{
-    //     padding-left:50px;
-    // }
-    // .dash_id_button{width:100px;}
+
     .dash_id_button:hover{
         background: #E54E4E;
         background-size: contain;
@@ -305,6 +265,7 @@ section.dashboard {
     //Below are bootstrap table row attritbutes for id column EVENS
     // table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:#fafafa}
     table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:var(--tableColor)}
+    
     .hide_textbox{
         display:none;
     }
@@ -333,7 +294,7 @@ section.dashboard {
 }
 /*For_scientists*/
 section.for_scientists {
-    // padding: 200px 10px 100px 5px;
+    padding: 200px 0 0 0;
 
     .current_chart_div{
         margin: 50px 0 0 0;
@@ -352,7 +313,6 @@ section.for_scientists {
     }
     .bokeh_div{
         padding-left: 20px;
-        
         margin-right: 10px;
         margin-left:10px;
         border-radius: 1.5em;
@@ -360,9 +320,8 @@ section.for_scientists {
 
     .timeline_records_div{
         margin: 50px 0 0 0;
-        // width: 100%;
-        // height: 600px;
-        // background-color: rgb(119, 179, 120);
+        padding: 10px;
+        height: 680px;
         background-color: $teal;
         border-radius: 3em;
         border: 1px solid #dddddd;
@@ -376,14 +335,11 @@ section.for_scientists {
     .table_contents {
         font-size: .7em;
         background: #77b3af;
-        // background:$pink;
-        margin: 0 0 0 20px;
-        padding: 3px;
+        margin: 0 0 0 0;
+        padding-top: 5px;
         border-color: #525252;
         border-style: solid;
         border-width: 1px;
-        // width: 95%;
-        // height: 400px;
     }
 
     .dash_id_button:hover{
@@ -393,7 +349,18 @@ section.for_scientists {
         top: -5px;
         right: -5px;
     }
+    //Below are bootstrap table row attritbutes for non id columns
+    table td{
+        background-color: var(--tableColor);
+    }
 
+    //Below are bootstrap table row attritbutes for id column ODDs
+    // table.dataTable.display tbody tr.odd>.sorting_1,table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{background-color:#f1f1f1}
+    table.dataTable.display tbody tr.odd>.sorting_1,table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{background-color:var(--tableColor)}
+    //Below are bootstrap table row attritbutes for id column EVENS
+    // table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:#fafafa}
+    table.dataTable.order-column tbody tr>.sorting_1,table.dataTable.order-column tbody tr>.sorting_2,table.dataTable.order-column tbody tr>.sorting_3,table.dataTable.display tbody tr>.sorting_1,table.dataTable.display tbody tr>.sorting_2,table.dataTable.display tbody tr>.sorting_3{background-color:var(--tableColor)}
+    
     /*Delete modal*/
     .hide_textbox{
         display:none;
@@ -455,135 +422,48 @@ section.About {
 }
 .sectionWriting {padding:1em; /*background-color:rgb(180, 180, 0)*/}
 
-//Fro screen wider than 450
-@media only screen and (min-width: 570){
+//Fro screen wider than 570px
+@media only screen and (min-width: 570px){
     /*NavBar*/
     .custom_container{
-        // display: flex;
-        // width:90%;
-        // margin:0 0 0 2.5%;
-
         .custom_link{
-            text-decoration: none;
-            display: inline-block;
-            white-space: nowrap;
             img, span {
                 display: inline-block;
                 vertical-align: middle;
                 }
             span {
+                // background-color: red;
                 font-size:30pt;
                 padding-left: 10px;
                 text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
             }
-            .custom_logo_nav{
-            width:100px;
-            }
-        }
-
-
-        // .navBarLocation{
-        //     float: right;
-        // }
-        .middle_nav_div{
-            display: table;
-            margin: auto;
-
-            h2{
-                margin:0 0 -10px 0;
-            }
-            small{
-                margin:0;
-            }
-        }
-        // nav {display: none;}
-        .mobile-menu{
-            position: absolute;
-            cursor: pointer;
-            right:55px;
-            top: 30px;
-            height: 30%;
-        }
-        nav.menu-btn{display:block;}
+        }      
         nav{
-            position: fixed;
-            z-index: 999;
-            width: 25%;
-            right: 0;
-            top: 0;
-            background: #20272E;
-            height: 100vh;
-            padding: 1em;
-            .ul_primary{
-                margin-top:5em;
-                list-style-type: none;
-            }
+            width: 35%;
             .li_primary{
-                a{
-                    color: white;
-                    text-decoration: none;
-                    display: block;
-                    padding: .5em;
-                    font-size: 1.3em;
-                    text-align: right;
-                    &:hover {
-                        font-weight: bold;
-                    }
+                .dropdown-menu{
+                    margin:0 0 0 -5%;
                 }
-                .grey_background{
-                    color: $gray-600;
-                }
-
             }
-            .button_link{
-                background: $gray-900;
-                // opacity: 0;
-                border: none;
-                // padding: 0!important;
-                padding: 10px 0 10px 50px;
-                width:100%;
-                /*optional*/
-                // font-family: arial, sans-serif;
-                /*input has OS specific font-family*/
-                color: $white;
-                text-decoration: none;
-                cursor: pointer;
-                float:inline-end;
-                // margin-right:10px;
-                font-size:20px;
-            }
-            .button_link:hover{
-                background: $blue;
-            }
-
         }
-        .mobile-menu-exit{
-            float: right;
-            margin: .5em;
-            cursor: pointer;
-        
-        }
-
     }
 }
 //For Screen wider than 768
 @include media-breakpoint-up(md) { 
-
-
+    section.dashboard {
+        .timeline_records_div{
+            height: 620px;
+        }
+    }
+    section.for_scientists {
+        .timeline_records_div{
+            height: 620px;
+        }
+    }
     .navbar .custom_container{
         display: grid;
         grid-template-columns: 250px auto 350px;
-        width:90%;
-        margin:0 0 0 5%;
-        // padding: 0 5% 0 0;
-        // .text_center{
-        // .nowrap_container{
-        //     overflow: auto;
-        //     white-space: nowrap;
         .custom_link{
-            text-decoration: none;
-            display: inline-block;
-            white-space: nowrap;
             img, span {
                 display: inline-block;
                 vertical-align: middle;
@@ -593,10 +473,16 @@ section.About {
                 padding-left: 10px;
                 text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
             }
-            .custom_logo_nav{width:100px;}
-            // .company_name{padding-left:150px;}
         }
         .middle_nav_div{padding-left:150px}
+        nav{
+            width: 30%;
+            // .li_primary{
+            //     .dropdown-menu{
+            //         margin:0 0 0 30%;
+            //     }
+            // }
+        }
     }
 }
 
@@ -604,50 +490,16 @@ section.About {
 @media only screen and (min-width: 1080px) {
     section.dashboard {
         .container_dash{
-            padding: 200px 10px 100px 100px;
+            padding: 0 10px 0 100px;
         }
-        
     }
 
     .navbar .custom_container{
-        display: grid;
-        grid-template-columns: 250px auto 350px;
-        width:90%;
-        margin:0 0 0 5%;
-        // padding: 0 5% 0 0;
-        // .text_center{
-        // .nowrap_container{
-        //     overflow: auto;
-        //     white-space: nowrap;
-            .custom_link{
-                text-decoration: none;
-                display: inline-block;
-                white-space: nowrap;
-                img, span {
-                    display: inline-block;
-                    vertical-align: middle;
-                    }
-                    span {
-                        font-size:30pt;
-                        padding-left: 10px;
-                        text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
-                    }
-                    .custom_logo_nav{
-                    width:100px;
-                }
-            }
         .middle_nav_div{
-            // display:grid;
-            // justify-items: right;
-            // grid-row-gap: 0px;
-            // background-color: red;
             display: table;
             margin: auto;
             h2{
                 margin:0 0 -10px 0;
-            }
-            small{
-                margin:0;
             }
         }
     }
@@ -655,41 +507,44 @@ section.About {
     .mobile-menu, .mobile-menu-exit {
         display: none;
     }
-    .custom_container nav {
+    .custom_container {
         display: flex;
         justify-content: space-between;
         background: none;
         position: unset;
         height: auto;
         width: 100%;
-        
-        .ul_primary {
+        nav {
             display: flex;
-            margin:0;
-            padding: 1em 10em 0 0;
-        }
-        a {
-            color: black;
-            font-size: 1em;
-            // padding: .1em 1em;
-            // padding: 0 2em 0 0;
-        }
-        .li_primary {
-            border-left:1px solid ;
-            margin: 0; padding: 0;
-            border-top-left-radius: 10px;
-        }
-        .li_primary.current a {
-            font-weight: bold;
-        }
-        .gray_font {
-            color: $gray-800;
-        }
-        .dark_bg{
-            background-color:$gray-600;
-            // margin: .9em;
-            // border-radius: .05em;
-            border-top-left-radius: 10px;
+            justify-content: space-between;
+            background: none;
+            position: unset;
+            height: auto;
+            .ul_primary {
+                display: flex;
+                margin:0;
+                padding: 1em 10em 0 0;
+            }
+            a {
+                color: black;
+                font-size: 1em;
+            }
+            .li_primary {
+                border-left:1px solid ;
+                margin: 0; padding: 0;
+                border-top-left-radius: 10px;
+                .dropdown-menu{
+                    margin-left:-60px;
+                    margin-top:-20px;
+                    width:180px;
+                    .button_link{
+                        padding: 10px 10px 10px 0;
+                    }
+                }
+            }
+            .li_primary.current a {
+                font-weight: bold;
+            }
         }
     }
 
@@ -725,7 +580,9 @@ section.About {
 @include media-breakpoint-up(xxl) { 
     /*Dashboard*/
     section.dashboard {
-        
+        .container_dash{
+            padding: 0 100px 0 100px;
+        }
         .accordion{padding:0;margin:0;}
         .accordionBackgroundDash{
             display: flex;

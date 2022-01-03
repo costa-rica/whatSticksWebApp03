@@ -12113,12 +12113,12 @@ body {
 .custom_container nav {
   position: fixed;
   z-index: 999;
-  width: 25%;
+  width: 40%;
   right: 0;
   top: 0;
   background: #20272E;
   height: 100vh;
-  padding: 1em;
+  margin-left: 0;
 }
 
 .custom_container nav .ul_primary {
@@ -12130,7 +12130,7 @@ body {
   color: white;
   text-decoration: none;
   display: block;
-  padding: .5em;
+  padding: .5em 10px .5em 0;
   font-size: 1.3em;
   text-align: right;
 }
@@ -12143,10 +12143,14 @@ body {
   color: #888;
 }
 
+.custom_container nav .li_primary .dropdown-menu {
+  margin: 0 0 0 -20%;
+}
+
 .custom_container nav .button_link {
   background: #222;
   border: none;
-  padding: 10px 0 10px 50px;
+  padding: 10px 10px 10px 50px;
   width: 100%;
   /*optional*/
   /*input has OS specific font-family*/
@@ -12155,6 +12159,7 @@ body {
   cursor: pointer;
   float: inline-end;
   font-size: 20px;
+  text-align: right;
 }
 
 .custom_container nav .button_link:hover {
@@ -12292,9 +12297,8 @@ section.dashboard .summary_div p {
 }
 
 section.dashboard .dash_chart_div {
-  margin: 50px 0 0 0;
   width: 100%;
-  min-width: 400px;
+  min-width: 200px;
   height: 500px;
   background-color: #20c997;
   border-radius: 3em;
@@ -12307,20 +12311,16 @@ section.dashboard .dash_chart_div label {
   margin-left: 2em;
 }
 
-section.dashboard .current_chart_div > label {
-  padding: 5px 0 0 30px;
-}
-
 section.dashboard .bokeh_div {
-  padding-left: 20px;
+  padding-left: 10px;
   margin-right: 10px;
-  margin-left: 10px;
   border-radius: 1.5em;
 }
 
 section.dashboard .timeline_records_div {
   margin: 50px 0 0 0;
-  height: 600px;
+  padding: 10px;
+  height: 680px;
   background-color: #20c997;
   border-radius: 3em;
   border: 1px solid #dddddd;
@@ -12335,8 +12335,8 @@ section.dashboard .timeline_records_div > label {
 section.dashboard .table_contents {
   font-size: .7em;
   background: #77b3af;
-  margin: 0 0 0 20px;
-  padding: 3px;
+  margin: 0 0 0 0;
+  padding-top: 5px;
   border-color: #525252;
   border-style: solid;
   border-width: 1px;
@@ -12391,6 +12391,7 @@ section.dashboard .dash_info_section .accordionBackgroundDashSub {
 
 /*For_scientists*/
 section.for_scientists {
+  padding: 200px 0 0 0;
   /*Delete modal*/
 }
 
@@ -12417,6 +12418,8 @@ section.for_scientists .bokeh_div {
 
 section.for_scientists .timeline_records_div {
   margin: 50px 0 0 0;
+  padding: 10px;
+  height: 680px;
   background-color: #20c997;
   border-radius: 3em;
   border: 1px solid #dddddd;
@@ -12431,8 +12434,8 @@ section.for_scientists .timeline_records_div > label {
 section.for_scientists .table_contents {
   font-size: .7em;
   background: #77b3af;
-  margin: 0 0 0 20px;
-  padding: 3px;
+  margin: 0 0 0 0;
+  padding-top: 5px;
   border-color: #525252;
   border-style: solid;
   border-width: 1px;
@@ -12444,6 +12447,18 @@ section.for_scientists .dash_id_button:hover {
   padding: 3px 7px 5px;
   top: -5px;
   right: -5px;
+}
+
+section.for_scientists table td {
+  background-color: var(--tableColor);
+}
+
+section.for_scientists table.dataTable.display tbody tr.odd > .sorting_1, section.for_scientists table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+  background-color: var(--tableColor);
+}
+
+section.for_scientists table.dataTable.order-column tbody tr > .sorting_1, section.for_scientists table.dataTable.order-column tbody tr > .sorting_2, section.for_scientists table.dataTable.order-column tbody tr > .sorting_3, section.for_scientists table.dataTable.display tbody tr > .sorting_1, section.for_scientists table.dataTable.display tbody tr > .sorting_2, section.for_scientists table.dataTable.display tbody tr > .sorting_3 {
+  background-color: var(--tableColor);
 }
 
 section.for_scientists .hide_textbox {
@@ -12521,13 +12536,8 @@ section.About .home_link_list {
   /*background-color:rgb(180, 180, 0)*/
 }
 
-@media only screen and (min-width: 570) {
+@media only screen and (min-width: 570px) {
   /*NavBar*/
-  .custom_container .custom_link {
-    text-decoration: none;
-    display: inline-block;
-    white-space: nowrap;
-  }
   .custom_container .custom_link img, .custom_container .custom_link span {
     display: inline-block;
     vertical-align: middle;
@@ -12537,93 +12547,26 @@ section.About .home_link_list {
     padding-left: 10px;
     text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
   }
-  .custom_container .custom_link .custom_logo_nav {
-    width: 100px;
-  }
-  .custom_container .middle_nav_div {
-    display: table;
-    margin: auto;
-  }
-  .custom_container .middle_nav_div h2, .custom_container .middle_nav_div .h2 {
-    margin: 0 0 -10px 0;
-  }
-  .custom_container .middle_nav_div small, .custom_container .middle_nav_div .small {
-    margin: 0;
-  }
-  .custom_container .mobile-menu {
-    position: absolute;
-    cursor: pointer;
-    right: 55px;
-    top: 30px;
-    height: 30%;
-  }
-  .custom_container nav.menu-btn {
-    display: block;
-  }
   .custom_container nav {
-    position: fixed;
-    z-index: 999;
-    width: 25%;
-    right: 0;
-    top: 0;
-    background: #20272E;
-    height: 100vh;
-    padding: 1em;
+    width: 35%;
   }
-  .custom_container nav .ul_primary {
-    margin-top: 5em;
-    list-style-type: none;
-  }
-  .custom_container nav .li_primary a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: .5em;
-    font-size: 1.3em;
-    text-align: right;
-  }
-  .custom_container nav .li_primary a:hover {
-    font-weight: bold;
-  }
-  .custom_container nav .li_primary .grey_background {
-    color: #888;
-  }
-  .custom_container nav .button_link {
-    background: #222;
-    border: none;
-    padding: 10px 0 10px 50px;
-    width: 100%;
-    /*optional*/
-    /*input has OS specific font-family*/
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-    float: inline-end;
-    font-size: 20px;
-  }
-  .custom_container nav .button_link:hover {
-    background: #375a7f;
-  }
-  .custom_container .mobile-menu-exit {
-    float: right;
-    margin: .5em;
-    cursor: pointer;
+  .custom_container nav .li_primary .dropdown-menu {
+    margin: 0 0 0 -5%;
   }
 }
 
 @media (min-width: 768px) {
+  section.dashboard .timeline_records_div {
+    height: 620px;
+  }
+  section.for_scientists .timeline_records_div {
+    height: 620px;
+  }
   .navbar .custom_container {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 250px auto 350px;
         grid-template-columns: 250px auto 350px;
-    width: 90%;
-    margin: 0 0 0 5%;
-  }
-  .navbar .custom_container .custom_link {
-    text-decoration: none;
-    display: inline-block;
-    white-space: nowrap;
   }
   .navbar .custom_container .custom_link img, .navbar .custom_container .custom_link span {
     display: inline-block;
@@ -12634,42 +12577,17 @@ section.About .home_link_list {
     padding-left: 10px;
     text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
   }
-  .navbar .custom_container .custom_link .custom_logo_nav {
-    width: 100px;
-  }
   .navbar .custom_container .middle_nav_div {
     padding-left: 150px;
+  }
+  .navbar .custom_container nav {
+    width: 30%;
   }
 }
 
 @media only screen and (min-width: 1080px) {
   section.dashboard .container_dash {
-    padding: 200px 10px 100px 100px;
-  }
-  .navbar .custom_container {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 250px auto 350px;
-        grid-template-columns: 250px auto 350px;
-    width: 90%;
-    margin: 0 0 0 5%;
-  }
-  .navbar .custom_container .custom_link {
-    text-decoration: none;
-    display: inline-block;
-    white-space: nowrap;
-  }
-  .navbar .custom_container .custom_link img, .navbar .custom_container .custom_link span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .navbar .custom_container .custom_link span {
-    font-size: 30pt;
-    padding-left: 10px;
-    text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
-  }
-  .navbar .custom_container .custom_link .custom_logo_nav {
-    width: 100px;
+    padding: 0 10px 0 100px;
   }
   .navbar .custom_container .middle_nav_div {
     display: table;
@@ -12678,11 +12596,20 @@ section.About .home_link_list {
   .navbar .custom_container .middle_nav_div h2, .navbar .custom_container .middle_nav_div .h2 {
     margin: 0 0 -10px 0;
   }
-  .navbar .custom_container .middle_nav_div small, .navbar .custom_container .middle_nav_div .small {
-    margin: 0;
-  }
   .mobile-menu, .mobile-menu-exit {
     display: none;
+  }
+  .custom_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    background: none;
+    position: unset;
+    height: auto;
+    width: 100%;
   }
   .custom_container nav {
     display: -webkit-box;
@@ -12694,7 +12621,6 @@ section.About .home_link_list {
     background: none;
     position: unset;
     height: auto;
-    width: 100%;
   }
   .custom_container nav .ul_primary {
     display: -webkit-box;
@@ -12713,15 +12639,16 @@ section.About .home_link_list {
     padding: 0;
     border-top-left-radius: 10px;
   }
+  .custom_container nav .li_primary .dropdown-menu {
+    margin-left: -60px;
+    margin-top: -20px;
+    width: 180px;
+  }
+  .custom_container nav .li_primary .dropdown-menu .button_link {
+    padding: 10px 10px 10px 0;
+  }
   .custom_container nav .li_primary.current a {
     font-weight: bold;
-  }
-  .custom_container nav .gray_font {
-    color: #303030;
-  }
-  .custom_container nav .dark_bg {
-    background-color: #888;
-    border-top-left-radius: 10px;
   }
   /*Login*/
   section.LoginSection {
@@ -12757,6 +12684,9 @@ section.About .home_link_list {
 
 @media (min-width: 1400px) {
   /*Dashboard*/
+  section.dashboard .container_dash {
+    padding: 0 100px 0 100px;
+  }
   section.dashboard .accordion {
     padding: 0;
     margin: 0;
