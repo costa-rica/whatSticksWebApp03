@@ -37,9 +37,9 @@ body {
     .mobile-menu{
         position: absolute;
         cursor: pointer;
-        right:55px;
-        top: 30px;
-        height: 30%;
+        right:25px;
+        top: 50px;
+        height: 20%;
     }
     nav.menu-btn{display:block;}
     nav{
@@ -194,7 +194,7 @@ section.dashboard {
         border-color: rgb(179, 173, 173);
         border-width: .5em;
         padding: 10px 0 10px 10px;
-        margin: 0 0 0 0;
+        margin: 0 0 50px 0;
         h2{ margin-left:1em}
         p {margin-left: 3em;}
     }
@@ -434,10 +434,18 @@ section.About {
             span {
                 // background-color: red;
                 font-size:30pt;
-                padding-left: 10px;
+                padding-left: 0;
                 text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black; 
             }
-        }      
+
+        }
+        // .mobile-menu{
+        //     position: absolute;
+        //     cursor: pointer;
+        //     right:55px;
+        //     top: 30px;
+        //     height: 30%;
+        // }
         nav{
             width: 35%;
             .li_primary{
@@ -579,9 +587,11 @@ section.About {
 //Wider than xxl: 1400px
 @include media-breakpoint-up(xxl) { 
     /*Dashboard*/
+    section{ max-width: 1400px;}
     section.dashboard {
         .container_dash{
             padding: 0 100px 0 100px;
+            // max-width: 1400px;
         }
         .accordion{padding:0;margin:0;}
         .accordionBackgroundDash{
@@ -602,6 +612,4 @@ section.About {
     } 
     .timeline_records_div{margin-left:10%}
 }
-// section.for_scientists {
-//     padding: 200px 10px 100px 5px;
-// }
+

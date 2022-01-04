@@ -46,6 +46,19 @@ def about(**kwargs):#<-- must have **kwargs with @nav_add_data
     default_time=kwargs.get('default_time')
     return render_template('about.html',**kwargs)
 
+@main.route("/privacy", methods=["GET","POST"])
+@nav_add_data
+def privacy(**kwargs):#<-- must have **kwargs with @nav_add_data
+    default_date=kwargs.get('default_date')
+    default_time=kwargs.get('default_time')
+    return render_template('privacyStatement.html',**kwargs)
+
+@main.route("/contactus", methods=["GET","POST"])
+@nav_add_data
+def contactus(**kwargs):#<-- must have **kwargs with @nav_add_data
+    default_date=kwargs.get('default_date')
+    default_time=kwargs.get('default_time')
+    return render_template('contactUs.html',**kwargs)
 
 @main.route("/dashboard", methods=["GET","POST"])
 @nav_add_data

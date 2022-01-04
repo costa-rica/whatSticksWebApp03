@@ -80,10 +80,10 @@
                     {% if current_user.is_authenticated %}
                                        
                     <li class="nav-item dropdown li_primary">
-                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown"role="button"
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown1"role="button"
                             data-bs-toggle="dropdown"aria-expanded="false">Your Data</a>
 
-                            <div class="dropdown-menu wsh_items_alignment" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu wsh_items_alignment" aria-labelledby="navbarDropdown1">
                                 <a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a>
                                 <a class="dropdown-item" href="{{ url_for('main.upload_health_data') }}">Link/Add Device</a>
 
@@ -97,7 +97,22 @@
                             </div>
                     </li>
                     
-                    <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('main.about') }}">About</a></li>
+                    <!-- <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('main.about') }}">About</a></li> -->
+
+                    <li class="nav-item dropdown li_primary">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown2"role="button"
+                            data-bs-toggle="dropdown"aria-expanded="false">About</a>
+
+                            <div class="dropdown-menu wsh_items_alignment" aria-labelledby="navbarDropdown2">
+                                <a class="dropdown-item" href="{{ url_for('main.about') }}">About</a>
+                                <a class="dropdown-item" href="{{ url_for('main.privacy') }}">Privacy</a>
+                                <a class="dropdown-item" href="{{ url_for('main.contactus') }}">Contact Us</a>
+                            </div>
+                    </li>
+
+
+
+                    
                     <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('users.logout') }}">Logout</a></li>
                     {% else %}
                     <li class="nav-item li_primary"><a class="nav-link" href="{{ url_for('users.login') }}">Login</a></li>

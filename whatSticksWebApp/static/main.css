@@ -12101,9 +12101,9 @@ body {
 .custom_container .mobile-menu {
   position: absolute;
   cursor: pointer;
-  right: 55px;
-  top: 30px;
-  height: 30%;
+  right: 25px;
+  top: 50px;
+  height: 20%;
 }
 
 .custom_container nav.menu-btn {
@@ -12285,7 +12285,7 @@ section.dashboard .summary_div {
   border-color: #b3adad;
   border-width: .5em;
   padding: 10px 0 10px 10px;
-  margin: 0 0 0 0;
+  margin: 0 0 50px 0;
 }
 
 section.dashboard .summary_div h2, section.dashboard .summary_div .h2 {
@@ -12544,7 +12544,7 @@ section.About .home_link_list {
   }
   .custom_container .custom_link span {
     font-size: 30pt;
-    padding-left: 10px;
+    padding-left: 0;
     text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
   }
   .custom_container nav {
@@ -12684,6 +12684,9 @@ section.About .home_link_list {
 
 @media (min-width: 1400px) {
   /*Dashboard*/
+  section {
+    max-width: 1400px;
+  }
   section.dashboard .container_dash {
     padding: 0 100px 0 100px;
   }
