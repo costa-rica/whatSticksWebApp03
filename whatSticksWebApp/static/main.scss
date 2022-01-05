@@ -1,9 +1,8 @@
 @import "bootswatch/dist/darkly/variables";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/darkly/bootswatch";
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,300&display=swap');
-// @import "bootstrap/scss/_accordion";
+
 :root {
     --wshblue: rgb(20,149,255);
     --tableColor: #77b3af;
@@ -45,7 +44,7 @@ body {
     nav{
         position: fixed;
         z-index: 999;
-        width: 40%;
+        width: 55%;
         right: 0;
         top: 0;
         background: #20272E;
@@ -104,6 +103,10 @@ body {
 .short_input_login{
     width: 50px;
 }
+/*Reset Password*/
+section.ResetPasswordSection{
+    padding: 200px 10px 100px 5px;
+}
 /*Register*/
 section.RegisterSection{
     padding: 200px 10px 100px 5px;
@@ -154,6 +157,10 @@ section.LoginSection {
         grid-template-areas: 
         "left_part"
         "right_part";
+        .forgotPwdOrRegister{
+            a{padding: 0 5px 0 5px;}
+            .registerLink{padding-left:15px}
+        }
         .register_box, .login_as_guest_box{
             background-color: $gray-700;
             border: 1px solid $gray-300;
@@ -162,24 +169,12 @@ section.LoginSection {
             border-color:$gray-600;
             width:350px;
             height:150px;
-            padding-left:90px;
-            padding-top:45px;
-            a {font-size: 2.5em;}
-            margin-bottom:.25em;
-        }
-        .login_as_guest_box{
-            a {font-size: 2em;}
             padding-left:55px;
-            // background-color: $gray-500;
-            .login_as_guest{
-                margin:0;
-                padding:0;
-            //     background-color: $teal;
-            //     // border-radius: 3em;
-                width:150px;
-            //     padding-left:10px;
-            }
+            padding-top:35px;
+            a {font-size: 2em;}
         }
+
+        .right_part{padding:10px 0 0 0}
     }
 }
 
@@ -496,6 +491,20 @@ section.About {
 
 //For Screen wider than 1080
 @media only screen and (min-width: 1080px) {
+
+    /*Login*/
+    section.LoginSection {
+        padding: 200px 10px 100px 5px;
+        .container{
+            display:grid;
+            grid-template-columns: 50% 50%;
+            grid-template-areas: 
+            "left_part right_part";
+            .left_part{grid-area:left_part}
+            .right_part{grid-area:right_part}
+        }
+    }
+    section.for_scientists {padding: 200px 10px 100px 5px;}
     section.dashboard {
         .container_dash{
             padding: 0 10px 0 100px;
@@ -550,39 +559,9 @@ section.About {
                     }
                 }
             }
-            .li_primary.current a {
-                font-weight: bold;
-            }
+            .li_primary.current a {font-weight: bold;}
         }
     }
-
-
-    /*Login*/
-    section.LoginSection {
-        padding: 200px 10px 100px 5px;
-        .container{
-            display:grid;
-            grid-template-columns: 50% 50%;
-            grid-template-areas: 
-            "left_part right_part";
-            .login_as_guest{
-                background-color: rgb(195, 233, 231);
-                border-radius: 3em;
-                width:150px;
-                padding-left:10px;
-            }
-            .left_part{
-                grid-area:left_part
-            }
-            .right_part{
-                grid-area:right_part
-            }
-        }
-    }
-    section.for_scientists {
-        padding: 200px 10px 100px 5px;
-    }
-
 }
 //Wider than xxl: 1400px
 @include media-breakpoint-up(xxl) { 

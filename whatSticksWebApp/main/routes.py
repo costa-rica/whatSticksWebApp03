@@ -114,7 +114,8 @@ def dashboard(**kwargs):
     return render_template('dashboard.html', div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
         default_date=default_date, default_time=default_time,table_data=table_lists,
         no_hits_flag=no_hits_flag,len=len,column_names=column_names, text_detail_dashed_lines=text_detail_dashed_lines,
-        script_oura_sleep= script_oura_sleep, div_oura_sleep= div_oura_sleep)
+        script_oura_sleep= script_oura_sleep, div_oura_sleep= div_oura_sleep,
+        oura_sleep_text_detail_dashed_lines=oura_sleep_text_detail_dashed_lines)
 
 
 @main.route("/for_scientists", methods=["GET","POST"])

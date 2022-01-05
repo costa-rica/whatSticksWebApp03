@@ -25,15 +25,24 @@ from flask import current_app
 
 
 def heart_org_excel(age):
-    wsh_home_dir=current_app.config['WSH_HOME_DIR']
-    heart_excel_path=os.path.join(current_app.config['WSH_HOME_DIR'],'heart_org_data.xlsx')
+    # wsh_home_dir=current_app.config['WSH_HOME_DIR']
+    heart_excel_path=os.path.join(current_app.config['WSH_HOME_DIR'],'_externalData','heart_org_data.xlsx')
     heart_df=pd.read_excel(heart_excel_path)
-    bpm_50=heart_df.loc[heart_df.Age>=age,'50_bpm'].min()
-    bpm_85=heart_df.loc[heart_df.Age>=age,'85_bpm'].min()
+    min_age=heart_df.loc[heart_df['Age']<=age,'Age'].max()
+    bpm_50=heart_df.loc[heart_df.Age==min_age,'50_bpm'].min()
+    bpm_85=heart_df.loc[heart_df.Age==min_age,'85_bpm'].min()
     return (bpm_50, bpm_85)
 
-def user_current_age():
-    bday=Users.query.filter_by(id=1).with_entities(Users.birthdate).first()[0]
+def sleep_foundation_excel(age):
+    sleep_excel_path=os.path.join(current_app.config['WSH_HOME_DIR'],'_externalData','sleepFoundation.xlsx')
+    sleep_df=pd.read_excel(sleep_excel_path)
+    min_age=sleep_df.loc[sleep_df['min age']<=age,'min age'].max()
+    min_sleep=sleep_df.loc[sleep_df['min age']==min_age,'min hours'].min()
+    max_sleep=sleep_df.loc[sleep_df['min age']==min_age,'max hours'].min()
+    return(min_sleep, max_sleep)
+
+def user_current_age(current_user_id):
+    bday=Users.query.filter_by(id=current_user_id).with_entities(Users.birthdate).first()[0]
     today=datetime.date.today()
     age=today-bday
     age=int(age.days/365)
@@ -56,7 +65,7 @@ def polar_bar_chart_dash():
     text_font_size_wsh='14px'
 
     #get user age from database
-    user_age=user_current_age()
+    user_age=user_current_age(current_user_id)
 
     #labels for each bar
     source_user_avg_hr = ColumnDataSource(dict(x=[user_x_label], y=[user_polar_hr_avg+2], text=[str(user_polar_hr_avg)+label_note]))
@@ -150,8 +159,8 @@ def oura_sleep_bar_chart_dash():
     text_font_size_wsh='14px'
 
     #get user age from database
-    user_age=user_current_age()
-
+    user_age=user_current_age(current_user_id)
+    
     chart_label_buffer=1
 
     #labels for each bar
@@ -166,27 +175,27 @@ def oura_sleep_bar_chart_dash():
 
     #get corresponding heart.org 50 and 85% thresholds
     # bpm_50, bpm_85=heart_org_excel(user_age)
-    bpm_50, bpm_85=(4.5, 9)
+    min_sleep, max_sleep=sleep_foundation_excel(user_age)
 
     text_detail_dashed_lines=f"""
-    Bottom dashed line is {bpm_50} beats per minute (bpm), which is 50% of your peer group. Top dashed line is
-    {bpm_85} bpm, which is 85% exertion of your peer group.
+    Bottom dashed line is {min_sleep} hours of sleep, which is lower end recommended for your peer group. Top dashed line is
+    {max_sleep} hours of sleep, which is recommended for your peer group.
     """
 
     #horizaontal line 50% based on user age
-    hline_50pct_bpm = Span(location=bpm_50, dimension='width', line_color='gray', line_width=1, line_dash='dashed')
+    hline_50pct_bpm = Span(location=min_sleep, dimension='width', line_color='gray', line_width=1, line_dash='dashed')
     # source_50pct_bpm = ColumnDataSource(dict(x=[''], y=[bpm_50+2], text=[str(bpm_50)+f" bpm - 50%"]))
     # glyph_50pct_bpm = Text(text="text", text_color="#414444", text_font_size={'value': text_font_size_wsh},
     #             x_offset=-100,angle=0)
     
     #horizaontal line 85% based on user age
-    hline_85pct_bpm = Span(location=bpm_85, dimension='width', line_color='gray', line_width=1, line_dash='dashed')
+    hline_85pct_bpm = Span(location=max_sleep, dimension='width', line_color='gray', line_width=1, line_dash='dashed')
     # source_85pct_bpm = ColumnDataSource(dict(x=[''], y=[bpm_85+2], text=[str(bpm_85)+f" bpm - 85%"]))
     # glyph_85pct_bpm = Text(text="text", text_color="#414444", text_font_size={'value': text_font_size_wsh},
     #             x_offset=-100,angle=0)
 
     #make list of dashed lines and bar chart values
-    values_list=[user_sleep_duration_avg_hours, wsh_community_avg, bpm_50, bpm_85]
+    values_list=[user_sleep_duration_avg_hours, wsh_community_avg, min_sleep, max_sleep]
     chart_max_height=max(values_list)+3
 
 

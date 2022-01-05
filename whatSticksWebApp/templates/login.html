@@ -52,8 +52,9 @@
 
                     <div class="form-group">
                         {{ form.submit(class="submit-button1") }}
-                        <small class="text-muted blacktext">
+                        <small class="forgotPwdOrRegister">
                             <a href="{{ url_for('users.reset_password') }}">forgot password?</a>
+                            <a class="registerLink" href="{{ url_for('users.register') }}">register</a>
                         </small>
                     </div>
                 </div>
@@ -61,9 +62,9 @@
         </div>
 
             <div class="right_part">
-                <div class="register_box">
+                <!-- <div class="register_box">
                     <a href="{{ url_for('users.register') }}">Register</a>
-                </div>
+                </div> -->
                 <div class="login_as_guest_box">
                     <div class=''>
                         <a href="{{ url_for('users.login', email_entry='guest@what-sticks-health.com', pass_entry='test' ) }}">

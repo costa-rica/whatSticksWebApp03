@@ -12113,7 +12113,7 @@ body {
 .custom_container nav {
   position: fixed;
   z-index: 999;
-  width: 40%;
+  width: 55%;
   right: 0;
   top: 0;
   background: #20272E;
@@ -12180,6 +12180,11 @@ body {
   width: 50px;
 }
 
+/*Reset Password*/
+section.ResetPasswordSection {
+  padding: 200px 10px 100px 5px;
+}
+
 /*Register*/
 section.RegisterSection {
   padding: 200px 10px 100px 5px;
@@ -12238,6 +12243,14 @@ section.LoginSection .container {
       grid-template-areas: "left_part" "right_part";
 }
 
+section.LoginSection .container .forgotPwdOrRegister a {
+  padding: 0 5px 0 5px;
+}
+
+section.LoginSection .container .forgotPwdOrRegister .registerLink {
+  padding-left: 15px;
+}
+
 section.LoginSection .container .register_box, section.LoginSection .container .login_as_guest_box {
   background-color: #444;
   border: 1px solid #dee2e6;
@@ -12246,27 +12259,16 @@ section.LoginSection .container .register_box, section.LoginSection .container .
   border-color: #888;
   width: 350px;
   height: 150px;
-  padding-left: 90px;
-  padding-top: 45px;
-  margin-bottom: .25em;
+  padding-left: 55px;
+  padding-top: 35px;
 }
 
 section.LoginSection .container .register_box a, section.LoginSection .container .login_as_guest_box a {
-  font-size: 2.5em;
-}
-
-section.LoginSection .container .login_as_guest_box {
-  padding-left: 55px;
-}
-
-section.LoginSection .container .login_as_guest_box a {
   font-size: 2em;
 }
 
-section.LoginSection .container .login_as_guest_box .login_as_guest {
-  margin: 0;
-  padding: 0;
-  width: 150px;
+section.LoginSection .container .right_part {
+  padding: 10px 0 0 0;
 }
 
 /*Dashboard*/
@@ -12586,6 +12588,30 @@ section.About .home_link_list {
 }
 
 @media only screen and (min-width: 1080px) {
+  /*Login*/
+  section.LoginSection {
+    padding: 200px 10px 100px 5px;
+  }
+  section.LoginSection .container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 50% 50%;
+        grid-template-columns: 50% 50%;
+        grid-template-areas: "left_part right_part";
+  }
+  section.LoginSection .container .left_part {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    grid-area: left_part;
+  }
+  section.LoginSection .container .right_part {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    grid-area: right_part;
+  }
+  section.for_scientists {
+    padding: 200px 10px 100px 5px;
+  }
   section.dashboard .container_dash {
     padding: 0 10px 0 100px;
   }
@@ -12649,36 +12675,6 @@ section.About .home_link_list {
   }
   .custom_container nav .li_primary.current a {
     font-weight: bold;
-  }
-  /*Login*/
-  section.LoginSection {
-    padding: 200px 10px 100px 5px;
-  }
-  section.LoginSection .container {
-    display: -ms-grid;
-    display: grid;
-    -ms-grid-columns: 50% 50%;
-        grid-template-columns: 50% 50%;
-        grid-template-areas: "left_part right_part";
-  }
-  section.LoginSection .container .login_as_guest {
-    background-color: #c3e9e7;
-    border-radius: 3em;
-    width: 150px;
-    padding-left: 10px;
-  }
-  section.LoginSection .container .left_part {
-    -ms-grid-row: 1;
-    -ms-grid-column: 1;
-    grid-area: left_part;
-  }
-  section.LoginSection .container .right_part {
-    -ms-grid-row: 1;
-    -ms-grid-column: 2;
-    grid-area: right_part;
-  }
-  section.for_scientists {
-    padding: 200px 10px 100px 5px;
   }
 }
 
