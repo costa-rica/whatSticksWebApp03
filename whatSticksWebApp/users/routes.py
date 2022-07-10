@@ -5,7 +5,7 @@ from flask import render_template, url_for, redirect, flash, request, abort, ses
 from whatSticksWebApp import db, bcrypt, mail
 from whatSticksWebApp.models import Users, Posts
 from whatSticksWebApp.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, \
-    RequestResetForm, ResetPasswordForm, LoginForm2
+    RequestResetForm, ResetPasswordForm
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
@@ -15,14 +15,40 @@ from sqlalchemy import func
 import pandas as pd
 import io
 from wsgiref.util import FileWrapper
-import xlsxwriter
-from flask_mail import Message
-from whatSticksWebApp.users.utils import save_picture, send_reset_email, userPermission, \
-    formatExcelHeader
+# import xlsxwriter
+# from flask_mail import Message
+from whatSticksWebApp.users.utils import send_reset_email, \
+    formatExcelHeader, send_confirm_email
 import pytz
 import zoneinfo
 import sqlalchemy as sa
-from whatSticksWebApp.utilsDecorators import nav_add_data
+# from whatSticksWebApp.utilsDecorator import nav_add_data
+from whatSticksWebApp.utils import logs_dir
+import logging
+from logging.handlers import RotatingFileHandler
+
+
+
+# #Setting up Logger
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+formatter_terminal = logging.Formatter('%(asctime)s:%(filename)s:%(name)s:%(message)s')
+
+logger_users = logging.getLogger(__name__)
+logger_users.setLevel(logging.DEBUG)
+logger_terminal = logging.getLogger('terminal logger')
+logger_terminal.setLevel(logging.DEBUG)
+
+file_handler = RotatingFileHandler(os.path.join(logs_dir,'users.log'), mode='a', maxBytes=5*1024*1024,backupCount=2)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter_terminal)
+
+logger_terminal.handlers.clear()
+logger_users.addHandler(file_handler)
+logger_terminal.addHandler(stream_handler)
+
+# #End set up logger
 
 
 users = Blueprint('users', __name__)
@@ -32,10 +58,10 @@ users = Blueprint('users', __name__)
 @users.route("/home", methods=["GET","POST"])
 def home(**kwargs):
     if 'users' in sa.inspect(db.engine).get_table_names():
-        print('db already exists')
+        logger_users.info(f'db already exists')
     else:
         db.create_all()
-        print('db created')
+        logger_users.info(f'db created')
 
     return render_template('home.html',**kwargs)
 
@@ -46,24 +72,21 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('users.home'))
     form= RegistrationForm()
+    
+    # make_optional(form.birthdate)
     if request.method == 'POST':
         formDict = request.form.to_dict()
-        print('formDict:::',formDict)
+        # print('formDict:', formDict)
+        # print(dir(form))
         if form.validate_on_submit():
             hashed_password=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-            # userPermission1=userPermission(form.email.data)
-            # if userPermission1[0]:
-                # user=User(email=form.email.data, password=hashed_password, permission=userPermission1[1])
-            # else:
             user=Users(email=form.email.data, password=hashed_password, username=form.username.data,
                 birthdate=form.birthdate.data)
             db.session.add(user)
             db.session.commit()
             # new_user=db.session.query(Users).filter(Users.email=='nickapeed@yahoo.com').first()
             new_user=db.session.query(Users).filter(Users.email==form.email.data).first()
-            if formDict.get('gender_input'):
-                print('is there gender_input?????')
-                
+            if formDict.get('gender_input'):              
                 # dmrData = User.query.get_or_404(new_user.id)
                 new_user.gender=formDict.get('gender_input')
                 db.session.commit()
@@ -71,9 +94,13 @@ def register():
                 new_user.height_feet=formDict.get('feet_input')
                 new_user.height_inches=formDict.get('inches_input')
                 db.session.commit()
+            
+            logger_users.info(f'succesful register: {form.email.data}')
+            send_confirm_email(form.email.data)
             flash(f'You are now registered! You can login.', 'success')
             return redirect(url_for('users.login'))
         else:
+            logger_users.info(f'unsuccesful register: {form.email.data}')
             flash(f'Did you mis type something? Check: 1) email is actually an email 2) password and confirm password match.', 'warning')
             return redirect(url_for('users.register'))
     return render_template('register.html', title='Register',form=form)
@@ -81,21 +108,17 @@ def register():
 
 @users.route("/login", methods=["GET","POST"])
 def login():
-    # print('***in login form****')
     if current_user.is_authenticated:
         return redirect(url_for('users.home'))
-    form = LoginForm2()
-    print('request.args::::',request.args)
+    form = LoginForm()
     email_entry=request.args.get('email_entry')
     pass_entry=request.args.get('pass_entry')
     if request.args.get('email_entry'):
         form.email.data=request.args.get('email_entry')
         form.password.data=request.args.get('pass_entry')
-        print('pass_entry:::', request.args.get('pass_entry'))
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            print('login - form.validate_on_submit worked')
             user=Users.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password,form.password.data):
                 login_user(user, remember=form.remember.data)
@@ -205,7 +228,6 @@ def database_page():
             
             timeStamp = datetime.now().strftime("%y%m%d_%H%M%S")
             workbook_name=f"database_tables{timeStamp}.xlsx"
-            print('reportName:::', workbook_name)
             excelObj=pd.ExcelWriter(os.path.join(current_app.config['FILES_DATABASE'], workbook_name),
                 date_format='yyyy/mm/dd', datetime_format='yyyy/mm/dd')
             workbook=excelObj.book

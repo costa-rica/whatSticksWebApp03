@@ -13,14 +13,13 @@ from sqlalchemy import func, desc
 import pandas as pd
 import json
 import zipfile
-from whatSticksWebApp.main.utils import plot_text_format, \
-    get_user_tz_util,format_duration
-from bokeh.plotting import figure, output_file
-from bokeh.embed import components
+from whatSticksWebApp.main.utils import get_user_tz_util
+# from bokeh.plotting import figure, output_file
+# from bokeh.embed import components
 from bokeh.resources import CDN
-from bokeh.io import curdoc
-from bokeh.themes import built_in_themes
-from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, Text
+# from bokeh.io import curdoc
+# from bokeh.themes import built_in_themes
+# from bokeh.models import ColumnDataSource, Grid, LinearAxis, Plot, Text
 import pytz
 import zoneinfo
 from pytz import timezone
@@ -30,10 +29,36 @@ from whatSticksWebApp.main.utilsOura import link_oura
 from whatSticksWebApp.main.utilsDashTableData import data_dfs, user_activity_list, polar_list,\
     oura_sleep_list, leading_zeros_count
 from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
-from whatSticksWebApp.utilsDecorators import nav_add_data
+from whatSticksWebApp.utilsDecorator import nav_add_data
+from whatSticksWebApp.utils import logs_dir
 from whatSticksWebApp.main.utilsCharts import polar_chart_params, user_act_chart_params,\
     user_wgt_chart_params, oura_sleep_chart_params,chart_bokeh_obj
 from whatSticksWebApp.main.utilsChartsDash import polar_bar_chart_dash, oura_sleep_bar_chart_dash
+import logging
+from logging.handlers import RotatingFileHandler
+
+
+# #Setting up Logger
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+formatter_terminal = logging.Formatter('%(asctime)s:%(filename)s:%(name)s:%(message)s')
+
+logger_main = logging.getLogger(__name__)
+logger_main.setLevel(logging.DEBUG)
+# logger_terminal = logging.getLogger('terminal logger')
+# logger_terminal.setLevel(logging.DEBUG)
+
+file_handler = RotatingFileHandler(os.path.join(logs_dir,'main.log'), mode='a', maxBytes=5*1024*1024,backupCount=2)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter_terminal)
+
+# logger_terminal.handlers.clear()
+logger_main.addHandler(file_handler)
+logger_main.addHandler(stream_handler)
+
+# #End set up logger
+
 
 main = Blueprint('main', __name__)
 
@@ -42,6 +67,7 @@ main = Blueprint('main', __name__)
 @main.route("/about", methods=["GET","POST"])
 @nav_add_data
 def about(**kwargs):#<-- must have **kwargs with @nav_add_data
+    logger_main.info(f'***In about page***')
     default_date=kwargs.get('default_date')
     default_time=kwargs.get('default_time')
     return render_template('about.html',**kwargs)
@@ -64,6 +90,7 @@ def contactus(**kwargs):#<-- must have **kwargs with @nav_add_data
 @nav_add_data
 @login_required
 def dashboard(**kwargs):
+    
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
     df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
@@ -105,7 +132,7 @@ def dashboard(**kwargs):
 
     if request.method == 'POST':
         formDict = request.form.to_dict()
-        print('formDict::::',formDict)
+        logger_main.info(f'dashboard--post formDict::: {formDict}')
         if formDict.get('submit_upload_health')=='True':
             return redirect(url_for('main.upload_health_data'))
         elif formDict.get('delete_record_id'):
@@ -122,6 +149,7 @@ def dashboard(**kwargs):
 @nav_add_data
 @login_required
 def for_scientists(**kwargs):
+    # logger_main.info(f'for_scientists--requests::: {request.args}')
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
     df_dict=data_dfs()
@@ -144,8 +172,12 @@ def for_scientists(**kwargs):
         chart_params_dict['chart']=[max(chart_params_dict['polar'][0]) -timedelta(days=7),
             max(chart_params_dict['polar'][0])+ timedelta(days=7)]
         #get script1 and div1 objs using params
-    
+
         script1, div1=chart_bokeh_obj(chart_params_dict)
+        # print('***********************')
+        # print('script1:::', script1)
+        # print('***********************')
+        # print('div1', div1)
         # script1, div1=chart_scripts(df_dict['df_polar_descriptions'])
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
@@ -166,10 +198,9 @@ def for_scientists(**kwargs):
         div1=None;script1=None;cdn_js=None;cdn_css=None
         #vars for dataframe that doesn't exist:
         table_lists=None;no_hits_flag=True;column_names=None
-        print('no_hits_flag::', no_hits_flag)
     if request.method == 'POST':
         formDict = request.form.to_dict()
-        print('formDict::::',formDict)
+        logger_main.info(f'for_scientists--post formDict::: {formDict}')
         if formDict.get('submit_upload_health')=='True':
             return redirect(url_for('main.upload_health_data'))
         elif formDict.get('delete_record_id'):
@@ -183,6 +214,7 @@ def for_scientists(**kwargs):
 @main.route("/delete_record",methods=["GET","POST"])
 @login_required
 def delete_record(*args,**kwargs):
+    logger_main.info(f'delete_record--requests::: {request.args}')
     delete_record_id=request.args.get('delete_record_id')
     previous_endpoint=request.args.get('current_endpoint')
     del_record_id_int=int(delete_record_id[-1*leading_zeros_count:])
@@ -204,6 +236,7 @@ def delete_record(*args,**kwargs):
 @main.route("/add_weight",methods=["GET","POST"])
 @login_required
 def add_weight(**kwargs):
+    logger_main.info(f'add_weight--requests::: {request.args}')
     where_r_we=request.args.get('where_r_we')
     weight=request.args.get('weight')
     user_tz = get_user_tz_util()
@@ -222,7 +255,7 @@ def add_weight(**kwargs):
 @main.route("/add_activity",methods=["GET","POST"])
 @login_required
 def add_activity(**kwargs):
-    print('add_activity--requests:::',request.args)
+    logger_main.info(f'add_activity--requests::: {request.args}')
     where_r_we=request.args.get('where_r_we')
     var_activity=request.args.get('var_activity')
     notes=request.args.get('notes')
@@ -258,27 +291,21 @@ def upload_health_data(**kwargs):
     current_user_id=kwargs.get('current_user_id')
     print('current_user_id::',current_user_id)
     print('kwargs',kwargs)
+    
     if request.method == 'POST':
         print('POST method')
         formDict = request.form.to_dict()
         filesDict = request.files.to_dict()
         print('formDict:::', formDict)
         print('filesDict:::', filesDict)
-        # if current_user.username=='Guest':
-        #     flash('Cannot add data as guest', 'warning')
-        #     return redirect(url_for('main.upload_health_data'))
-        # KUSS4SVDAKKVZQVIQSRCIFK2ORNAB6C2
+
 
         if formDict.get('upload_file_button'):
-            print('upload_file_button accessed')
-            # print(dir(filesDict.get('uploaded_file')))
-            # print('filename:::',filesDict.get('uploaded_file').filename)
             if filesDict.get('uploaded_file').filename=='':
                 flash(f'File not selected', 'warning')
                 return redirect(url_for('main.upload_health_data'))
 
-            print('upload button pressed')
-
+            logger_main.info(f'upload_file_button pressed')
 
             #save file
             uploaded_file = request.files['uploaded_file']
@@ -312,6 +339,7 @@ def upload_health_data(**kwargs):
             df_description.to_sql('polar_descriptions',db.engine, if_exists='append',index=False)
             df_measure.to_sql('polar_measures',db.engine, if_exists='append',index=False)
 
+            logger_main.info(f'polar data uploaded for user_id: {current_user_id}')
             flash(f'Successfully uploaded ' + str(session_count) +' Polar sessions', 'success')
             return redirect(url_for('main.upload_health_data'))
 
@@ -325,6 +353,7 @@ def upload_health_data(**kwargs):
             current_user.oura_token=personal_token
             db.session.commit()
             sleep_entries_count=link_oura(personal_token, current_user_id)
+            logger_main.info(f'Oura sleep data linked for user_id: {current_user_id}')
             flash(f'Successfully uploaded ' + str(sleep_entries_count) +' Oura sleep entries', 'success')
             return redirect(url_for('main.upload_health_data'))
 

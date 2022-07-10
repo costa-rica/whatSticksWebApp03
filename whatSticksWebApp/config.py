@@ -17,11 +17,16 @@ else:
 class Config:
     SECRET_KEY = config.get('SECRET_KEY_DMR')
     SQLALCHEMY_DATABASE_URI = config.get('SQL_URI_WHAT_STICKS')
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
+    # MAIL_SERVER = 'smtp.googlemail.com'
+    # MAIL_PORT = 587
+    MAIL_SERVER = config.get('MAIL_SERVER_MSOFFICE')
+    MAIL_PORT = config.get('MAIL_PORT')
     MAIL_USE_TLS = True
-    MAIL_PASSWORD = config.get('MAIL_PASSWORD_KM')
-    MAIL_USERNAME = config.get('MAIL_USERNAME_KM')
+    MAIL_PASSWORD = config.get('MAIL_PASSWORD_DD')
+    MAIL_USERNAME = config.get('MAIL_EMAIL_DD')
+    # MAIL_USE_TLS = True
+    # MAIL_PASSWORD = config.get('MAIL_PASSWORD_KM')
+    # MAIL_USERNAME = config.get('MAIL_USERNAME_KM')
     DEBUG = True
     WSH_HOME_DIR=os.path.join(os.path.dirname(__file__))
     UPLOADED_FILES_FOLDER = os.path.join(os.path.dirname(__file__), 'static/files_uploaded')

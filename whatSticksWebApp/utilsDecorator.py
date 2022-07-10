@@ -4,10 +4,32 @@ from whatSticksWebApp.main.utils import plot_text_format, chart_scripts,\
 from datetime import datetime, date, time, timedelta
 import datetime
 import requests
-from flask import render_template, url_for, redirect, flash, request, abort, session,\
-    Response, current_app, send_from_directory
+from flask import url_for, redirect, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
+import os
+import logging
+from whatSticksWebApp.utils import logs_dir
+from logging.handlers import RotatingFileHandler
+
+#Setting up Logger
+formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
+formatter_terminal = logging.Formatter('%(asctime)s:%(filename)s:%(name)s:%(message)s')
+
+logger_decorator = logging.getLogger('app_package')
+logger_decorator.setLevel(logging.DEBUG)
+
+file_handler = RotatingFileHandler(os.path.join(logs_dir,'utilsDecorator.log'), mode='a', maxBytes=5*1024*1024,backupCount=2)
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter_terminal)
+
+logger_decorator.addHandler(file_handler)
+logger_decorator.addHandler(stream_handler)
+
+#End set up logger
+
 
 def nav_add_data(function):
     @wraps(function)
@@ -18,14 +40,16 @@ def nav_add_data(function):
         kwargs['default_time']=datetime.datetime.now().astimezone(kwargs['user_tz']).strftime("%H:%M")
         kwargs['where_r_we']=request.url_rule.endpoint
         kwargs['current_user_id']=current_user.id
-
+        logger_decorator.info(f'**nav_add_data fired')
         if request.method == 'POST':
             if current_user.username=='Guest':
                 flash('Cannot add to data as Guest','info')
-                print('if current user is guest')
+                # print('if current user is guest')
+                logger_decorator.info(f'Current user is Guest')
                 return redirect(url_for(kwargs['where_r_we']))
             formDict = request.form.to_dict()
-            print('formDict in wrapper::::',formDict)
+            # print('formDict in wrapper::::',formDict)
+            logger_decorator.info(f'nav_add_data fired - formDict:{formDict}')
             #these params get passed to redirect endpoint:
             where_r_we=request.url_rule.endpoint
             activity_date=formDict.get('activity_date')

@@ -55,22 +55,12 @@
                         {{ form.password(class="wider_input_login form-control") }}
                         {% endif %}
                     </div>
+                    <div>
+                        {{ form.show_password(id = 'password_checkbox') }}
+                        {{form.show_password.label }}
+                    </div>
 
-                    <div class="confirm_password-label">
-                        {{ form.confirm_password.label(class="") }}
-                    </div>
-                    <div class="confirm_password-input">
-                        {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="wider_input_login form-control") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        {{ form.confirm_password(class="wider_input_login form-control") }}
-                        {% endif %}
-                    </div>
+
 
                     <div class="optional_info">
                         <h4>Optional Personal Data</h4>
@@ -118,4 +108,20 @@
             </form>
         </div>
     </section>
+<script>
+    window.addEventListener("load", function(){
+        var checkbox  = document.getElementById('password_checkbox');
+        var x = document.getElementById('{{form.password.id}}');
+        checkbox.addEventListener('change', function() {
+            if(this.checked) {
+                x.type = 'text'; 
+            } else {
+                x.type = 'password'; 
+            }
+        });
+    });
+</script>
+
+
+
 {% endblock %}

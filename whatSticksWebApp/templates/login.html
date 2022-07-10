@@ -46,8 +46,8 @@
 
 
                     <div class="form-check">
-                        {{ form.remember(class="form-check-input") }}
-                        {{ form.remember.label(class="form-check-label") }}
+                        {{ form.show_password(class="form-check-input", id="password_checkbox") }}
+                        {{ form.show_password.label(class="form-check-label") }}
                     </div>
 
                     <div class="form-group">
@@ -87,19 +87,26 @@
     </section> -->
 
 
+<!-- <script>
+REMOVED some lifebuddy stuff
+July 10, 2022
+</script> -->
+
+
+<!-- Show password -->
 <script>
-    let record_type_select = document.getElementById('guest_signin');
-    var email_textbox = document.getElementById('email');
-    var password_textbox = document.getElementById('password');
-
-
-    function showMessage1(){
-        var email_txt= 'guest@lifebuddy.com';
-        var password_txt= 'test';
-        email_textbox.innerHTML = email_txt;
-        password_textbox.innerHTML = password_txt;
-    }
-
+    window.addEventListener("load", function(){
+        var checkbox  = document.getElementById('password_checkbox');
+        var x = document.getElementById('{{form.password.id}}');
+        checkbox.addEventListener('change', function() {
+            if(this.checked) {
+                x.type = 'text'; 
+            } else {
+                x.type = 'password'; 
+            }
+        });
+    });
 </script>
+
 
     {% endblock %}

@@ -4,7 +4,7 @@ from flask import render_template, url_for, redirect, flash, request, abort, ses
 from whatSticksWebApp import db, bcrypt, mail
 from whatSticksWebApp.models import Posts, Users
 
-from flask_login import login_user, current_user, logout_user, login_required
+# from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
 from PIL import Image
@@ -14,7 +14,7 @@ from sqlalchemy import func
 import pandas as pd
 import io
 from wsgiref.util import FileWrapper
-import xlsxwriter
+# import xlsxwriter
 from flask_mail import Message
 
 #Kinetic Metrics, LLC
@@ -59,6 +59,12 @@ If you did not make this request, ignore email and there will be no change
 '''
     mail.send(msg)
 
+def send_confirm_email(email):
+    msg = Message('Registration Confirmation',
+        sender=current_app.config['MAIL_USERNAME'],
+        recipients=[email])
+    msg.body = 'You have succesfully been registered to What-Sticks.'
+    mail.send(msg)
 
 #return excel files formatted
 def formatExcelHeader(workbook,worksheet, df, start_row):

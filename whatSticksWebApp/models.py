@@ -12,7 +12,7 @@ def load_user(user_id):
 
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.Text, unique=True)
+    username = db.Column(db.Text)
     email = db.Column(db.Text, unique=True, nullable=False)
     image_file = db.Column(db.Text,nullable=False, default='default.jpg')
     password = db.Column(db.Text, nullable=False)
@@ -37,6 +37,7 @@ class Users(db.Model, UserMixin):
     def get_reset_token(self, expires_sec=1800):
         s=Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
+
 
     @staticmethod
     def verify_reset_token(token):
