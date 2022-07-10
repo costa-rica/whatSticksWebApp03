@@ -15,7 +15,7 @@ else:
 
 
 class Config:
-    SECRET_KEY = config.get('SECRET_KEY_DMR')
+    SECRET_KEY = config.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = config.get('SQL_URI_WHAT_STICKS')
     # MAIL_SERVER = 'smtp.googlemail.com'
     # MAIL_PORT = 587

@@ -121,8 +121,13 @@ def login():
         if form.validate_on_submit():
             user=Users.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password,form.password.data):
-                login_user(user, remember=form.remember.data)
+                # login_user(user, remember=form.remember.data)
+                login_user(user)
+                formDict = request.form.to_dict()
+                print('formDict:::', formDict)
+
                 next_page = request.args.get('next')
+                # return redirect(next_page) if next_page else redirect(url_for('main.dashboard'))
                 return redirect(next_page) if next_page else redirect(url_for('users.home'))
                 #^^^ another good thing turnary condition ^^^
         else:

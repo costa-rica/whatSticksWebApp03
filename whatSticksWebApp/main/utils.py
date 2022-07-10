@@ -27,6 +27,9 @@ def plot_text_format(x):
 
 
 def get_user_tz_util():
+    print('current_user')
+    print(dir(current_user))
+    print(current_user.get_id())
     user_record=db.session.query(Users).filter(Users.id==current_user.id).first()
     user_tz=user_record.user_timezone
     user_tz = timezone(user_tz)

@@ -124,7 +124,8 @@ def dashboard(**kwargs):
         no_hits_flag=True if len(table_lists)==0 else False
     else:
         #vars for chart that doesn't exist
-        div1=None;script1=None;cdn_js=None;cdn_css=None
+        div1=None;script1=None;cdn_js=None;cdn_css=None;text_detail_dashed_lines=None
+        script_oura_sleep=None;div_oura_sleep=None;oura_sleep_text_detail_dashed_lines=None
         #vars for dataframe that doesn't exist:
         table_lists=None;no_hits_flag=True;column_names=None
 
