@@ -27,11 +27,11 @@ def plot_text_format(x):
 
 def polar_chart_params(df_polar_descriptions):
     df_polar_descriptions.rename(columns={i:i[len('polar_descriptions_'):] for i in df_polar_descriptions.columns}, inplace=True)
-    df1=df_polar_descriptions.loc[df_polar_descriptions.metric1_carido<100]
+    df1=df_polar_descriptions.loc[df_polar_descriptions.metric1_carido < 100]
     df1=df1.sort_values(by=['datetime_of_activity'])
     obs_x1=[datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df1.datetime_of_activity]
     obs_y1=df1.metric1_carido
-    obs_y1_formatted=[ plot_text_format(i) for i in obs_y1]
+    obs_y1_formatted = [ plot_text_format(i) for i in obs_y1]
     return [obs_x1,obs_y1,obs_y1_formatted]
 
 def user_act_chart_params(df_health_descriptions):
@@ -44,11 +44,21 @@ def user_act_chart_params(df_health_descriptions):
     return [obs_x2,obs_y2]
 
 def user_wgt_chart_params(df_health_descriptions):
+    print('***** in user_wgt_chart_params *****')
+    # print(df_health_descriptions)
     df3=df_health_descriptions.loc[~pd.isnull(df_health_descriptions.weight)]
-    obs_x3=[ datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df3.datetime_of_activity]
-    obs_y3=df3.weight
-    obs_y3_formatted=[ plot_text_format(i) for i in obs_y3]
-    return [obs_x3,obs_y3,obs_y3_formatted]
+
+    if df3.empty:
+        print('**** THIS SHOULD FIRE *****')
+        return None
+    else:
+        print('**** THIS SHOULD  * not * FIRE *****')
+        obs_x3=[ datetime.datetime.strptime(date_string,'%Y-%m-%d %H:%M:%S.%f') for date_string in df3.datetime_of_activity]
+        obs_y3=df3.weight
+        obs_y3_formatted=[ plot_text_format(i) for i in obs_y3]
+        return [obs_x3,obs_y3,obs_y3_formatted]
+
+    
 
 def oura_sleep_chart_params(df_oura_sleep_descriptions):
     df_oura_sleep_descriptions.rename(columns={i:i[len('oura_sleep_descriptions_'):] for i in df_oura_sleep_descriptions.columns}, inplace=True)
@@ -65,13 +75,18 @@ def chart_bokeh_obj(chart_params_dict):
             x_range=(chart_params_dict['chart'][0],chart_params_dict['chart'][1]),
             y_range=(-10,200),sizing_mode='stretch_width', height=400)
 
+    print('chart_params_dict::::')
+    print(chart_params_dict.keys())
     #add cardio_metric1
-    circle=fig1.circle(chart_params_dict['polar'][0],chart_params_dict['polar'][1], legend_label="Cardio Performance", fill_color='#c77711', line_color=None,size=20)
-    source1 = ColumnDataSource(dict(x=chart_params_dict['polar'][0], y=chart_params_dict['polar'][1], text=chart_params_dict['polar'][2]))
-    glyph1 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
-    fig1.add_glyph(source1, glyph1)
-    print('chart_params_dict[user_act]')
-    print(chart_params_dict['user_act'][0])
+    # if polar exists:
+    if chart_params_dict.get('polar'):
+        circle=fig1.circle(chart_params_dict['polar'][0],chart_params_dict['polar'][1], legend_label="Cardio Performance", fill_color='#c77711', line_color=None,size=20)
+        
+        source1 = ColumnDataSource(dict(x=chart_params_dict['polar'][0], y=chart_params_dict['polar'][1], text=chart_params_dict['polar'][2]))
+        glyph1 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
+        fig1.add_glyph(source1, glyph1)
+        
+
     if len(chart_params_dict['user_act'][0])>0:
         #add user activity vertical lines
         for a,b in zip(chart_params_dict['user_act'][0],chart_params_dict['user_act'][1]):
@@ -91,21 +106,23 @@ def chart_bokeh_obj(chart_params_dict):
 
 
     #Add weight circles
-    circle3=fig1.circle(chart_params_dict['user_wgt'][0],chart_params_dict['user_wgt'][1], legend_label="Weight",
-        fill_color='#ebebeb', line_color=None,size=20)
-    source3 = ColumnDataSource(dict(x=chart_params_dict['user_wgt'][0], y=chart_params_dict['user_wgt'][1], 
-        text=chart_params_dict['user_wgt'][2]))
-    glyph3 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
-    fig1.add_glyph(source3, glyph3)
+    if chart_params_dict.get('user_wgt'):
+        circle3=fig1.circle(chart_params_dict['user_wgt'][0],chart_params_dict['user_wgt'][1], legend_label="Weight",
+            fill_color='#ebebeb', line_color=None,size=20)
+        source3 = ColumnDataSource(dict(x=chart_params_dict['user_wgt'][0], y=chart_params_dict['user_wgt'][1], 
+            text=chart_params_dict['user_wgt'][2]))
+        glyph3 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
+        fig1.add_glyph(source3, glyph3)
 
-    #sleep rectangle
-    oura_sleep_rect=fig1.rect(chart_params_dict['oura_sleep'][0], chart_params_dict['oura_sleep'][1],
-        chart_params_dict['oura_sleep'][3], 5, fill_color="#888000", line_color="#444")
-    #sleep rectangle label
-    source4 = ColumnDataSource(dict(x=chart_params_dict['oura_sleep'][0], y=chart_params_dict['oura_sleep'][1],
-        text=chart_params_dict['oura_sleep'][2]))
-    glyph4 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
-    fig1.add_glyph(source4, glyph4)
+    if chart_params_dict.get('oura_sleep'):
+        #sleep rectangle
+        oura_sleep_rect=fig1.rect(chart_params_dict['oura_sleep'][0], chart_params_dict['oura_sleep'][1],
+            chart_params_dict['oura_sleep'][3], 5, fill_color="#888000", line_color="#444")
+        #sleep rectangle label
+        source4 = ColumnDataSource(dict(x=chart_params_dict['oura_sleep'][0], y=chart_params_dict['oura_sleep'][1],
+            text=chart_params_dict['oura_sleep'][2]))
+        glyph4 = Text(text="text",text_font_size={'value': '10px'},x_offset=-10, y_offset=5)
+        fig1.add_glyph(source4, glyph4)
 
     fig1.ygrid.grid_line_color = None
     fig1.yaxis.major_label_text_color = None

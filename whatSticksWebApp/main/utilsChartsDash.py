@@ -42,7 +42,14 @@ def sleep_foundation_excel(age):
     return(min_sleep, max_sleep)
 
 def user_current_age(current_user_id):
+
     bday=Users.query.filter_by(id=current_user_id).with_entities(Users.birthdate).first()[0]
+    print('bday:', bday)
+
+# TODO: This could be improved
+    if bday == None:
+        bday = datetime.date(1981, 2, 19)
+    
     today=datetime.date.today()
     age=today-bday
     age=int(age.days/365)

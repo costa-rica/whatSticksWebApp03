@@ -136,10 +136,15 @@ def dashboard(**kwargs):
 
 
     if at_least_one_record_oura_sleep:
+        print('at_least_one_record_oura_sleep::: TRUE')
         script_oura_sleep, div_oura_sleep, oura_sleep_text_detail_dashed_lines=oura_sleep_bar_chart_dash()
         table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
+        # print('oura_sleep_text_detail_dashed_lines::',oura_sleep_text_detail_dashed_lines)
+        cdn_js=CDN.js_files
+        cdn_css=CDN.css_files
     else:
         script_oura_sleep=None;div_oura_sleep=None;oura_sleep_text_detail_dashed_lines=None
+        print('at_least_one_record_oura_sleep::: FALSE')
 
 
         # if len(df_dict['df_health_descriptions'])>0:
@@ -169,6 +174,7 @@ def dashboard(**kwargs):
         elif formDict.get('delete_record_id'):
             return redirect(url_for('main.delete_record',current_endpoint=current_endpoint,
                 delete_record_id=formDict.get('delete_record_id')))
+
     return render_template('dashboard.html', div1=div1, script1=script1, cdn_js=cdn_js, cdn_css=cdn_css,
         default_date=default_date, default_time=default_time,table_data=table_lists,
         no_hits_flag=no_hits_flag,len=len,column_names=column_names, text_detail_dashed_lines=text_detail_dashed_lines,
@@ -181,27 +187,63 @@ def dashboard(**kwargs):
 @login_required
 def for_scientists(**kwargs):
     # logger_main.info(f'for_scientists--requests::: {request.args}')
+    print('*** ENTER for_analysis ****')
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
     df_dict=data_dfs()
-    at_least_one_record=False
-    for i,j in df_dict.items():
-        if len(j)>0:
-            at_least_one_record=True
+
+    # print(df_dict['df_health_descriptions'])
+
+    at_least_one_record = False
+
     current_endpoint=request.url_rule.endpoint
-    if at_least_one_record:
-        chart_params_dict={}
-        #get polar_chart params
-        chart_params_dict['polar']=polar_chart_params(df_dict['df_polar_descriptions'])
+
+    chart_params_dict={}
+
+    if len(df_dict['df_health_descriptions']) > 0:
         #get user_act params
         chart_params_dict['user_act']=user_act_chart_params(df_dict['df_health_descriptions'])
         #get weight params
         chart_params_dict['user_wgt']=user_wgt_chart_params(df_dict['df_health_descriptions'])
+        print('^^^^^ THING of INTEREST ^^^^^')
+        print(chart_params_dict['user_wgt'])
+        
+        if chart_params_dict.get('user_act'):
+            max_date = max(chart_params_dict['user_act'][0])
+
+        if chart_params_dict.get('user_wgt'):
+            print('chart_params_dict.get(user_wgt):::', chart_params_dict.get('user_wgt'))
+            if max(chart_params_dict['user_wgt'][0]) > max_date:
+                max_date = max(chart_params_dict['user_wgt'][0])
+        
+        # at_least_one_record_hd = True
+        at_least_one_record = True
+        
+
+    if len(df_dict['df_polar_descriptions']) > 0:
+        #get polar_chart params
+        chart_params_dict['polar']=polar_chart_params(df_dict['df_polar_descriptions'])
+        if max(chart_params_dict['polar'][0]) > max_date:
+            max_date = max(chart_params_dict['polar'][0])
+        
+        at_least_one_record = True
+
+    if len(df_dict['df_oura_sleep_descriptions']) > 0:
         #get oura_sleep params
         chart_params_dict['oura_sleep']=oura_sleep_chart_params(df_dict['df_oura_sleep_descriptions'])
+        if max(chart_params_dict['oura_sleep'][0]) > max_date:
+            max_date = max(chart_params_dict['oura_sleep'][0])
+        
+        at_least_one_record = True
+
+    #based on max date of all data make the default view max day to -timedelta(days=7)
+
+    if at_least_one_record:
+        print('at_least_one_record ::: True')
+
         #get chart start and end date based on gathered params
-        chart_params_dict['chart']=[max(chart_params_dict['polar'][0]) -timedelta(days=7),
-            max(chart_params_dict['polar'][0])+ timedelta(days=7)]
+        chart_params_dict['chart']=[max_date -timedelta(days=7),max_date+ timedelta(days=7)]
+        
         #get script1 and div1 objs using params
 
         script1, div1=chart_bokeh_obj(chart_params_dict)
@@ -225,6 +267,7 @@ def for_scientists(**kwargs):
         no_hits_flag=True if len(table_lists)==0 else False
 
     else:
+        print('at_least_one_record ::: FALSE')
         #vars for chart that doesn't exist
         div1=None;script1=None;cdn_js=None;cdn_css=None
         #vars for dataframe that doesn't exist:
