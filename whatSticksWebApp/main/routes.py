@@ -93,41 +93,71 @@ def dashboard(**kwargs):
     
     default_date=kwargs['default_date']
     default_time=kwargs['default_time']
-    df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
+
+    #data_dfs is a dictionary of DataFrames for each descriptions db.
+    # df_health_descriptions,df_polar_descriptions,df_oura_sleep_descriptions = data_dfs()
     df_dict=data_dfs()
-    at_least_one_record=False
-    for i,j in df_dict.items():
+
+    #Make flags for at_least_one_record_hd, at_least_one_record_polar, at_least_one_record_oura_sleep
+    at_least_one_record_hd=False
+    at_least_one_record_polar=False
+    at_least_one_record_oura_sleep=False
+    no_hits_flag=False
+    
+    for i,j in df_dict['df_health_descriptions'].items():
         if len(j)>0:
-            at_least_one_record=True
+            at_least_one_record_hd=True
+    for i,j in df_dict['df_polar_descriptions'].items():
+        if len(j)>0:
+            at_least_one_record_polar=True    
+    for i,j in df_dict['df_oura_sleep_descriptions'].items():
+        if len(j)>0:
+            at_least_one_record_oura_sleep=True
+
+
+    #Timleline table columns
+    column_names=['ID','Date and Time','Activity','Duration', 'Rating']
+    #Timeline table list
+    table_lists=[]
+
     current_endpoint=request.url_rule.endpoint
-    if at_least_one_record:
+
+    if at_least_one_record_hd:
+        table_lists=user_activity_list(df_dict['df_health_descriptions'])
+
+    if at_least_one_record_polar:
         # script1, div1=chart_bokeh_obj(df_dict['df_polar_descriptions'])
         script1, div1, text_detail_dashed_lines=polar_bar_chart_dash()
+        table_lists=table_lists+polar_list(df_dict['df_polar_descriptions'])
         cdn_js=CDN.js_files
         cdn_css=CDN.css_files
-
-
-        script_oura_sleep, div_oura_sleep, oura_sleep_text_detail_dashed_lines=oura_sleep_bar_chart_dash()
-
-
-        #Timleline table columns
-        column_names=['ID','Date and Time','Activity','Duration', 'Rating']
-        #Timeline table list
-        table_lists=[]
-        if len(df_dict['df_health_descriptions'])>0:
-            table_lists=user_activity_list(df_dict['df_health_descriptions'])
-        if len(df_dict['df_polar_descriptions'])>0:
-            table_lists=table_lists+polar_list(df_dict['df_polar_descriptions'])
-        if len(df_dict['df_oura_sleep_descriptions'])>0:
-            table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
-        
-        no_hits_flag=True if len(table_lists)==0 else False
     else:
-        #vars for chart that doesn't exist
         div1=None;script1=None;cdn_js=None;cdn_css=None;text_detail_dashed_lines=None
+
+
+    if at_least_one_record_oura_sleep:
+        script_oura_sleep, div_oura_sleep, oura_sleep_text_detail_dashed_lines=oura_sleep_bar_chart_dash()
+        table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
+    else:
         script_oura_sleep=None;div_oura_sleep=None;oura_sleep_text_detail_dashed_lines=None
+
+
+        # if len(df_dict['df_health_descriptions'])>0:
+        #     table_lists=user_activity_list(df_dict['df_health_descriptions'])
+        # if len(df_dict['df_polar_descriptions'])>0:
+        #     table_lists=table_lists+polar_list(df_dict['df_polar_descriptions'])
+        # if len(df_dict['df_oura_sleep_descriptions'])>0:
+        #     table_lists=table_lists+oura_sleep_list(df_dict['df_oura_sleep_descriptions'])
+        
+        # no_hits_flag=True if len(table_lists)==0 else False
+    if len(table_lists) == 0:
+        #vars for chart that doesn't exist
+        # div1=None;script1=None;cdn_js=None;cdn_css=None;text_detail_dashed_lines=None
+        # script_oura_sleep=None;div_oura_sleep=None;oura_sleep_text_detail_dashed_lines=None
         #vars for dataframe that doesn't exist:
-        table_lists=None;no_hits_flag=True;column_names=None
+        # table_lists=None
+        no_hits_flag=True
+        column_names=None
 
 
 

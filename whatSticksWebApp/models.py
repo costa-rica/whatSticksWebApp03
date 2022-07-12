@@ -75,9 +75,10 @@ class Health_descriptions(db.Model):
 
 
     def __repr__(self):
-        return f"Health_descriptions('{self.id}',var_activity:'{self.var_activity}'," \
-        f"'datetime_of_activity: '{self.datetime_of_activity}', note: {self.note}'," \
-        f"' time_stamp_utc: '{self.time_stamp_utc}', source_name: '{self.source_name}')"
+        return f"Health_descriptions({self.id},var_activity:{self.var_activity}," \
+        f"datetime_of_activity: {self.datetime_of_activity}, note: {self.note}," \
+        f" var_timezone_utc_delta_in_mins: {self.var_timezone_utc_delta_in_mins}," \
+        f"source_name: {self.source_name})"
 
 class Polar_descriptions(db.Model):
     id = db.Column(db.Integer, primary_key=True)

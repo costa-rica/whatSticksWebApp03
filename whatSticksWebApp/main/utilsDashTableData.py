@@ -29,19 +29,20 @@ from whatSticksWebApp.main.utilsPolarUpload import json_dict_to_dfs
 leading_zeros_count=5
 
 def data_dfs():
+
     #filter on user data only
     base_query_health_descriptions=db.session.query(Health_descriptions).filter(Health_descriptions.user_id==1)#KEEP as 1, it gets replaced
     base_query_polar_descriptions=db.session.query(Polar_descriptions).filter(Polar_descriptions.user_id==1)#KEEP as 1, it gets replaced
     base_query_oura_sleep_descriptions=db.session.query(Oura_sleep_descriptions).filter(Oura_sleep_descriptions.user_id==1)#KEEP as 1, it gets replaced
     
-    if current_user.id==2:
-        df_health_descriptions=pd.read_sql(str(base_query_health_descriptions)[:-1]+str(1),db.session.bind)
-        df_polar_descriptions=pd.read_sql(str(base_query_polar_descriptions)[:-1]+str(1),db.session.bind)
-        df_oura_sleep_descriptions=pd.read_sql(str(base_query_oura_sleep_descriptions)[:-1]+str(1),db.session.bind)
-    else:
-        df_health_descriptions=pd.read_sql(str(base_query_health_descriptions)[:-1]+str(current_user.id),db.session.bind)
-        df_polar_descriptions=pd.read_sql(str(base_query_polar_descriptions)[:-1]+str(current_user.id),db.session.bind)
-        df_oura_sleep_descriptions=pd.read_sql(str(base_query_oura_sleep_descriptions)[:-1]+str(current_user.id),db.session.bind)
+    # if current_user.id==2:
+    #     df_health_descriptions=pd.read_sql(str(base_query_health_descriptions)[:-1]+str(1),db.session.bind)
+    #     df_polar_descriptions=pd.read_sql(str(base_query_polar_descriptions)[:-1]+str(1),db.session.bind)
+    #     df_oura_sleep_descriptions=pd.read_sql(str(base_query_oura_sleep_descriptions)[:-1]+str(1),db.session.bind)
+    # else:
+    df_health_descriptions=pd.read_sql(str(base_query_health_descriptions)[:-1]+str(current_user.id),db.session.bind)
+    df_polar_descriptions=pd.read_sql(str(base_query_polar_descriptions)[:-1]+str(current_user.id),db.session.bind)
+    df_oura_sleep_descriptions=pd.read_sql(str(base_query_oura_sleep_descriptions)[:-1]+str(current_user.id),db.session.bind)
     
     df_dict={"df_health_descriptions":df_health_descriptions,"df_polar_descriptions":df_polar_descriptions,
             "df_oura_sleep_descriptions":df_oura_sleep_descriptions}
