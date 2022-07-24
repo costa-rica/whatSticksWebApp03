@@ -34,3 +34,4 @@ class Config:
     # UTILITY_FILES_FOLDER = os.path.join(os.path.dirname(__file__), 'static/files_utility')
     # QUERIES_FOLDER = os.path.join(os.path.dirname(__file__), 'static/queries')
     # FILES_DATABASE = os.path.join(os.path.dirname(__file__), 'static/files_database')
+    WEATHER_API_KEY = config.get('WEATHER_API_KEY')

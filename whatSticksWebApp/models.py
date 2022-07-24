@@ -32,6 +32,7 @@ class Users(db.Model, UserMixin):
     polar_m = db.relationship('Polar_measures', backref='polar_m', lazy=True)
     oura_sleep = db.relationship('Oura_sleep_descriptions', backref='Oura_sleep', lazy=True)
     oura_sleep_m = db.relationship('Oura_sleep_measures', backref='Oura_sleep_measures', lazy=True)
+    weather = db.relationship('Weather_location', backref='Weather_location', lazy=True)
     # track_inv = db.relationship('Tracking_inv', backref='updator_inv', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
@@ -175,3 +176,76 @@ class Oura_sleep_measures(db.Model):
 
     def __repr__(self):
         return f"Oura_sleep_measures('{self.id}',oura_sleep_description_id:'{self.oura_sleep_description_id}'"
+
+class Weather_location(db.Model):
+
+    id = db.Column(db.Integer, primary_key = True)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+# data collected from here: https://www.weatherapi.com/docs/
+# Current Endpoint
+    lat = db.Column(db.Float)
+    lon = db.Column(db.Float)
+    city_location_name = db.Column(db.Text)
+    region_name = db.Column(db.Text)
+    country_name = db.Column(db.Text)
+    tz_id = db.Column(db.Text)
+    localtime_epoch = db.Column(db.Integer)
+    localtime = db.Column(db.Text)
+
+# Weather Alerts Endpoint
+    headline = db.Column(db.Text)
+    msgType = db.Column(db.Text)
+    severity = db.Column(db.Text)
+    urgency = db.Column(db.Text)
+    areas = db.Column(db.Text)
+    category = db.Column(db.Text)
+    certainty = db.Column(db.Text)
+    event = db.Column(db.Text)
+    note = db.Column(db.Text)
+    effective = db.Column(db.Text)
+    expires = db.Column(db.Text)
+    desc = db.Column(db.Text)
+    instruction = db.Column(db.Text)
+
+# Air Quality Endpoint
+    co = db.Column(db.Float)# Carbon Monoxide (μg/m3)
+    o3 = db.Column(db.Float)# Ozone (μg/m3)
+    no2 = db.Column(db.Float)# Nitrogen dioxide (μg/m3)
+    so2 = db.Column(db.Float)# Sulphur dioxide (μg/m3)
+    pm2_5 = db.Column(db.Float)# PM2.5 (μg/m3)
+    pm10 = db.Column(db.Float)# PM10 (μg/m3)
+    us_epa_index = db.Column(db.Integer)#  	US - EPA standard. 
+    gb_defra_index = db.Column(db.Integer)# UK Defra Index
+
+# Realtime API i.e. this is the weather
+    last_updated = db.Column(db.Text)
+    last_updated_epoch = db.Column(db.Text)
+    temp_c = db.Column(db.Float)
+    temp_f = db.Column(db.Float)
+    feelslike_c = db.Column(db.Float)
+    feelslike_f = db.Column(db.Float)
+    condition_text = db.Column(db.Text)
+    condition_icon = db.Column(db.Text)
+    condition_code = db.Column(db.Integer)
+    wind_mph = db.Column(db.Float)
+    wind_kph = db.Column(db.Float)
+    wind_degree = db.Column(db.Integer)
+    wind_dir = db.Column(db.String)
+    pressure_mb = db.Column(db.Float)
+    pressure_in = db.Column(db.Float)
+    precip_mm = db.Column(db.Float)
+    precip_in = db.Column(db.Float)
+    humidity = db.Column(db.Integer)
+    cloud = db.Column(db.Integer)
+    is_day = db.Column(db.Integer)
+    uv = db.Column(db.Float)
+    gust_mph = db.Column(db.Float)
+    gust_kph = db.Column(db.Float)
+
+# Astronomy API
+    sunrise = db.Column(db.Text)
+    sunset = db.Column(db.Text)
+    moonrise = db.Column(db.Text)
+    moonset = db.Column(db.Text)
+    moon_phase = db.Column(db.Text)
+    moon_illumination = db.Column(db.Integer)
