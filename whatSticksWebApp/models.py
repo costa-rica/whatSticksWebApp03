@@ -181,6 +181,7 @@ class Weather_location(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     user_id=db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    time_stamp_utc = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 # data collected from here: https://www.weatherapi.com/docs/
 # Current Endpoint
     lat = db.Column(db.Float)
@@ -249,3 +250,9 @@ class Weather_location(db.Model):
     moonset = db.Column(db.Text)
     moon_phase = db.Column(db.Text)
     moon_illumination = db.Column(db.Integer)
+
+    note = db.Column(db.Text)
+        
+    def __repr__(self):
+        return f"Weather_location(id: {self.id}, user_id: {self.user_id}, " \
+            f"city_location_name: {self.city_location_name}, temp_c: {self.temp_c})"
